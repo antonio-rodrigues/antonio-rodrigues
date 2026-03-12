@@ -10,11 +10,19 @@
 - [x] Created `.planning/STATE.md`.
 
 ## Current Focus
-- [x] Phase 1: Project Scaffolding & Initial Logic - Planning complete.
-- Ready to execute Phase 1: Wave 1 (Setup & Data Structure).
+- [x] Phase 1: Project Scaffolding & Initial Logic - COMPLETED.
+- [/] Phase 2: Holiday Data & API Integration - IN PROGRESS.
+  - [ ] Plan 02-01: Integrated Holiday Data (API + local JSON).
+  - [ ] Plan 02-02: Municipality Selection UI.
+  - [ ] Plan 02-03: UI Integration & Tooltips.
+
+## Quick Tasks Completed
+| Task | Description | Date |
+|------|-------------|------|
+| [QT-01] Fix PostCSS ESM Error | Converted `postcss.config.js` to ESM syntax for compatibility with `"type": "module"`. | 2026-03-12 |
 
 ## Milestones
-- **Milestone 1:** Calendar Scaffolding (0%)
+- **Milestone 1:** Calendar Scaffolding (100%)
 - **Milestone 2:** Holiday Integration (0%)
 - **Milestone 3:** Core Interactivity (0%)
 - **Milestone 4:** Full Application (0%)
