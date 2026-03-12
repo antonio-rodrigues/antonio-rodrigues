@@ -18,10 +18,13 @@ Plans:
 - [x] 02-04-PLAN.md — UI integration: DayCell holiday styling, tooltips, App.vue wiring (COMPLETED 2026-03-12)
 
 ## Phase 3: Interactive Selection & Dashboard (Week 2)
-- **Task 3.1:** Implement click handler to toggle "Vacation Day" status.
-- **Task 3.2:** Build the real-time summary dashboard/sidebar.
-- **Task 3.3:** Develop the "used work days" calculation (filtering weekends and holidays).
-- **Task 3.4:** Develop the "consecutive rest days" (bridge) algorithm.
+**Goal:** Enable users to click days to mark vacation, see a real-time dashboard with balance stats, and calculate used work days and longest rest periods.
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — Store extension (markedDays + toggleVacationDay), DayCell vacation toggle + green styling, Wave 0 test stubs
+- [ ] 03-02-PLAN.md — TDD: useVacationStats composable (usedWorkDays, remainingDays, isOverBudget, longestRestPeriod)
+- [ ] 03-03-PLAN.md — DashboardSidebar component + App.vue wiring + browser verification checkpoint
 
 ## Phase 4: Persistence & Polish (Week 2)
 - **Task 4.1:** Implement `localStorage` read/write state sync.
