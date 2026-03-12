@@ -1,0 +1,62 @@
+[
+  {
+    "id": "LIS",
+    "name": "Lisboa",
+    "district": "Lisboa",
+    "holiday": {
+      "id": "SANTO_ANTONIO",
+      "name": "Santo António",
+      "day": 13,
+      "month": 6,
+      "type": "fixed"
+    }
+  },
+  {
+    "id": "PRT",
+    "name": "Porto",
+    "district": "Porto",
+    "holiday": {
+      "id": "SAO_JOAO",
+      "name": "São João",
+      "day": 24,
+      "month": 6,
+      "type": "fixed"
+    }
+  },
+  {
+    "id": "ALM",
+    "name": "Almada",
+    "district": "Setúbal",
+    "holiday": {
+      "id": "SAO_JOAO",
+      "name": "São João",
+      "day": 24,
+      "month": 6,
+      "type": "fixed"
+    }
+  },
+  {
+    "id": "COI",
+    "name": "Coimbra",
+    "district": "Coimbra",
+    "holiday": {
+      "id": "RAINHA_SANTA_ISABEL",
+      "name": "Rainha Santa Isabel",
+      "day": 4,
+      "month": 7,
+      "type": "fixed"
+    }
+  },
+  {
+    "id": "BRG",
+    "name": "Braga",
+    "district": "Braga",
+    "holiday": {
+      "id": "SAO_JOAO",
+      "name": "São João",
+      "day": 24,
+      "month": 6,
+      "type": "fixed"
+    }
+  }
+]
