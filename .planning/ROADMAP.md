@@ -9,7 +9,7 @@
 
 ## Phase 2: Holiday Data & API Integration (Week 1)
 **Goal:** Integrate national holidays from Nager.Date API and municipal holidays from local JSON into the calendar, with a municipality selector UI and holiday visual styling.
-**Plans:** 4 plans
+**Plans:** 1/4 plans executed
 
 Plans:
 - [ ] 02-01-PLAN.md — Fix Holiday type for mobile entries + create Wave 0 spec stubs

@@ -14,7 +14,7 @@
 - [/] Phase 2: Holiday Data & API Integration - IN PROGRESS.
   - [ ] Plan 02-01: Integrated Holiday Data (API + local JSON).
   - [ ] Plan 02-02: Municipality Selection UI.
-  - [ ] Plan 02-03: UI Integration & Tooltips.
+  - [x] Plan 02-03: MunicipalitySelector Component - COMPLETED (2026-03-12).
 
 ## Quick Tasks Completed
 | Task | Description | Date |
@@ -32,3 +32,8 @@
 - **Styling:** Tailwind CSS will be used for rapid mobile-first grid development.
 - **Data Source:** Nager.Date API for national holidays; static mapping for 308 municipal holidays.
 - **Target Year:** Default to 2026.
+- **[02-03] MunicipalitySelector watcher pattern:** Used `watch(query)` to clear `selectedMunicipalityId` on empty input — single reactive source of truth vs separate `@input` handler.
+- **[02-03] isOpen state management:** Controlled via watcher to avoid race condition between blur/click events; 150ms blur delay allows click to register first.
+
+## Session Log
+- **2026-03-12:** Completed 02-03-PLAN.md — MunicipalitySelector component built and tested (2 tasks, 2 files created, 4 tests green).
