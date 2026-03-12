@@ -3,15 +3,19 @@
 ## Phase 1: Project Scaffolding & Initial Logic (Week 1)
 **Goal:** Initialize the project and build the core calendar grid and data models.
 **Plans:** 3 plans
-- [ ] .planning/phase-1/01-01-PLAN.md — Project scaffolding, dependencies, and core holiday data structure.
-- [ ] .planning/phase-1/01-02-PLAN.md — TDD implementation of the core calendar generation logic (useCalendar).
-- [ ] .planning/phase-1/01-03-PLAN.md — Responsive 12-month annual calendar grid UI.
+- [x] .planning/phase-1/01-01-PLAN.md — Project scaffolding, dependencies, and core holiday data structure.
+- [x] .planning/phase-1/01-02-PLAN.md — TDD implementation of the core calendar generation logic (useCalendar).
+- [x] .planning/phase-1/01-03-PLAN.md — Responsive 12-month annual calendar grid UI.
 
 ## Phase 2: Holiday Data & API Integration (Week 1)
-- **Task 2.1:** Integrate Nager.Date API for national holidays.
-- **Task 2.2:** Add a selection component for 308 municipalities.
-- **Task 2.3:** Implement logic to combine national and regional holidays.
-- **Task 2.4:** Visual styling for holidays and weekends (tooltips/indicators).
+**Goal:** Integrate national holidays from Nager.Date API and municipal holidays from local JSON into the calendar, with a municipality selector UI and holiday visual styling.
+**Plans:** 4 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Fix Holiday type for mobile entries + create Wave 0 spec stubs
+- [ ] 02-02-PLAN.md — Implement useHolidays composable (API fetch, fallback, municipal resolution)
+- [ ] 02-03-PLAN.md — Build MunicipalitySelector combobox component
+- [ ] 02-04-PLAN.md — UI integration: DayCell holiday styling, tooltips, App.vue wiring
 
 ## Phase 3: Interactive Selection & Dashboard (Week 2)
 - **Task 3.1:** Implement click handler to toggle "Vacation Day" status.
