@@ -9,12 +9,12 @@
 
 ## Phase 2: Holiday Data & API Integration (Week 1)
 **Goal:** Integrate national holidays from Nager.Date API and municipal holidays from local JSON into the calendar, with a municipality selector UI and holiday visual styling.
-**Plans:** 2/4 plans executed
+**Plans:** 3/4 plans executed
 
 Plans:
-- [ ] 02-01-PLAN.md — Fix Holiday type for mobile entries + create Wave 0 spec stubs
-- [ ] 02-02-PLAN.md — Implement useHolidays composable (API fetch, fallback, municipal resolution)
-- [ ] 02-03-PLAN.md — Build MunicipalitySelector combobox component
+- [x] 02-01-PLAN.md — Fix Holiday type for mobile entries + create Wave 0 spec stubs (COMPLETED 2026-03-12)
+- [x] 02-02-PLAN.md — Implement useHolidays composable (API fetch, fallback, municipal resolution)
+- [x] 02-03-PLAN.md — Build MunicipalitySelector combobox component
 - [ ] 02-04-PLAN.md — UI integration: DayCell holiday styling, tooltips, App.vue wiring
 
 ## Phase 3: Interactive Selection & Dashboard (Week 2)

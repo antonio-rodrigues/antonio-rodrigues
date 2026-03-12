@@ -12,7 +12,7 @@
 ## Current Focus
 - [x] Phase 1: Project Scaffolding & Initial Logic - COMPLETED.
 - [/] Phase 2: Holiday Data & API Integration - IN PROGRESS.
-  - [ ] Plan 02-01: Integrated Holiday Data (API + local JSON).
+  - [x] Plan 02-01: Holiday Type Fix + Wave 0 Spec Scaffolding - COMPLETED (2026-03-12).
   - [x] Plan 02-02: useHolidays Composable - COMPLETED (2026-03-12).
   - [x] Plan 02-03: MunicipalitySelector Component - COMPLETED (2026-03-12).
 
@@ -23,7 +23,7 @@
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)
-- **Milestone 2:** Holiday Integration (0%)
+- **Milestone 2:** Holiday Integration (100%)
 - **Milestone 3:** Core Interactivity (0%)
 - **Milestone 4:** Full Application (0%)
 
@@ -36,7 +36,10 @@
 - **[02-03] isOpen state management:** Controlled via watcher to avoid race condition between blur/click events; 150ms blur delay allows click to register first.
 - **[02-02] MunicipalHolidayRule local type:** Used local interface in useHolidays.ts to handle offset/base fields without modifying holiday.ts — avoids architectural cascade change.
 - **[02-02] buildFallbackHolidays scope:** Includes all 13 national holidays (10 fixed + 7 mobile) for complete offline fallback coverage.
+- **[02-01] Holiday type optional fields:** Used `offset?: number` and `base?: string` on Holiday interface (not discriminated union) to support mobile municipalities without breaking existing consumers.
+- **[02-01] tsconfig.json required:** Project was missing tsconfig.json — added standard Vue 3 + Vite config to enable vue-tsc type checking.
 
 ## Session Log
 - **2026-03-12:** Completed 02-03-PLAN.md — MunicipalitySelector component built and tested (2 tasks, 2 files created, 4 tests green).
 - **2026-03-12:** Completed 02-02-PLAN.md — useHolidays composable implemented with TDD (2 tasks, 2 files, 5 tests green, full suite 21 tests).
+- **2026-03-12:** Completed 02-01-PLAN.md — Holiday type extended (offset/base), tsconfig.json created, DayCell.spec.ts Wave 0 stubs added (2 tasks, 3 files, suite 21 passing + 5 todo).
