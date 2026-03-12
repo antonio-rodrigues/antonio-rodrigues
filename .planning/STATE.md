@@ -11,10 +11,11 @@
 
 ## Current Focus
 - [x] Phase 1: Project Scaffolding & Initial Logic - COMPLETED.
-- [/] Phase 2: Holiday Data & API Integration - IN PROGRESS.
+- [x] Phase 2: Holiday Data & API Integration - COMPLETED (2026-03-12).
   - [x] Plan 02-01: Holiday Type Fix + Wave 0 Spec Scaffolding - COMPLETED (2026-03-12).
   - [x] Plan 02-02: useHolidays Composable - COMPLETED (2026-03-12).
   - [x] Plan 02-03: MunicipalitySelector Component - COMPLETED (2026-03-12).
+  - [x] Plan 02-04: Holiday Integration Wiring - COMPLETED (2026-03-12).
 
 ## Quick Tasks Completed
 | Task | Description | Date |
@@ -38,8 +39,11 @@
 - **[02-02] buildFallbackHolidays scope:** Includes all 13 national holidays (10 fixed + 7 mobile) for complete offline fallback coverage.
 - **[02-01] Holiday type optional fields:** Used `offset?: number` and `base?: string` on Holiday interface (not discriminated union) to support mobile municipalities without breaking existing consumers.
 - **[02-01] tsconfig.json required:** Project was missing tsconfig.json — added standard Vue 3 + Vite config to enable vue-tsc type checking.
+- **[02-04] Holiday enrichment in YearGrid, not useCalendar:** Keeps calendar composable pure; enrichment is a rendering concern that belongs in the view layer.
+- **[02-04] Native title tooltip:** Avoids external library dependency; meets accessibility baseline without added complexity.
 
 ## Session Log
+- **2026-03-12:** Completed 02-04-PLAN.md — Phase 2 holiday integration wired end-to-end; YearGrid enrichedMonths computed, DayCell holiday classes + tooltips, MunicipalitySelector in App.vue header; browser-verified by user (4 tasks, 5 files modified, 28 tests green).
 - **2026-03-12:** Completed 02-03-PLAN.md — MunicipalitySelector component built and tested (2 tasks, 2 files created, 4 tests green).
 - **2026-03-12:** Completed 02-02-PLAN.md — useHolidays composable implemented with TDD (2 tasks, 2 files, 5 tests green, full suite 21 tests).
 - **2026-03-12:** Completed 02-01-PLAN.md — Holiday type extended (offset/base), tsconfig.json created, DayCell.spec.ts Wave 0 stubs added (2 tasks, 3 files, suite 21 passing + 5 todo).
