@@ -7,6 +7,8 @@ export interface Holiday {
   month: number;
   type: HolidayType;
   description?: string;
+  offset?: number;
+  base?: string;
 }
 
 export interface Municipality {
