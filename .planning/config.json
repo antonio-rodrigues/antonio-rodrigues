@@ -1,0 +1,20 @@
+{
+  "project_name": "Calendar Webapp",
+  "stack": {
+    "frontend": "Vue 3 (Composition API)",
+    "styling": "Tailwind CSS",
+    "icons": "Lucide Vue Next",
+    "state_management": "Vue Reactivity API (Ref/Reactive)",
+    "storage": "localStorage"
+  },
+  "workflow": {
+    "git_hooks": true,
+    "linting": "ESLint + Prettier",
+    "testing": "Vitest"
+  },
+  "preferences": {
+    "language": "pt-PT",
+    "default_year": 2026,
+    "max_vacation_days": 22
+  }
+}
