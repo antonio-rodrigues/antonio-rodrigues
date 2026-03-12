@@ -1,15 +1,24 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import DayCell from './DayCell.vue'
+import { setActivePinia, createPinia } from 'pinia'
+import { useConfigStore } from '../../store/config'
 
 const baseDay = {
-  date: new Date(2026, 0, 1),
+  date: new Date(2026, 5, 1), // Monday, 2026-06-01
   dayOfMonth: 1,
   isWeekend: false,
   isHoliday: false
 }
 
 describe('DayCell', () => {
+  let pinia: any
+
+  beforeEach(() => {
+    pinia = createPinia()
+    setActivePinia(pinia)
+  })
+
   it('applies bg-red-100 text-red-700 for national holiday', () => {
     const wrapper = mount(DayCell, {
       props: {
@@ -19,7 +28,8 @@ describe('DayCell', () => {
           holidayType: 'national',
           holidayName: 'Ano Novo'
         }
-      }
+      },
+      global: { plugins: [pinia] }
     })
     expect(wrapper.classes()).toContain('bg-red-100')
     expect(wrapper.classes()).toContain('text-red-700')
@@ -35,7 +45,8 @@ describe('DayCell', () => {
           holidayName: 'Santo António',
           holidayMunicipalityName: 'Lisboa'
         }
-      }
+      },
+      global: { plugins: [pinia] }
     })
     expect(wrapper.classes()).toContain('bg-orange-100')
     expect(wrapper.classes()).toContain('text-orange-700')
@@ -50,7 +61,8 @@ describe('DayCell', () => {
           holidayType: 'national',
           holidayName: 'Ano Novo'
         }
-      }
+      },
+      global: { plugins: [pinia] }
     })
     expect(wrapper.attributes('title')).toBe('Ano Novo · Feriado Nacional')
   })
@@ -65,7 +77,8 @@ describe('DayCell', () => {
           holidayName: 'Santo António',
           holidayMunicipalityName: 'Lisboa'
         }
-      }
+      },
+      global: { plugins: [pinia] }
     })
     expect(wrapper.attributes('title')).toBe('Santo António · Feriado Municipal (Lisboa)')
   })
@@ -78,7 +91,8 @@ describe('DayCell', () => {
           isWeekend: true,
           isHoliday: false
         }
-      }
+      },
+      global: { plugins: [pinia] }
     })
     expect(wrapper.classes()).toContain('bg-pink-50')
     expect(wrapper.classes()).toContain('text-pink-600')
@@ -94,9 +108,86 @@ describe('DayCell', () => {
           holidayType: 'national',
           holidayName: 'Natal'
         }
-      }
+      },
+      global: { plugins: [pinia] }
     })
     expect(wrapper.classes()).toContain('bg-red-100')
     expect(wrapper.classes()).not.toContain('bg-pink-50')
+  })
+
+  it('workday with isVacation=true has class bg-green-100 text-green-700', async () => {
+    const store = useConfigStore()
+    store.toggleVacationDay('2026-06-01')
+    
+    const wrapper = mount(DayCell, {
+      props: { day: baseDay },
+      global: { plugins: [pinia] }
+    })
+    
+    expect(wrapper.classes()).toContain('bg-green-100')
+    expect(wrapper.classes()).toContain('text-green-700')
+  })
+
+  it('clicking a workday calls store.toggleVacationDay', async () => {
+    const store = useConfigStore()
+    const wrapper = mount(DayCell, {
+      props: { day: baseDay },
+      global: { plugins: [pinia] }
+    })
+
+    await wrapper.trigger('click')
+    expect(store.markedDays.has('2026-06-01')).toBe(true)
+  })
+
+  it('clicking a holiday does NOT call store.toggleVacationDay', async () => {
+    const store = useConfigStore()
+    const wrapper = mount(DayCell, {
+      props: {
+        day: {
+          ...baseDay,
+          isHoliday: true,
+          holidayType: 'national'
+        }
+      },
+      global: { plugins: [pinia] }
+    })
+
+    await wrapper.trigger('click')
+    expect(store.markedDays.has('2026-06-01')).toBe(false)
+  })
+
+  it('clicking a weekend does NOT call store.toggleVacationDay', async () => {
+    const store = useConfigStore()
+    const wrapper = mount(DayCell, {
+      props: {
+        day: {
+          ...baseDay,
+          isWeekend: true
+        }
+      },
+      global: { plugins: [pinia] }
+    })
+
+    await wrapper.trigger('click')
+    expect(store.markedDays.has('2026-06-01')).toBe(false)
+  })
+
+  it('vacation class takes lower priority than holiday', async () => {
+    const store = useConfigStore()
+    store.toggleVacationDay('2026-06-01')
+
+    const wrapper = mount(DayCell, {
+      props: {
+        day: {
+          ...baseDay,
+          isHoliday: true,
+          holidayType: 'national'
+        }
+      },
+      global: { plugins: [pinia] }
+    })
+
+    expect(wrapper.classes()).toContain('bg-red-100')
+    expect(wrapper.classes()).not.toContain('bg-green-100')
   })
 })
