@@ -22,19 +22,89 @@ describe('useVacationStats', () => {
     expect(usedWorkDays.value).toBe(2)
   })
 
-  it('totalSelectedDays counts all marked days', () => {
+  it('totalSelectedDays counts consecutive days including holidays and weekends in the interval (User Example 1 - Updated with Weekend Rule)', () => {
     const year = ref(2026)
+    // 2026-02-16 (Mon), 18 (Wed), 19 (Thu), 20 (Fri) selected
+    // 2026-02-17 (Tue) is a holiday
+    // New rule: Mon 16 triggers previous weekend (14-15). Fri 20 triggers following weekend (21-22).
     const markedDays = ref(new Set([
-      '2026-01-01', // Holiday
-      '2026-01-02', // Workday
-      '2026-01-03', // Weekend
+      '2026-02-16',
+      '2026-02-18',
+      '2026-02-19',
+      '2026-02-20',
     ]))
+    const holidays = ref(new Map([['2026-02-17', { name: 'Carnaval' }]]))
+    const maxVacationDays = ref(22)
+
+    const { totalSelectedDays } = useVacationStats(year, markedDays, holidays, maxVacationDays)
+    
+    // Interval 14 to 22 = 9 days.
+    expect(totalSelectedDays.value).toBe(9)
+  })
+
+  it('totalSelectedDays counts consecutive days including holidays and weekends in the interval (User Example 2)', () => {
+    const year = ref(2026)
+    // 2026-04-01 (Wed), 02 (Thu) selected
+    // 2026-04-03 (Fri) is Good Friday holiday
+    // 2026-04-05 (Sun) is Easter holiday
+    const markedDays = ref(new Set([
+      '2026-04-01',
+      '2026-04-02',
+    ]))
+    const holidays = ref(new Map([
+      ['2026-04-03', { name: 'Good Friday' }],
+      ['2026-04-05', { name: 'Easter' }]
+    ]))
+    const maxVacationDays = ref(22)
+
+    const { totalSelectedDays } = useVacationStats(year, markedDays, holidays, maxVacationDays)
+    
+    // Interval 01 to 05 = 5 days (Wed to Sun). 
+    // 01, 02 S; 03 H; 04 Weekend; 05 H.
+    // Range is [01, 05].
+    expect(totalSelectedDays.value).toBe(5)
+  })
+
+  it('totalSelectedDays includes previous weekend if block starts on Monday (User New Rule)', () => {
+    const year = ref(2026)
+    // 2026-01-05 (Mon) selected
+    // Should include Jan 3-4 (Sat-Sun)
+    const markedDays = ref(new Set(['2026-01-05']))
+    const holidays = ref(new Map())
+    const maxVacationDays = ref(22)
+
+    const { totalSelectedDays } = useVacationStats(year, markedDays, holidays, maxVacationDays)
+    
+    // Sat (3), Sun (4), Mon (5) = 3 days
+    expect(totalSelectedDays.value).toBe(3)
+  })
+
+  it('totalSelectedDays includes following weekend if block ends on Friday (User New Rule)', () => {
+    const year = ref(2026)
+    // 2026-01-09 (Fri) selected
+    // Should include Jan 10-11 (Sat-Sun)
+    const markedDays = ref(new Set(['2026-01-09']))
+    const holidays = ref(new Map())
+    const maxVacationDays = ref(22)
+
+    const { totalSelectedDays } = useVacationStats(year, markedDays, holidays, maxVacationDays)
+    
+    // Fri (9), Sat (10), Sun (11) = 3 days
+    expect(totalSelectedDays.value).toBe(3)
+  })
+
+  it('totalSelectedDays includes weekend if holiday is on Monday/Friday contiguous to selected days', () => {
+    const year = ref(2026)
+    // 2026-01-01 (Thu) is holiday. 02 (Fri) selected.
+    // Block: 01 (H), 02 (S). Ends on Friday -> include Sat-Sun (03, 04)
+    const markedDays = ref(new Set(['2026-01-02']))
     const holidays = ref(new Map([['2026-01-01', { name: 'New Year' }]]))
     const maxVacationDays = ref(22)
 
     const { totalSelectedDays } = useVacationStats(year, markedDays, holidays, maxVacationDays)
     
-    expect(totalSelectedDays.value).toBe(3)
+    // Thu (1), Fri (2), Sat (3), Sun (4) = 4 days
+    expect(totalSelectedDays.value).toBe(4)
   })
 
   it('remainingDays = max - used', () => {

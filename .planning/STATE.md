@@ -42,6 +42,8 @@ progress:
 | [QT-05] Desktop UI & Summary Panel | Aligned search to right, made vacation balance editable/persistent, and added month-grouped vacation summary panel. | 2026-03-13 |
 | [QT-06] Clear All & Total Selected Counter | Added "Limpar tudo" button to reset selections and "DIAS CONSECUTIVOS" counter to show total marked days regardless of type. | 2026-03-13 |
 | [QT-07] Fix Clear All Button Reset | Exported `clearMarkedDays` from the Pinia store to ensure the "Limpar tudo" button correctly resets selected vacation days. | 2026-03-13 |
+| [QT-08] Refactor "Dias Consecutivos" | Updated "Dias Consecutivos" counter to include weekends and holidays within the selected vacation intervals, matching user requirements. | 2026-03-13 |
+| [QT-09] Expand "Dias Consecutivos" | Refined "Dias Consecutivos" to include adjacent weekends when the rest block starts on Monday or ends on Friday (even if triggered by a holiday). | 2026-03-13 |
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)
