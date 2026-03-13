@@ -64,24 +64,36 @@ export function useVacationStats(
         let start = minImportant
         let end = maxImportant
 
-        // If minImportant is Monday (1), include preceding weekend if it exists in the block
-        if (getDay(start) === 1) {
-          const blockStart = block[0]
-          const diff = differenceInCalendarDays(start, blockStart)
-          if (diff >= 2) {
+        // If minImportant is Monday (1) or Sunday (0), include preceding weekend if it exists in the block
+        const startDay = getDay(start)
+        const blockStart = block[0]
+        const startDiff = differenceInCalendarDays(start, blockStart)
+
+        if (startDay === 1) { // Monday
+          if (startDiff >= 2) {
             start = subDays(start, 2)
-          } else if (diff >= 1) {
+          } else if (startDiff >= 1) {
+            start = subDays(start, 1)
+          }
+        } else if (startDay === 0) { // Sunday
+          if (startDiff >= 1) {
             start = subDays(start, 1)
           }
         }
 
-        // If maxImportant is Friday (5), include following weekend if it exists in the block
-        if (getDay(end) === 5) {
-          const blockEnd = block[block.length - 1]
-          const diff = differenceInCalendarDays(blockEnd, end)
-          if (diff >= 2) {
+        // If maxImportant is Friday (5) or Saturday (6), include following weekend if it exists in the block
+        const endDay = getDay(end)
+        const blockEnd = block[block.length - 1]
+        const endDiff = differenceInCalendarDays(blockEnd, end)
+
+        if (endDay === 5) { // Friday
+          if (endDiff >= 2) {
             end = addDays(end, 2)
-          } else if (diff >= 1) {
+          } else if (endDiff >= 1) {
+            end = addDays(end, 1)
+          }
+        } else if (endDay === 6) { // Saturday
+          if (endDiff >= 1) {
             end = addDays(end, 1)
           }
         }

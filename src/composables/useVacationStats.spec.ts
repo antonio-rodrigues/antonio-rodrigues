@@ -107,6 +107,34 @@ describe('useVacationStats', () => {
     expect(totalSelectedDays.value).toBe(4)
   })
 
+  it('totalSelectedDays includes previous Saturday if holiday is on Sunday preceding marked Monday', () => {
+    const year = ref(2026)
+    // 2026-01-04 (Sun) is holiday. 05 (Mon) selected.
+    // 2026-01-03 (Sat) should be included.
+    const markedDays = ref(new Set(['2026-01-05']))
+    const holidays = ref(new Map([['2026-01-04', { name: 'Holiday' }]]))
+    const maxVacationDays = ref(22)
+
+    const { totalSelectedDays } = useVacationStats(year, markedDays, holidays, maxVacationDays)
+    
+    // Sat (3), Sun (4, H), Mon (5, S) = 3 days
+    expect(totalSelectedDays.value).toBe(3)
+  })
+
+  it('totalSelectedDays includes following Sunday if holiday is on Saturday following marked Friday', () => {
+    const year = ref(2026)
+    // 2026-01-09 (Fri) selected. 10 (Sat) is holiday.
+    // 2026-01-11 (Sun) should be included.
+    const markedDays = ref(new Set(['2026-01-09']))
+    const holidays = ref(new Map([['2026-01-10', { name: 'Holiday' }]]))
+    const maxVacationDays = ref(22)
+
+    const { totalSelectedDays } = useVacationStats(year, markedDays, holidays, maxVacationDays)
+    
+    // Fri (9, S), Sat (10, H), Sun (11) = 3 days
+    expect(totalSelectedDays.value).toBe(3)
+  })
+
   it('remainingDays = max - used', () => {
     const year = ref(2026)
     const markedDays = ref(new Set(['2026-01-02', '2026-01-05'])) // 2 workdays
