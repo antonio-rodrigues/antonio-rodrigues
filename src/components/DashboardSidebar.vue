@@ -31,7 +31,7 @@ function onUpdateMaxDays(event: Event) {
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto px-4 mb-6 space-y-4">
+  <div class="max-w-7xl mx-auto px-4 space-y-4">
     <!-- Alert Banner -->
     <Transition
       enter-active-class="transition duration-300 ease-out"
@@ -49,57 +49,57 @@ function onUpdateMaxDays(event: Event) {
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
       <!-- Stats Panel -->
-      <div class="lg:col-span-3 bg-white rounded-lg shadow-sm border border-gray-100 p-4 flex flex-wrap gap-6 justify-around items-center">
+      <div class="lg:col-span-3 bg-white rounded-lg shadow-sm border border-gray-100 p-3 sm:p-4 flex flex-wrap gap-4 sm:gap-6 justify-around items-center">
         <!-- Stat: Saldo de Férias -->
         <div class="flex flex-col items-center">
-          <label class="text-xs text-gray-500 uppercase tracking-wide cursor-pointer" for="max-days-input">Saldo de Férias</label>
+          <label class="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wide cursor-pointer" for="max-days-input">Saldo de Férias</label>
           <input
             id="max-days-input"
             type="number"
             :value="maxVacationDays"
             min="0"
-            class="text-2xl font-bold text-gray-900 w-16 text-center border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+            class="text-xl sm:text-2xl font-bold text-gray-900 w-12 sm:w-16 text-center border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
             @input="onUpdateMaxDays"
           />
-          <span class="text-xs text-gray-400">dias totais</span>
+          <span class="text-[10px] sm:text-xs text-gray-400">dias totais</span>
         </div>
         <!-- Stat: Dias Usados -->
         <div class="flex flex-col items-center">
-          <span class="text-xs text-gray-500 uppercase tracking-wide">Dias Usados</span>
-          <span class="text-2xl font-bold text-gray-900 transition-all duration-300">{{ usedWorkDays }}</span>
-          <span class="text-xs text-gray-400">dias úteis</span>
+          <span class="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wide">Dias Usados</span>
+          <span class="text-xl sm:text-2xl font-bold text-gray-900 transition-all duration-300">{{ usedWorkDays }}</span>
+          <span class="text-[10px] sm:text-xs text-gray-400">dias úteis</span>
         </div>
         <!-- Stat: Dias Consecutivos -->
         <div class="flex flex-col items-center">
-          <span class="text-xs text-gray-500 uppercase tracking-wide">Dias Consecutivos</span>
-          <span class="text-2xl font-bold text-gray-900 transition-all duration-300">{{ totalSelectedDays }}</span>
-          <span class="text-xs text-gray-400">dias totais</span>
+          <span class="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wide">Dias Consecutivos</span>
+          <span class="text-xl sm:text-2xl font-bold text-gray-900 transition-all duration-300">{{ totalSelectedDays }}</span>
+          <span class="text-[10px] sm:text-xs text-gray-400">dias totais</span>
         </div>
         <!-- Stat: Dias Restantes -->
         <div class="flex flex-col items-center">
-          <span class="text-xs text-gray-500 uppercase tracking-wide">Dias Restantes</span>
+          <span class="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wide">Dias Restantes</span>
           <span
-            class="text-2xl font-bold transition-all duration-300"
+            class="text-xl sm:text-2xl font-bold transition-all duration-300"
             :class="isOverBudget ? 'text-red-600' : 'text-gray-900'"
             data-testid="remaining-days"
           >
             {{ remainingDays }}
           </span>
-          <span class="text-xs text-gray-400">dias úteis</span>
+          <span class="text-[10px] sm:text-xs text-gray-400">dias úteis</span>
         </div>
         <!-- Stat: Maior Período de Descanso -->
         <div class="flex flex-col items-center">
-          <span class="text-xs text-gray-500 uppercase tracking-wide">Maior Período de Descanso</span>
-          <div class="flex items-baseline gap-2">
-            <span class="text-2xl font-bold text-gray-900 transition-all duration-300">{{ longestRestPeriod.days }}</span>
-            <span v-if="longestRestPeriod.days > 0" class="text-sm font-medium text-gray-400">({{ longestRestPeriod.startMonthDay }})</span>
+          <span class="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wide">Maior Período de Descanso</span>
+          <div class="flex items-baseline gap-1 sm:gap-2">
+            <span class="text-xl sm:text-2xl font-bold text-gray-900 transition-all duration-300">{{ longestRestPeriod.days }}</span>
+            <span v-if="longestRestPeriod.days > 0" class="text-[10px] sm:text-sm font-medium text-gray-400">({{ longestRestPeriod.startMonthDay }})</span>
           </div>
-          <span class="text-xs text-gray-400">dias úteis consecutivos</span>
+          <span class="text-[10px] sm:text-xs text-gray-400">dias úteis consecutivos</span>
         </div>
       </div>
 
       <!-- Summary Panel -->
-      <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 flex flex-col justify-center min-h-[100px]">
+      <div class="hidden lg:flex bg-white rounded-lg shadow-sm border border-gray-100 p-4 flex-col justify-center min-h-[100px]">
         <span class="text-xs text-gray-500 uppercase tracking-wide mb-2 block text-center lg:text-left">Dias Selecionados</span>
         <p class="text-sm font-medium text-gray-700 leading-relaxed break-words" data-testid="vacation-summary">
           {{ summary }}

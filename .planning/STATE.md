@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-last_updated: "2026-03-13T10:32:00.000Z"
+status: completed
+last_updated: "2026-03-13T11:20:00.000Z"
 progress:
   total_phases: 4
   completed_phases: 4
-  total_plans: 7
-  completed_plans: 10
+  total_plans: 13
+  completed_plans: 13
 ---
 
 # State: Calendar Webapp
@@ -31,11 +31,13 @@ progress:
   - [x] Plan 04-01: localStorage Persistence - COMPLETED (2026-03-13).
   - [x] Plan 04-02: Balance Alerts & Stat Transitions - COMPLETED (2026-03-13).
   - [x] Plan 04-03: UI Polish & Final Build Verification - COMPLETED (2026-03-13).
-- [x] Quick Task QT-11: Clear All Confirmation - COMPLETED (2026-03-13).
+- [x] Quick Task QT-14: Sticky Header & Mobile Visibility - COMPLETED (2026-03-13).
 
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
+| [QT-14] Sticky Header & Mobile | Implemented sticky header and stats banner with backdrop-blur. Hidden "Selected Days" on mobile and compacted stats for better UX. | 2026-03-13 |
+| [QT-13] Fix unused imports | Removed unused Vue `computed` and `date-fns` `addDays` from `src/store/config.ts` to resolve TS6133 warnings. | 2026-03-13 |
 | [QT-01] Fix PostCSS ESM Error | Converted `postcss.config.js` to ESM syntax for compatibility with `"type": "module"`. | 2026-03-12 |
 | [QT-02] Fix store.year type error | Used `storeToRefs` in `App.vue` to correctly pass reactive refs to `useVacationStats`. | 2026-03-12 |
 | [QT-03] Optimize holiday fetching | Centralized Nager.Date API calls in Pinia store to prevent redundant simultaneous requests on startup. | 2026-03-13 |
@@ -81,6 +83,7 @@ progress:
 - **[QT-12] Expanded weekend logic for "Dias Consecutivos":** Refined the calculation in `useVacationStats` to handle cases where a holiday falls on a Saturday or Sunday, ensuring the entire weekend is included if it's adjacent to a holiday or selected day within a rest block.
 
 ## Session Log
+- **2026-03-13:** Planned quick task QT-13: Fix unused imports in config.ts.
 - **2026-03-13:** Completed quick task QT-12: updated "Saldo de Férias" UI and fixed "Dias Consecutivos" holiday-weekend logic.
 - **2026-03-13:** Completed quick task QT-11: added confirmation dialog to "Limpar tudo" button in `App.vue`.
 - **2026-03-13:** Planned confirmation dialog for "Limpar tudo" button (QT-11).

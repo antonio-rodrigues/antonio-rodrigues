@@ -25,36 +25,38 @@ const confirmClear = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 py-8">
-    <header class="max-w-7xl mx-auto px-4 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 class="text-3xl font-bold text-gray-900 flex-shrink-0">Planeador de Férias</h1>
-        <div class="w-full sm:max-w-md sm:ml-auto flex items-center gap-3">
-          <button
-            @click="confirmClear"
-            class="whitespace-nowrap px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 border border-gray-300 rounded-md bg-white hover:bg-red-50 transition-colors"
-          >
-            Limpar tudo
-          </button>
-          <div class="flex-grow">
-            <MunicipalitySelector />
+  <div class="min-h-screen bg-slate-50">
+    <div class="sticky top-0 z-50 bg-slate-50/80 backdrop-blur-md border-b border-gray-100 shadow-sm pt-8 pb-4 mb-8">
+      <header class="max-w-7xl mx-auto px-4 mb-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 flex-shrink-0">Planeador de Férias</h1>
+          <div class="w-full sm:max-w-md sm:ml-auto flex items-center gap-3">
+            <button
+              @click="confirmClear"
+              class="whitespace-nowrap px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 border border-gray-300 rounded-md bg-white hover:bg-red-50 transition-colors"
+            >
+              Limpar tudo
+            </button>
+            <div class="flex-grow">
+              <MunicipalitySelector />
+            </div>
           </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <DashboardSidebar
-      :used-work-days="usedWorkDays"
-      :total-selected-days="totalSelectedDays"
-      :remaining-days="remainingDays"
-      :is-over-budget="isOverBudget"
-      :longest-rest-period="longestRestPeriod"
-      :max-vacation-days="store.maxVacationDays"
-      :marked-days="Array.from(markedDays)"
-      @update:max-vacation-days="store.maxVacationDays = $event"
-    />
+      <DashboardSidebar
+        :used-work-days="usedWorkDays"
+        :total-selected-days="totalSelectedDays"
+        :remaining-days="remainingDays"
+        :is-over-budget="isOverBudget"
+        :longest-rest-period="longestRestPeriod"
+        :max-vacation-days="store.maxVacationDays"
+        :marked-days="Array.from(markedDays)"
+        @update:max-vacation-days="store.maxVacationDays = $event"
+      />
+    </div>
 
-    <main class="max-w-7xl mx-auto">
+    <main class="max-w-7xl mx-auto pb-12">
       <YearGrid />
     </main>
   </div>
