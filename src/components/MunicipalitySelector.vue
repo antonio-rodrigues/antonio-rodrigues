@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useConfigStore } from '../store/config'
 import municipalitiesData from '../data/municipalities.json'
 
+const { t } = useI18n()
 const configStore = useConfigStore()
 const query = ref('')
 const isOpen = ref(false)
@@ -58,8 +60,8 @@ function onBlur() {
     <input
       v-model="query"
       type="text"
-      placeholder="Pesquisar município..."
-      class="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+      :placeholder="t('municipality.search')"
+      class="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
       @focus="onFocus"
       @blur="onBlur"
     />

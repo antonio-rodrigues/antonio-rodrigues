@@ -71,10 +71,10 @@ export function getCarnaval(year: number): Date {
  * Formats a list of ISO date strings into a summary grouped by month.
  * Example: "FEV: 16, 18, 19, 20; MAR: 20, 31"
  */
-export function formatVacationSummary(markedDays: string[]): string {
-  if (markedDays.length === 0) return 'Nenhum dia selecionado';
+export function formatVacationSummary(markedDays: string[], t: (key: string) => string): string {
+  if (markedDays.length === 0) return t('calendar.summary.none');
 
-  const monthsPT = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+  const monthsKeys = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   const grouped: Record<number, number[]> = {};
 
   markedDays.forEach(dateStr => {
@@ -95,7 +95,8 @@ export function formatVacationSummary(markedDays: string[]): string {
         .sort((a, b) => a - b)
         .map(d => d.toString().padStart(2, '0'))
         .join(', ');
-      return `${monthsPT[m]}: ${days}`;
+      const monthLabel = t(`calendar.months.${monthsKeys[m]}`);
+      return `${monthLabel}: ${days}`;
     })
     .join('; ');
 }

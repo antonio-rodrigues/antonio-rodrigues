@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-last_updated: "2026-03-13T11:20:00.000Z"
+last_updated: "2026-03-13T12:55:00.000Z"
 progress:
   total_phases: 4
   completed_phases: 4
@@ -31,18 +31,34 @@ progress:
   - [x] Plan 04-01: localStorage Persistence - COMPLETED (2026-03-13).
   - [x] Plan 04-02: Balance Alerts & Stat Transitions - COMPLETED (2026-03-13).
   - [x] Plan 04-03: UI Polish & Final Build Verification - COMPLETED (2026-03-13).
+- [x] Quick Task QT-29: Fix MonthCard rendering (remove stray '...') - COMPLETED (2026-03-13).
+- [x] Quick Task QT-28: Fix Calendar Day Alignment (PT offset shift) - COMPLETED (2026-03-13).
+- [x] Quick Task QT-27: Fix TypeScript errors in MonthCard, YearGrid, and useVacationStats - COMPLETED (2026-03-13).
+- [x] Quick Task QT-26: Locale-dependent first day of the week (PT=Mon, EN=Sun) - COMPLETED (2026-03-13).
+- [x] Quick Task QT-25: Fix Calendar Alignment on Locale Change - COMPLETED (2026-03-13).
+- [x] Quick Task QT-24: Fix Week Start for PT/EN locales - COMPLETED (2026-03-13).
+- [x] Quick Task QT-23: Add i18n support (PT/EN) - COMPLETED (2026-03-13).
+- [x] Quick Task QT-22: Fix absolute paths in index.html - COMPLETED (2026-03-13).
+- [x] Quick Task QT-21: Add GitHub Actions workflow for Vite deployment - COMPLETED (2026-03-13).
 - [x] Quick Task QT-20: Revert QT-19 - COMPLETED (2026-03-13).
 - [x] Quick Task QT-19: Add Black Theme & Fix Styles - REVERTED (2026-03-13).
 - [x] Quick Task QT-18: Fix Dark Theme and update #app background - COMPLETED (2026-03-13).
-- [x] Quick Task QT-21: Add GitHub Actions workflow for Vite deployment - COMPLETED (2026-03-13).
-- [x] Quick Task QT-20: Revert QT-19 - COMPLETED (2026-03-13).
-...
+
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
+| [QT-31] Remove Holiday Line Padding | Removed `space-y-4` from the dashboard sidebar container to eliminate the forced top margin on the holiday indicator line, resulting in a tighter layout. | 2026-03-13 |
+| [QT-30] Holiday Indicator in Dashboard | Added a dynamic holiday indicator line below the stats grid that shows the holiday name and type on hover (desktop) or touch (mobile, 3s auto-clear). Improved store with `hoveredHoliday` state and unique date-based clearing logic for touch robustness. | 2026-03-13 |
+| [QT-29] Fix MonthCard Rendering | Removed stray '...' literal from the grid in `MonthCard.vue` that was causing day alignment issues. | 2026-03-13 |
+| [QT-28] Fix Calendar Day Alignment | Resolved +1 day shift in PT locale by making `getYearData` accept `locale` as an explicit argument, ensuring synchronization between grid calculation and i18n labels. Refactored `useCalendar` for robustness. | 2026-03-13 |
+| [QT-27] Fix TypeScript Errors | Restored `t` in `MonthCard.vue`, removed unused `_locale` in `YearGrid.vue`, and removed unused `pt` import in `useVacationStats.ts`. Verified with `vue-tsc`. | 2026-03-13 |
+| [QT-26] Locale-dependent Week Start | Implemented locale-dependent first day of the week (PT=Monday, EN=Sunday). Updated `useCalendar` for dynamic `firstDayOffset`, localized `dayInitials` in `MonthCard.vue`, and added i18n keys. | 2026-03-13 |
+| [QT-25] Fix Calendar Alignment | Ensured `enrichedMonths` in `YearGrid.vue` explicitly depends on `configStore.locale` to trigger re-calculation of weekday offsets when the language changes. | 2026-03-13 |
+| [QT-24] Fix Week Start (PT/EN) | Configured EN locale to start on Sunday and PT locale to start on Monday. Updated `useCalendar` to calculate `firstDayOffset` dynamically based on the current locale from the config store. | 2026-03-13 |
+| [QT-23] Add i18n support (PT/EN) | Integrated `vue-i18n` with PT/EN locales. Replaced hardcoded strings in all components and utils. Added a language switcher in the header and synced it with Pinia store for persistence. | 2026-03-13 |
+| [QT-22] Fix absolute paths in index.html | Changed `/vite.svg` to `vite.svg` and `/src/main.ts` to `./src/main.ts` in root `index.html` to ensure relative paths on GitHub Pages deployment. | 2026-03-13 |
 | [QT-21] Add GitHub Actions workflow | Created `.github/workflows/deploy.yml` for Vite deployment and set `base: './'` in `vite.config.ts` to fix GitHub Pages artifact errors and asset loading. | 2026-03-13 |
 | [QT-20] Revert QT-19 | Reverted all changes from task QT-19 (Black Theme) as requested. | 2026-03-13 |
-
 | [QT-19] Add Black Theme & Fix Styles | (REVERTED) Added a 3rd theme ('black') and fixed backgrounds. | 2026-03-13 |
 | [QT-18] Fix Dark Theme & #app BG | Fixed dark mode application by applying `dark` class to `html` and `#app`. Updated `#app` background-color to `#F2AEBB` in dark mode. | 2026-03-13 |
 | [QT-16] Background color to #app | Added `background-color: darkmagenta;` to the main `#app` selector in `src/style.css`. | 2026-03-13 |
@@ -61,6 +77,7 @@ progress:
 | [QT-10] UI Refinements & Rest Period Logic | Added month numbering, updated "Maior Período de Descanso" to show start date and count only business days, and removed mobile padding. | 2026-03-13 |
 | [QT-11] Clear All Confirmation | Added a confirmation dialog to the 'Limpar tudo' button to prevent accidental clearing of all vacation data. | 2026-03-13 |
 | [QT-12] UI & Logic: Weekend Holidays | Added border/rounded corners to "Saldo de Férias" input and updated "Dias Consecutivos" to include weekends even if holiday-triggered. | 2026-03-13 |
+
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)
@@ -94,6 +111,7 @@ progress:
 - **[QT-12] Expanded weekend logic for "Dias Consecutivos":** Refined the calculation in `useVacationStats` to handle cases where a holiday falls on a Saturday or Sunday, ensuring the entire weekend is included if it's adjacent to a holiday or selected day within a rest block.
 
 ## Session Log
+- **2026-03-13:** Completed Quick Task QT-24: Fixed week start logic for PT (Monday) and EN (Sunday) locales.
 - **2026-03-13:** Planned quick task QT-13: Fix unused imports in config.ts.
 - **2026-03-13:** Completed quick task QT-12: updated "Saldo de Férias" UI and fixed "Dias Consecutivos" holiday-weekend logic.
 - **2026-03-13:** Completed quick task QT-11: added confirmation dialog to "Limpar tudo" button in `App.vue`.

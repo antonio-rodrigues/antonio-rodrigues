@@ -1,0 +1,85 @@
+{
+  "app": {
+    "title": "Vacation Planner",
+    "clearAll": "Clear all",
+    "confirmClear": "Confirm?",
+    "confirmYearChange": "All current selections will be discarded. Confirm? (YES / NO)",
+    "noHolidayData": "No holiday data found for year {year}.",
+    "darkMode": "Enable dark mode",
+    "lightMode": "Enable light mode",
+    "holidayError": "API unavailable — using local holidays"
+  },
+  "dashboard": {
+    "overBudget": "You exceeded your vacation balance!",
+    "vacationBalance": "Vacation Balance",
+    "totalDays": "total days",
+    "daysUsed": "Days Used",
+    "workingDays": "working days",
+    "consecutiveDays": "Consecutive Days",
+    "daysRemaining": "Days Remaining",
+    "longestRestPeriod": "Longest Rest Period",
+    "consecutiveWorkingDays": "consecutive working days",
+    "selectedDays": "Selected Days"
+  },
+  "municipality": {
+    "select": "Select municipality...",
+    "search": "Search municipality...",
+    "noneSelected": "Municipal holiday not selected"
+  },
+  "calendar": {
+    "months": {
+      "JAN": "JAN",
+      "FEB": "FEB",
+      "MAR": "MAR",
+      "APR": "APR",
+      "MAY": "MAY",
+      "JUN": "JUN",
+      "JUL": "JUL",
+      "AUG": "AUG",
+      "SEP": "SEP",
+      "OCT": "OCT",
+      "NOV": "NOV",
+      "DEC": "DEC"
+    },
+    "fullMonths": {
+      "0": "January",
+      "1": "February",
+      "2": "March",
+      "3": "April",
+      "4": "May",
+      "5": "June",
+      "6": "July",
+      "7": "August",
+      "8": "September",
+      "9": "October",
+      "10": "November",
+      "11": "December"
+    },
+    "dayInitials": ["S", "M", "T", "W", "T", "F", "S"],
+    "summary": {
+      "none": "No days selected"
+    },
+    "nationalHoliday": "National Holiday",
+    "municipalHoliday": "Municipal Holiday",
+    "holiday": "Holiday"
+  },
+  "holidays": {
+    "newYear": "New Year",
+    "freedomDay": "Freedom Day",
+    "labourDay": "Labour Day",
+    "portugalDay": "Portugal Day",
+    "assumption": "Assumption of Mary",
+    "republicDay": "Republic Day",
+    "allSaints": "All Saints' Day",
+    "restoration": "Restoration of Independence",
+    "immaculateConception": "Immaculate Conception",
+    "christmas": "Christmas",
+    "carnaval": "Carnaval",
+    "goodFriday": "Good Friday",
+    "easter": "Easter Sunday",
+    "easterMonday": "Easter Monday",
+    "ascension": "Ascension Day",
+    "pentecostMonday": "Pentecost Monday",
+    "corpusChristi": "Corpus Christi"
+  }
+}

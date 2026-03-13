@@ -1,11 +1,10 @@
 import { computed } from 'vue'
 import { eachDayOfInterval, startOfYear, endOfYear, format, isWeekend, differenceInCalendarDays, getDay, subDays, addDays } from 'date-fns'
-import { pt } from 'date-fns/locale'
 import type { Ref, ComputedRef } from 'vue'
 
 export interface RestPeriod {
   days: number
-  startMonthDay: string
+  startDate: Date | null
 }
 
 export function useVacationStats(
@@ -164,7 +163,7 @@ export function useVacationStats(
     finalizeBlock(currentBlock)
 
     if (bestBlock.length === 0) {
-      return { days: 0, startMonthDay: '-' }
+      return { days: 0, startDate: null }
     }
 
     // Calculate business days (marked only) in the best block
@@ -178,7 +177,7 @@ export function useVacationStats(
 
     return {
       days: businessDays,
-      startMonthDay: format(bestBlock[0], 'MMM dd', { locale: pt }).toUpperCase()
+      startDate: bestBlock[0]
     }
   })
 

@@ -34,6 +34,7 @@ export function useHolidays() {
     return {
       dateStr,
       entry: {
+        date: dateStr,
         name: mun.holiday.name,
         type: 'municipal',
         municipalityName: mun.name,
