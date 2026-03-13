@@ -12,8 +12,9 @@ const configStore = useConfigStore()
 
 const enrichedMonths = computed(() => {
   const months = getYearData(configStore.year)
-  return months.map(month => ({
+  return months.map((month, index) => ({
     ...month,
+    index,
     days: month.days.map(day => {
       const dateStr = format(day.date, 'yyyy-MM-dd')
       const holiday = holidays.value.get(dateStr)

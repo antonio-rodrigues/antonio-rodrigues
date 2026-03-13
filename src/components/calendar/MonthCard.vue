@@ -12,6 +12,7 @@ const dayInitials = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D']
 <template>
   <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
     <h3 class="text-lg font-bold text-gray-800 uppercase mb-4 text-center">
+      <span class="text-gray-300 mr-2">{{ String((month.index ?? 0) + 1).padStart(2, '0') }}</span>
       {{ month.name }}
     </h3>
     

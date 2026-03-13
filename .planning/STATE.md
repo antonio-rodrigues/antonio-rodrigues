@@ -44,6 +44,7 @@ progress:
 | [QT-07] Fix Clear All Button Reset | Exported `clearMarkedDays` from the Pinia store to ensure the "Limpar tudo" button correctly resets selected vacation days. | 2026-03-13 |
 | [QT-08] Refactor "Dias Consecutivos" | Updated "Dias Consecutivos" counter to include weekends and holidays within the selected vacation intervals, matching user requirements. | 2026-03-13 |
 | [QT-09] Expand "Dias Consecutivos" | Refined "Dias Consecutivos" to include adjacent weekends when the rest block starts on Monday or ends on Friday (even if triggered by a holiday). | 2026-03-13 |
+| [QT-10] UI Refinements & Rest Period Logic | Added month numbering, updated "Maior Período de Descanso" to show start date and count only business days, and removed mobile padding. | 2026-03-13 |
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)

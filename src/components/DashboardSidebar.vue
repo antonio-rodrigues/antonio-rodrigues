@@ -3,12 +3,14 @@ import { computed } from 'vue'
 import { AlertTriangle } from 'lucide-vue-next'
 import { formatVacationSummary } from '../utils/holiday-utils'
 
+import type { RestPeriod } from '../composables/useVacationStats'
+
 const props = defineProps<{
   usedWorkDays: number
   totalSelectedDays: number
   remainingDays: number
   isOverBudget: boolean
-  longestRestPeriod: number
+  longestRestPeriod: RestPeriod
   maxVacationDays: number
   markedDays: string[]
 }>()
@@ -88,8 +90,11 @@ function onUpdateMaxDays(event: Event) {
         <!-- Stat: Maior Período de Descanso -->
         <div class="flex flex-col items-center">
           <span class="text-xs text-gray-500 uppercase tracking-wide">Maior Período de Descanso</span>
-          <span class="text-2xl font-bold text-gray-900 transition-all duration-300">{{ longestRestPeriod }}</span>
-          <span class="text-xs text-gray-400">dias consecutivos</span>
+          <div class="flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-gray-900 transition-all duration-300">{{ longestRestPeriod.days }}</span>
+            <span v-if="longestRestPeriod.days > 0" class="text-sm font-medium text-gray-400">({{ longestRestPeriod.startMonthDay }})</span>
+          </div>
+          <span class="text-xs text-gray-400">dias úteis consecutivos</span>
         </div>
       </div>
 

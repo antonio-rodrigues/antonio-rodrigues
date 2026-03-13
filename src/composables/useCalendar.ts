@@ -23,6 +23,7 @@ export interface Month {
   name: string
   days: Day[]
   firstDayOffset: number
+  index?: number
 }
 
 export function useCalendar() {

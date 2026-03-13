@@ -152,7 +152,7 @@ describe('useVacationStats', () => {
   })
 
   describe('longestRestPeriod', () => {
-    it('counts weekend alone', () => {
+    it('counts business days in weekend alone (0)', () => {
       const year = ref(2026)
       const markedDays = ref(new Set([]))
       const holidays = ref(new Map())
@@ -160,8 +160,9 @@ describe('useVacationStats', () => {
 
       const { longestRestPeriod } = useVacationStats(year, markedDays, holidays, maxVacationDays)
       
-      // Jan 3-4 2026 is Sat-Sun
-      expect(longestRestPeriod.value).toBe(2)
+      // Jan 3-4 2026 is Sat-Sun. Total duration 2, but 0 selected business days.
+      expect(longestRestPeriod.value.days).toBe(0)
+      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 03')
     })
 
     it('extends weekend with vacation', () => {
@@ -172,8 +173,10 @@ describe('useVacationStats', () => {
 
       const { longestRestPeriod } = useVacationStats(year, markedDays, holidays, maxVacationDays)
       
-      // Fri (marked) + Sat + Sun = 3
-      expect(longestRestPeriod.value).toBe(3)
+      // Fri (marked) + Sat + Sun = 3 days block. 
+      // Marked business days: 1 (Fri)
+      expect(longestRestPeriod.value.days).toBe(1)
+      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 02')
     })
 
     it('resets at workday', () => {
@@ -184,12 +187,10 @@ describe('useVacationStats', () => {
 
       const { longestRestPeriod } = useVacationStats(year, markedDays, holidays, maxVacationDays)
       
-      // Fri (marked) + Sat + Sun + Mon (marked) = 4
-      expect(longestRestPeriod.value).toBe(4)
-
-      // Add a workday in between (e.g. Jan 6 Tue is unmarked)
-      // Fri (2) + Sat (3) + Sun (4) + Mon (5) = 4
-      // Tue (6) breaks it
+      // Fri (marked) + Sat + Sun + Mon (marked) = 4 days block.
+      // Marked business days: 2 (Fri, Mon)
+      expect(longestRestPeriod.value.days).toBe(2)
+      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 02')
     })
 
     it('handles holidays on Wednesday', () => {
@@ -202,8 +203,10 @@ describe('useVacationStats', () => {
       
       // Jan 3-4 is weekend (2)
       // Jan 7 is holiday (1)
-      // Longest is 2
-      expect(longestRestPeriod.value).toBe(2)
+      // Both have duration 2 and 1 respectively. Max is 2.
+      // 0 marked business days.
+      expect(longestRestPeriod.value.days).toBe(0)
+      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 03')
     })
 
     it('complex chain with holiday and vacation', () => {
@@ -219,18 +222,12 @@ describe('useVacationStats', () => {
 
       const { longestRestPeriod } = useVacationStats(year, markedDays, holidays, maxVacationDays)
       
-      // Jan 1-4: Thu (holiday?), Fri, Sat, Sun
-      // Wait, let's re-calculate based on actual 2026 calendar
-      // Jan 1 is Thu
-      // Jan 2 is Fri
-      // Jan 3-4 is Sat-Sun
-      // If we don't have holidays: Jan 3-4 is 2.
+      // Block 1: Jan 3-6 (Sat, Sun, Mon (S), Tue (S)) -> duration 4, business 2
+      // Block 2: Jan 8-11 (Thu (H), Fri (S), Sat, Sun) -> duration 4, business 1 (Fri)
       
-      // Test case: Fri (9) + Thu (8 holiday) + Sat (10) + Sun (11) = 4 days run
-      // Mon (5) + Tue (6) = 2 days run
-      // Jan 7 (Wed) breaks it.
-      
-      expect(longestRestPeriod.value).toBe(4)
+      // Both have duration 4. The first one is JAN 03.
+      expect(longestRestPeriod.value.days).toBe(2)
+      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 03')
     })
   })
 })

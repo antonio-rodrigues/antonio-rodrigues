@@ -33,6 +33,12 @@ body {
   width: 100%;
 }
 
+@media (max-width: 640px) {
+  #app {
+    padding: 0;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

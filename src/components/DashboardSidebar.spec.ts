@@ -8,7 +8,7 @@ describe('DashboardSidebar', () => {
     totalSelectedDays: 7,
     remainingDays: 17,
     isOverBudget: false,
-    longestRestPeriod: 9,
+    longestRestPeriod: { days: 9, startMonthDay: 'JUN 01' },
     maxVacationDays: 22,
     markedDays: []
   }
@@ -62,6 +62,8 @@ describe('DashboardSidebar', () => {
     })
     expect(wrapper.text()).toContain('Maior Período de Descanso')
     expect(wrapper.text()).toContain('9')
+    expect(wrapper.text()).toContain('JUN 01')
+    expect(wrapper.text()).toContain('dias úteis consecutivos')
   })
 
   it('when isOverBudget is false, remaining days text does not have text-red-600 class', () => {

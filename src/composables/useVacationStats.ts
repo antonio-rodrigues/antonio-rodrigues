@@ -1,6 +1,12 @@
 import { computed } from 'vue'
 import { eachDayOfInterval, startOfYear, endOfYear, format, isWeekend, differenceInCalendarDays, getDay, subDays, addDays } from 'date-fns'
+import { pt } from 'date-fns/locale'
 import type { Ref, ComputedRef } from 'vue'
+
+export interface RestPeriod {
+  days: number
+  startMonthDay: string
+}
 
 export function useVacationStats(
   year: Ref<number>,
@@ -11,7 +17,7 @@ export function useVacationStats(
   usedWorkDays: ComputedRef<number>
   remainingDays: ComputedRef<number>
   isOverBudget: ComputedRef<boolean>
-  longestRestPeriod: ComputedRef<number>
+  longestRestPeriod: ComputedRef<RestPeriod>
   totalSelectedDays: ComputedRef<number>
 } {
   const usedWorkDays = computed(() => {
@@ -118,9 +124,17 @@ export function useVacationStats(
       end: endOfYear(new Date(year.value, 0, 1))
     })
     
-    let maxRun = 0
-    let currentRun = 0
+    let maxTotalRun = 0
+    let currentBlock: Date[] = []
+    let bestBlock: Date[] = []
     
+    const finalizeBlock = (block: Date[]) => {
+      if (block.length > maxTotalRun) {
+        maxTotalRun = block.length
+        bestBlock = [...block]
+      }
+    }
+
     for (const date of allDays) {
       const dateStr = format(date, 'yyyy-MM-dd')
       const isRest =
@@ -129,17 +143,33 @@ export function useVacationStats(
         markedDays.value.has(dateStr)
         
       if (isRest) {
-        currentRun++
-        if (currentRun > maxRun) {
-          maxRun = currentRun
-        }
+        currentBlock.push(date)
       } else {
-        currentRun = 0
+        finalizeBlock(currentBlock)
+        currentBlock = []
       }
     }
-    
-    return maxRun
+    finalizeBlock(currentBlock)
+
+    if (bestBlock.length === 0) {
+      return { days: 0, startMonthDay: '-' }
+    }
+
+    // Calculate business days (marked only) in the best block
+    let businessDays = 0
+    for (const date of bestBlock) {
+      const dateStr = format(date, 'yyyy-MM-dd')
+      if (markedDays.value.has(dateStr) && !isWeekend(date) && !holidays.value.has(dateStr)) {
+        businessDays++
+      }
+    }
+
+    return {
+      days: businessDays,
+      startMonthDay: format(bestBlock[0], 'MMM dd', { locale: pt }).toUpperCase()
+    }
   })
 
   return { usedWorkDays, remainingDays, isOverBudget, longestRestPeriod, totalSelectedDays }
 }
+
