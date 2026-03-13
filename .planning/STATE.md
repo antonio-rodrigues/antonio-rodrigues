@@ -47,6 +47,7 @@ progress:
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
+| [QT-34] Fix Tests & Sync Docs | Resolved 12 failing tests by fixing Pinia setup in DashboardSidebar.spec.ts and data schema in useHolidays.spec.ts. Updated ROADMAP.md and REQUIREMENTS.md to correctly reflect the completed state of Phase 4 and success criteria. | 2026-03-13 |
 | [QT-33] Add Google AdSense | Added the Google AdSense script to the `<head>` of `index.html` as requested. | 2026-03-13 |
 | [QT-32] SEO Optimization | Optimized the single-page app for SEO by adding meta tags (OG, Twitter), JSON-LD structured data, and a sitemap generator. Refactored `App.vue` with semantic HTML5 tags (`<header>`, `<main>`, `<section>`, `<footer>`) and improved accessibility with ARIA labels. | 2026-03-13 |
 | [QT-31] Remove Holiday Line Padding | Removed `space-y-4` from the dashboard sidebar container to eliminate the forced top margin on the holiday indicator line, resulting in a tighter layout. | 2026-03-13 |

@@ -18,10 +18,10 @@
   - [x] **Consecutive Rest Periods:** Calculate and display the largest block of continuous rest (vacation + weekends + holidays).
 - **FR5: Configuration**
   - [x] User can change the year (e.g., 2026, 2027). (Note: Store supports it, YearGrid reactive)
-  - [ ] User can change the total allowed vacation days (e.g., 22, 25). (Note: Store supports it, UI input pending in Phase 4)
+  - [x] User can change the total allowed vacation days (e.g., 22, 25). (Note: Implemented in Phase 4)
 - **FR6: Data Persistence**
-  - [ ] Automatically save all selections (year, municipality, max days, marked dates) to `localStorage`.
-  - [ ] Reload state on page refresh.
+  - [x] Automatically save all selections (year, municipality, max days, marked dates) to `localStorage`.
+  - [x] Reload state on page refresh.
 - **FR7: UI Feedback**
   - [x] Visual alert (red text/border) when used days exceed the maximum balance. (Note: Implemented in DashboardSidebar as red text)
 

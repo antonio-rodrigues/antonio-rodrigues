@@ -28,17 +28,17 @@ Plans:
 
 ## Phase 4: Persistence & Polish (Week 2)
 **Goal:** Persist state to localStorage, add balance alerts, and polish the UI/UX.
-**Status: IN PROGRESS — 0/3 plans executed**
+**Status: COMPLETED 2026-03-13 — 3/3 plans executed**
 
 Plans:
-- [ ] 04-01-PLAN.md — localStorage Persistence (PENDING)
-- [ ] 04-02-PLAN.md — Balance Alerts & Stat Transitions (PENDING)
-- [ ] 04-03-PLAN.md — UI Polish & Final Build Verification (PENDING)
+- [x] 04-01-PLAN.md — localStorage Persistence (COMPLETED 2026-03-13)
+- [x] 04-02-PLAN.md — Balance Alerts & Stat Transitions (COMPLETED 2026-03-13)
+- [x] 04-03-PLAN.md — UI Polish & Final Build Verification (COMPLETED 2026-03-13)
 
 ## Success Criteria
-- [ ] Render 12 months for 2026.
-- [ ] Show 13 national holidays automatically.
-- [ ] Show 1 regional holiday correctly for Lisbon (June 13).
-- [ ] Correctly calculate "Used Work Days" (ignore weekends).
-- [ ] Persist marked dates after page refresh.
-- [ ] Visual alert when vacation budget exceeded.
+- [x] Render 12 months for 2026.
+- [x] Show 13 national holidays automatically.
+- [x] Show 1 regional holiday correctly for Lisbon (June 13).
+- [x] Correctly calculate "Used Work Days" (ignore weekends).
+- [x] Persist marked dates after page refresh.
+- [x] Visual alert when vacation budget exceeded.

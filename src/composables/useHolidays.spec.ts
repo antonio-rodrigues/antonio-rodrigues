@@ -23,7 +23,7 @@ describe('useHolidays', () => {
     // wait for fetch to complete (watch immediate triggers fetchHolidays)
     await vi.waitUntil(() => holidays.value.size > 0)
 
-    expect(holidays.value.get('2026-01-01')).toEqual({ name: 'Ano Novo', type: 'national' })
+    expect(holidays.value.get('2026-01-01')).toEqual({ date: '2026-01-01', name: 'Ano Novo', type: 'national' })
   })
 
   it('excludes non-global entries', async () => {
