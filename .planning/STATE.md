@@ -31,6 +31,7 @@ progress:
   - [x] Plan 04-01: localStorage Persistence - COMPLETED (2026-03-13).
   - [x] Plan 04-02: Balance Alerts & Stat Transitions - COMPLETED (2026-03-13).
   - [x] Plan 04-03: UI Polish & Final Build Verification - COMPLETED (2026-03-13).
+- [x] Quick Task QT-27: Fix TypeScript errors in MonthCard, YearGrid, and useVacationStats - COMPLETED (2026-03-13).
 - [x] Quick Task QT-26: Locale-dependent first day of the week (PT=Mon, EN=Sun) - COMPLETED (2026-03-13).
 - [x] Quick Task QT-25: Fix Calendar Alignment on Locale Change - COMPLETED (2026-03-13).
 - [x] Quick Task QT-24: Fix Week Start for PT/EN locales - COMPLETED (2026-03-13).
@@ -44,6 +45,7 @@ progress:
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
+| [QT-27] Fix TypeScript Errors | Restored `t` in `MonthCard.vue`, removed unused `_locale` in `YearGrid.vue`, and removed unused `pt` import in `useVacationStats.ts`. Verified with `vue-tsc`. | 2026-03-13 |
 | [QT-26] Locale-dependent Week Start | Implemented locale-dependent first day of the week (PT=Monday, EN=Sunday). Updated `useCalendar` for dynamic `firstDayOffset`, localized `dayInitials` in `MonthCard.vue`, and added i18n keys. | 2026-03-13 |
 | [QT-25] Fix Calendar Alignment | Ensured `enrichedMonths` in `YearGrid.vue` explicitly depends on `configStore.locale` to trigger re-calculation of weekday offsets when the language changes. | 2026-03-13 |
 | [QT-24] Fix Week Start (PT/EN) | Configured EN locale to start on Sunday and PT locale to start on Monday. Updated `useCalendar` to calculate `firstDayOffset` dynamically based on the current locale from the config store. | 2026-03-13 |

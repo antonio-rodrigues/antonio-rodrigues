@@ -11,8 +11,8 @@ const { holidays } = useHolidays()
 const configStore = useConfigStore()
 
 const enrichedMonths = computed(() => {
-  // Explicitly access locale to ensure reactivity when it changes
-  const _locale = configStore.locale
+  // Access locale to ensure reactivity
+  configStore.locale
   const months = getYearData(configStore.year)
   return months.map((month, index) => ({
     ...month,

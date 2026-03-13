@@ -1,6 +1,5 @@
 import { computed } from 'vue'
 import { eachDayOfInterval, startOfYear, endOfYear, format, isWeekend, differenceInCalendarDays, getDay, subDays, addDays } from 'date-fns'
-import { pt } from 'date-fns/locale'
 import type { Ref, ComputedRef } from 'vue'
 
 export interface RestPeriod {

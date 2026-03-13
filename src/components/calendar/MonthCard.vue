@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 import type { Month as MonthType } from '../../composables/useCalendar'
 import DayCell from './DayCell.vue'
 
-const { tm } = useI18n()
+const { tm, t } = useI18n()
 
 defineProps<{
   month: MonthType
