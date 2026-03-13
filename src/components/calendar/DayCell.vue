@@ -14,9 +14,41 @@ const store = useConfigStore()
 const dateStr = computed(() => format(props.day.date, 'yyyy-MM-dd'))
 const isVacation = computed(() => store.markedDays.has(dateStr.value))
 
+let touchTimeout: ReturnType<typeof setTimeout> | null = null
+
 function handleClick() {
   if (!props.day.isWeekend && !props.day.isHoliday) {
     store.toggleVacationDay(dateStr.value)
+  }
+}
+
+function handleMouseEnter() {
+  if (props.day.isHoliday) {
+    store.hoveredHoliday = {
+      date: dateStr.value,
+      name: props.day.holidayName || '',
+      type: props.day.holidayType || 'national',
+      municipalityName: props.day.holidayMunicipalityName
+    }
+  }
+}
+
+function handleMouseLeave() {
+  if (props.day.isHoliday) {
+    store.hoveredHoliday = null
+  }
+}
+
+function handleTouchStart() {
+  if (props.day.isHoliday) {
+    handleMouseEnter()
+    if (touchTimeout) clearTimeout(touchTimeout)
+    touchTimeout = setTimeout(() => {
+      if (store.hoveredHoliday?.date === dateStr.value) {
+        store.hoveredHoliday = null
+      }
+      touchTimeout = null
+    }, 3000)
   }
 }
 
@@ -49,6 +81,9 @@ const title = computed(() => {
     ]"
     :title="title"
     @click="handleClick"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+    @touchstart="handleTouchStart"
   >
     {{ day.dayOfMonth }}
   </div>

@@ -60,7 +60,8 @@
       "none": "Nenhum dia selecionado"
     },
     "nationalHoliday": "Feriado Nacional",
-    "municipalHoliday": "Feriado Municipal"
+    "municipalHoliday": "Feriado Municipal",
+    "holiday": "Feriado"
   },
   "holidays": {
     "newYear": "Ano Novo",

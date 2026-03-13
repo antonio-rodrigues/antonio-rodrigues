@@ -3,10 +3,12 @@ import { computed } from 'vue'
 import { AlertTriangle } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 import { formatVacationSummary } from '../utils/holiday-utils'
+import { useConfigStore } from '../store/config'
 
 import type { RestPeriod } from '../composables/useVacationStats'
 
 const { t } = useI18n()
+const store = useConfigStore()
 
 const props = defineProps<{
   usedWorkDays: number
@@ -110,6 +112,22 @@ function onUpdateMaxDays(event: Event) {
           {{ summary }}
         </p>
       </div>
+    </div>
+
+    <!-- Holiday Indicator Line -->
+    <div class="h-6 flex items-center px-1">
+      <Transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 -translate-y-1"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-1"
+      >
+        <span v-if="store.hoveredHoliday" class="text-[11px] sm:text-xs text-gray-400 dark:text-gray-500 font-medium">
+          {{ store.hoveredHoliday.type === 'national' ? t('calendar.holiday') : t('calendar.municipalHoliday') }}: {{ t(store.hoveredHoliday.name) }}{{ store.hoveredHoliday.municipalityName ? ` (${store.hoveredHoliday.municipalityName})` : '' }}
+        </span>
+      </Transition>
     </div>
   </div>
 </template>

@@ -60,7 +60,8 @@
       "none": "No days selected"
     },
     "nationalHoliday": "National Holiday",
-    "municipalHoliday": "Municipal Holiday"
+    "municipalHoliday": "Municipal Holiday",
+    "holiday": "Holiday"
   },
   "holidays": {
     "newYear": "New Year",

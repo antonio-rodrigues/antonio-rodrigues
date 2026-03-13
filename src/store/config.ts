@@ -7,6 +7,7 @@ import i18n from '../i18n'
 const STORAGE_KEY = 'calendar-vacation-planner-v1'
 
 export interface HolidayEntry {
+  date: string
   name: string
   type: 'national' | 'municipal'
   municipalityName?: string
@@ -48,7 +49,7 @@ function buildFallbackHolidays(year: number): Map<string, HolidayEntry> {
 
   for (const [name, month, day] of fixed) {
     const dateStr = format(new Date(year, month - 1, day), 'yyyy-MM-dd')
-    map.set(dateStr, { name, type: 'national' })
+    map.set(dateStr, { date: dateStr, name, type: 'national' })
   }
 
   // Mobile holidays
@@ -63,7 +64,8 @@ function buildFallbackHolidays(year: number): Map<string, HolidayEntry> {
   ]
 
   for (const [name, date] of mobile) {
-    map.set(format(date, 'yyyy-MM-dd'), { name, type: 'national' })
+    const dStr = format(date, 'yyyy-MM-dd')
+    map.set(dStr, { date: dStr, name, type: 'national' })
   }
 
   return map
@@ -78,6 +80,7 @@ export const useConfigStore = defineStore('config', () => {
   const markedDays = ref<Set<string>>(new Set(initialState.markedDays ?? []))
   const theme = ref<'light' | 'dark'>(initialState.theme ?? 'light')
   const locale = ref<'pt' | 'en'>(initialState.locale ?? 'pt')
+  const hoveredHoliday = ref<HolidayEntry | null>(null)
 
   // Sync i18n locale with store locale
   watch(locale, (newLocale) => {
@@ -102,7 +105,7 @@ export const useConfigStore = defineStore('config', () => {
       const map = new Map<string, HolidayEntry>()
       data
         .filter(h => h.global)
-        .forEach(h => map.set(h.date, { name: h.localName, type: 'national' }))
+        .forEach(h => map.set(h.date, { date: h.date, name: h.localName, type: 'national' }))
       nationalHolidays.value = map
       return true
     } catch {
@@ -175,6 +178,7 @@ export const useConfigStore = defineStore('config', () => {
     markedDays,
     theme,
     locale,
+    hoveredHoliday,
     nationalHolidays,
     loadingHolidays,
     holidayError,

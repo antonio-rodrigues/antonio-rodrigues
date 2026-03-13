@@ -47,6 +47,7 @@ progress:
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
+| [QT-30] Holiday Indicator in Dashboard | Added a dynamic holiday indicator line below the stats grid that shows the holiday name and type on hover (desktop) or touch (mobile, 3s auto-clear). Improved store with `hoveredHoliday` state and unique date-based clearing logic for touch robustness. | 2026-03-13 |
 | [QT-29] Fix MonthCard Rendering | Removed stray '...' literal from the grid in `MonthCard.vue` that was causing day alignment issues. | 2026-03-13 |
 | [QT-28] Fix Calendar Day Alignment | Resolved +1 day shift in PT locale by making `getYearData` accept `locale` as an explicit argument, ensuring synchronization between grid calculation and i18n labels. Refactored `useCalendar` for robustness. | 2026-03-13 |
 | [QT-27] Fix TypeScript Errors | Restored `t` in `MonthCard.vue`, removed unused `_locale` in `YearGrid.vue`, and removed unused `pt` import in `useVacationStats.ts`. Verified with `vue-tsc`. | 2026-03-13 |
