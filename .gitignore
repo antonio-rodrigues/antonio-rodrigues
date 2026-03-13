@@ -26,6 +26,3 @@ dist-ssr
 # OS
 .DS_Store
 /.DS_Store
-
-# GSD
-.planning/
