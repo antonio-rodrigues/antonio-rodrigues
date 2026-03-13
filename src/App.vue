@@ -90,8 +90,8 @@ const handleLocaleChange = (event: Event) => {
       </div>
     </Transition>
 
-    <div class="sticky top-0 z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm pt-8 pb-4 mb-8">
-      <header class="max-w-7xl mx-auto px-4 mb-6">
+    <header class="sticky top-0 z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm pt-8 pb-4 mb-8">
+      <div class="max-w-7xl mx-auto px-4 mb-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div class="flex items-center gap-3 sm:gap-4">
             <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 flex-shrink-0">{{ t('app.title') }}</h1>
@@ -102,6 +102,7 @@ const handleLocaleChange = (event: Event) => {
               max="9999"
               class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 w-20 sm:w-24 text-center border border-gray-200 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
               @change="handleYearChange"
+              aria-label="Selecionar Ano"
             />
           </div>
           <div class="w-full sm:max-w-md sm:ml-auto flex items-center gap-3">
@@ -120,6 +121,7 @@ const handleLocaleChange = (event: Event) => {
               :value="locale"
               @change="handleLocaleChange"
               class="p-2 text-sm font-medium text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors appearance-none cursor-pointer px-3"
+              aria-label="Selecionar Idioma"
             >
               <option value="pt">PT</option>
               <option value="en">EN</option>
@@ -129,6 +131,7 @@ const handleLocaleChange = (event: Event) => {
               @click="store.toggleTheme"
               class="p-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 transition-colors flex items-center justify-center"
               :title="theme === 'light' ? t('app.darkMode') : t('app.lightMode')"
+              :aria-label="theme === 'light' ? t('app.darkMode') : t('app.lightMode')"
             >
               <span class="material-symbols-outlined">
                 {{ theme === 'light' ? 'dark_mode' : 'light_mode' }}
@@ -136,23 +139,32 @@ const handleLocaleChange = (event: Event) => {
             </button>
           </div>
         </div>
-      </header>
+      </div>
 
-      <DashboardSidebar
-        :used-work-days="usedWorkDays"
-        :total-selected-days="totalSelectedDays"
-        :remaining-days="remainingDays"
-        :is-over-budget="isOverBudget"
-        :longest-rest-period="longestRestPeriod"
-        :max-vacation-days="store.maxVacationDays"
-        :marked-days="Array.from(markedDays)"
-        @update:max-vacation-days="store.maxVacationDays = $event"
-      />
-    </div>
+      <section aria-label="Estatísticas e Dashboard">
+        <DashboardSidebar
+          :used-work-days="usedWorkDays"
+          :total-selected-days="totalSelectedDays"
+          :remaining-days="remainingDays"
+          :is-over-budget="isOverBudget"
+          :longest-rest-period="longestRestPeriod"
+          :max-vacation-days="store.maxVacationDays"
+          :marked-days="Array.from(markedDays)"
+          @update:max-vacation-days="store.maxVacationDays = $event"
+        />
+      </section>
+    </header>
 
     <main class="max-w-7xl mx-auto pb-12">
-      <YearGrid />
+      <section aria-label="Calendário Anual">
+        <YearGrid />
+      </section>
     </main>
+
+    <footer class="max-w-7xl mx-auto px-4 py-8 border-t border-gray-100 dark:border-gray-800 text-center text-gray-500 dark:text-gray-400 text-sm">
+      <p>&copy; 2026 Portugal Holiday Planner. Todos os direitos reservados.</p>
+      <p class="mt-1">Uma ferramenta interactiva para gestão de feriados e férias em Portugal.</p>
+    </footer>
   </div>
 </template>
 

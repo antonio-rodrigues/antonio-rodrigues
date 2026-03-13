@@ -47,6 +47,8 @@ progress:
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
+| [QT-33] Add Google AdSense | Added the Google AdSense script to the `<head>` of `index.html` as requested. | 2026-03-13 |
+| [QT-32] SEO Optimization | Optimized the single-page app for SEO by adding meta tags (OG, Twitter), JSON-LD structured data, and a sitemap generator. Refactored `App.vue` with semantic HTML5 tags (`<header>`, `<main>`, `<section>`, `<footer>`) and improved accessibility with ARIA labels. | 2026-03-13 |
 | [QT-31] Remove Holiday Line Padding | Removed `space-y-4` from the dashboard sidebar container to eliminate the forced top margin on the holiday indicator line, resulting in a tighter layout. | 2026-03-13 |
 | [QT-30] Holiday Indicator in Dashboard | Added a dynamic holiday indicator line below the stats grid that shows the holiday name and type on hover (desktop) or touch (mobile, 3s auto-clear). Improved store with `hoveredHoliday` state and unique date-based clearing logic for touch robustness. | 2026-03-13 |
 | [QT-29] Fix MonthCard Rendering | Removed stray '...' literal from the grid in `MonthCard.vue` that was causing day alignment issues. | 2026-03-13 |
