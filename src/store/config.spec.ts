@@ -50,6 +50,16 @@ describe('Config Store', () => {
     expect(store.markedDays.size).toBe(1)
   })
 
+  it('clearMarkedDays resets markedDays to an empty Set', () => {
+    const store = useConfigStore()
+    store.toggleVacationDay('2026-06-01')
+    store.toggleVacationDay('2026-06-02')
+    expect(store.markedDays.size).toBe(2)
+    
+    store.clearMarkedDays()
+    expect(store.markedDays.size).toBe(0)
+  })
+
   describe('persistence', () => {
     it('initializes with values from localStorage if available', () => {
       const savedState = {

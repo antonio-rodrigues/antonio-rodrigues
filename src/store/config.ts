@@ -141,6 +141,7 @@ export const useConfigStore = defineStore('config', () => {
     loadingHolidays,
     holidayError,
     toggleVacationDay,
+    clearMarkedDays,
     fetchHolidays
   }
 })

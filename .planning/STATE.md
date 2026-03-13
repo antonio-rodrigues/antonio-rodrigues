@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-12T17:53:29.548Z"
+last_updated: "2026-03-13T10:32:00.000Z"
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 7
-  completed_plans: 9
+  completed_plans: 10
 ---
 
 # State: Calendar Webapp
@@ -41,6 +41,7 @@ progress:
 | [QT-04] Fix municipality persistence | Initialized search input on mount and added focus-based dropdown control to ensure selected municipality persists across refresh. | 2026-03-13 |
 | [QT-05] Desktop UI & Summary Panel | Aligned search to right, made vacation balance editable/persistent, and added month-grouped vacation summary panel. | 2026-03-13 |
 | [QT-06] Clear All & Total Selected Counter | Added "Limpar tudo" button to reset selections and "DIAS CONSECUTIVOS" counter to show total marked days regardless of type. | 2026-03-13 |
+| [QT-07] Fix Clear All Button Reset | Exported `clearMarkedDays` from the Pinia store to ensure the "Limpar tudo" button correctly resets selected vacation days. | 2026-03-13 |
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)
