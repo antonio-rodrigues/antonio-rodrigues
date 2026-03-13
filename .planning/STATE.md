@@ -38,6 +38,7 @@ progress:
 | [QT-01] Fix PostCSS ESM Error | Converted `postcss.config.js` to ESM syntax for compatibility with `"type": "module"`. | 2026-03-12 |
 | [QT-02] Fix store.year type error | Used `storeToRefs` in `App.vue` to correctly pass reactive refs to `useVacationStats`. | 2026-03-12 |
 | [QT-03] Optimize holiday fetching | Centralized Nager.Date API calls in Pinia store to prevent redundant simultaneous requests on startup. | 2026-03-13 |
+| [QT-04] Fix municipality persistence | Initialized search input on mount and added focus-based dropdown control to ensure selected municipality persists across refresh. | 2026-03-13 |
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)
@@ -65,6 +66,7 @@ progress:
 - **[02-04] Native title tooltip:** Avoids external library dependency; meets accessibility baseline without added complexity.
 - **[04-01] localStorage Serialization:** Pinia store uses `watch` with a conversion to `Array` for the `markedDays` Set; initialization deserializes it back to a `Set`.
 - **[QT-03] Holiday Fetching Singleton:** Moved national holiday fetching and state into `useConfigStore` to ensure it only happens once per app lifecycle (or year change), preventing redundant simultaneous API calls from multiple components using `useHolidays`.
+- **[QT-04] Municipality Initialization & Focus Pattern:** Initialized `query` in `onMounted` from store state and added `isFocused` tracking to `MunicipalitySelector` — this ensures the search box is populated on refresh without accidentally triggering the dropdown via the `query` watcher.
 
 ## Session Log
 - **2026-03-13:** Optimized holiday fetching to prevent simultaneous API calls by centralizing state in the Pinia store. Refactored `useHolidays` to consume shared state instead of managing its own. Verified with full test suite.

@@ -1,11 +1,21 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useConfigStore } from '../store/config'
 import municipalitiesData from '../data/municipalities.json'
 
 const configStore = useConfigStore()
 const query = ref('')
 const isOpen = ref(false)
+const isFocused = ref(false)
+
+onMounted(() => {
+  if (configStore.selectedMunicipalityId) {
+    const mun = municipalitiesData.find((m) => m.id === configStore.selectedMunicipalityId)
+    if (mun) {
+      query.value = mun.name
+    }
+  }
+})
 
 const filtered = computed(() =>
   query.value.length < 2
@@ -25,10 +35,18 @@ watch(query, (val) => {
   if (!val) {
     configStore.selectedMunicipalityId = null
   }
-  isOpen.value = val.length >= 2
+  if (isFocused.value) {
+    isOpen.value = val.length >= 2
+  }
 })
 
+function onFocus() {
+  isFocused.value = true
+  isOpen.value = query.value.length >= 2
+}
+
 function onBlur() {
+  isFocused.value = false
   setTimeout(() => {
     isOpen.value = false
   }, 150)
@@ -42,7 +60,7 @@ function onBlur() {
       type="text"
       placeholder="Pesquisar município..."
       class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-      @focus="isOpen = query.length >= 2"
+      @focus="onFocus"
       @blur="onBlur"
     />
     <Transition
