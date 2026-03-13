@@ -9,8 +9,8 @@ export default defineConfig({
   plugins: [
     vue(),
     Sitemap({
-      hostname: 'https://arodri06.github.io',
-      dynamicRoutes: ['/calendar/'],
+      hostname: 'https://apprz.pt',
+      dynamicRoutes: ['/calendario/'],
       outDir: 'dist'
     })
   ],
