@@ -4,10 +4,9 @@ import {
   startOfMonth, 
   endOfMonth, 
   getDay, 
-  isWeekend,
-  format
+  isWeekend
 } from 'date-fns'
-import { pt } from 'date-fns/locale'
+import { useConfigStore } from '../store/config'
 
 export interface Day {
   date: Date
@@ -20,13 +19,14 @@ export interface Day {
 }
 
 export interface Month {
-  name: string
   days: Day[]
   firstDayOffset: number
-  index?: number
+  index: number
 }
 
 export function useCalendar() {
+  const configStore = useConfigStore()
+
   const getYearData = (year: number): Month[] => {
     const startOfYear = new Date(year, 0, 1)
     const endOfYear = new Date(year, 11, 31)
@@ -36,7 +36,7 @@ export function useCalendar() {
       end: endOfYear
     })
 
-    return months.map(monthDate => {
+    return months.map((monthDate, index) => {
       const monthStart = startOfMonth(monthDate)
       const monthEnd = endOfMonth(monthDate)
 
@@ -46,10 +46,13 @@ export function useCalendar() {
       })
 
       // getDay returns 0 for Sunday, 1 for Monday, ..., 6 for Saturday
-      // We want Monday = 0, ..., Saturday = 5, Sunday = 6
-      // (getDay(date) + 6) % 7
       const firstDay = getDay(monthStart)
-      const firstDayOffset = (firstDay + 6) % 7
+      
+      // Locale 'en': Sunday = 0, ..., Saturday = 6
+      // Locale 'pt': Monday = 0, ..., Saturday = 5, Sunday = 6
+      const firstDayOffset = configStore.locale === 'en' 
+        ? firstDay 
+        : (firstDay + 6) % 7
 
       const days: Day[] = daysInMonth.map(date => ({
         date,
@@ -58,9 +61,9 @@ export function useCalendar() {
       }))
 
       return {
-        name: format(monthDate, 'MMMM', { locale: pt }),
         days,
-        firstDayOffset
+        firstDayOffset,
+        index
       }
     })
   }
@@ -69,3 +72,4 @@ export function useCalendar() {
     getYearData
   }
 }
+

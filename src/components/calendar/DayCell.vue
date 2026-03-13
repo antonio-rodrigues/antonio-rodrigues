@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { format } from 'date-fns'
+import { useI18n } from 'vue-i18n'
 import type { Day } from '../../composables/useCalendar'
 import { useConfigStore } from '../../store/config'
 
+const { t } = useI18n()
 const props = defineProps<{
   day: Day
 }>()
@@ -17,6 +19,17 @@ function handleClick() {
     store.toggleVacationDay(dateStr.value)
   }
 }
+
+const title = computed(() => {
+  if (!props.day.isHoliday) return undefined
+  
+  const holidayName = t(props.day.holidayName || '')
+  if (props.day.holidayType === 'national') {
+    return `${holidayName} · ${t('calendar.nationalHoliday')}`
+  } else {
+    return `${holidayName} · ${t('calendar.municipalHoliday')} (${props.day.holidayMunicipalityName})`
+  }
+})
 </script>
 
 <template>
@@ -34,11 +47,7 @@ function handleClick() {
               ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300'
               : 'bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-400'
     ]"
-    :title="day.isHoliday
-      ? day.holidayType === 'national'
-        ? `${day.holidayName} · Feriado Nacional`
-        : `${day.holidayName} · Feriado Municipal (${day.holidayMunicipalityName})`
-      : undefined"
+    :title="title"
     @click="handleClick"
   >
     {{ day.dayOfMonth }}

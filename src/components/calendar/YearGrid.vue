@@ -11,6 +11,8 @@ const { holidays } = useHolidays()
 const configStore = useConfigStore()
 
 const enrichedMonths = computed(() => {
+  // Explicitly access locale to ensure reactivity when it changes
+  const _locale = configStore.locale
   const months = getYearData(configStore.year)
   return months.map((month, index) => ({
     ...month,
@@ -37,7 +39,7 @@ const enrichedMonths = computed(() => {
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 md:p-8">
     <MonthCard
       v-for="month in enrichedMonths"
-      :key="month.name"
+      :key="month.index"
       :month="month"
     />
   </div>

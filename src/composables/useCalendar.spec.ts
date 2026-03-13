@@ -1,10 +1,15 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
+import { createPinia, setActivePinia } from 'pinia'
 import { useCalendar } from './useCalendar'
+import { useConfigStore } from '../store/config'
 import type { Day } from './useCalendar'
 
 describe('useCalendar', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+  })
+
   it('Day interface supports optional holiday fields', () => {
-    // TypeScript compile check — if Day doesn't have these fields, this will fail at tsc
     const day: Day = {
       date: new Date(2026, 0, 1),
       dayOfMonth: 1,
@@ -18,6 +23,7 @@ describe('useCalendar', () => {
     expect(day.holidayName).toBe('Ano Novo')
     expect(day.holidayType).toBe('national')
   })
+
   it('should return 12 months for 2026', () => {
     const { getYearData } = useCalendar()
     const months = getYearData(2026)
@@ -44,20 +50,26 @@ describe('useCalendar', () => {
     const january = months[0]
     
     // Jan 1st 2026 is a Thursday
-    // Jan 3rd 2026 is a Saturday
-    // Jan 4th 2026 is a Sunday
     expect(january.days[0].isWeekend).toBe(false) // Jan 1st
     expect(january.days[2].isWeekend).toBe(true)  // Jan 3rd
     expect(january.days[3].isWeekend).toBe(true)  // Jan 4th
   })
 
-  it('January 1st 2026 should have the correct weekday offset (Monday = 0)', () => {
+  it('January 1st 2026 should have the correct weekday offset based on locale', () => {
+    const configStore = useConfigStore()
     const { getYearData } = useCalendar()
-    const months = getYearData(2026)
-    const january = months[0]
     
+    // Test PT locale (Monday-start)
     // Jan 1st 2026 is a Thursday
-    // Mon=0, Tue=1, Wed=2, Thu=3, Fri=4, Sat=5, Sun=6
-    expect(january.firstDayOffset).toBe(3)
+    // PT: Mon=0, Tue=1, Wed=2, Thu=3, Fri=4, Sat=5, Sun=6
+    configStore.locale = 'pt'
+    let months = getYearData(2026)
+    expect(months[0].firstDayOffset).toBe(3)
+
+    // Test EN locale (Sunday-start)
+    // EN: Sun=0, Mon=1, Tue=2, Wed=3, Thu=4, Fri=5, Sat=6
+    configStore.locale = 'en'
+    months = getYearData(2026)
+    expect(months[0].firstDayOffset).toBe(4)
   })
 })

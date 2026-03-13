@@ -1,0 +1,84 @@
+{
+  "app": {
+    "title": "Planeador de Férias",
+    "clearAll": "Limpar tudo",
+    "confirmClear": "Confirma?",
+    "confirmYearChange": "Todas as seleções actuais serão descartadas. Confirma? (SIM / NÃO)",
+    "noHolidayData": "Não foram encontrados dados de feriados para o ano {year}.",
+    "darkMode": "Ativar modo escuro",
+    "lightMode": "Ativar modo claro",
+    "holidayError": "API indisponível — a usar feriados locais"
+  },
+  "dashboard": {
+    "overBudget": "Excedeu o seu saldo de férias!",
+    "vacationBalance": "Saldo de Férias",
+    "totalDays": "dias totais",
+    "daysUsed": "Dias Usados",
+    "workingDays": "dias úteis",
+    "consecutiveDays": "Dias Consecutivos",
+    "daysRemaining": "Dias Restantes",
+    "longestRestPeriod": "Maior Período de Descanso",
+    "consecutiveWorkingDays": "dias úteis consecutivos",
+    "selectedDays": "Dias Selecionados"
+  },
+  "municipality": {
+    "select": "Selecionar município...",
+    "search": "Procurar município...",
+    "noneSelected": "Feriado municipal não selecionado"
+  },
+  "calendar": {
+    "months": {
+      "JAN": "JAN",
+      "FEB": "FEV",
+      "MAR": "MAR",
+      "APR": "ABR",
+      "MAY": "MAI",
+      "JUN": "JUN",
+      "JUL": "JUL",
+      "AUG": "AGO",
+      "SEP": "SET",
+      "OCT": "OUT",
+      "NOV": "NOV",
+      "DEC": "DEZ"
+    },
+    "fullMonths": {
+      "0": "Janeiro",
+      "1": "Fevereiro",
+      "2": "Março",
+      "3": "Abril",
+      "4": "Maio",
+      "5": "Junho",
+      "6": "Julho",
+      "7": "Agosto",
+      "8": "Setembro",
+      "9": "Outubro",
+      "10": "Novembro",
+      "11": "Dezembro"
+    },
+    "dayInitials": ["S", "T", "Q", "Q", "S", "S", "D"],
+    "summary": {
+      "none": "Nenhum dia selecionado"
+    },
+    "nationalHoliday": "Feriado Nacional",
+    "municipalHoliday": "Feriado Municipal"
+  },
+  "holidays": {
+    "newYear": "Ano Novo",
+    "freedomDay": "Dia da Liberdade",
+    "labourDay": "Dia do Trabalhador",
+    "portugalDay": "Dia de Portugal",
+    "assumption": "Assunção de Nossa Senhora",
+    "republicDay": "Implantação da República",
+    "allSaints": "Dia de Todos-os-Santos",
+    "restoration": "Restauração da Independência",
+    "immaculateConception": "Imaculada Conceição",
+    "christmas": "Natal",
+    "carnaval": "Carnaval",
+    "goodFriday": "Sexta-feira Santa",
+    "easter": "Páscoa",
+    "easterMonday": "Segunda-feira de Páscoa",
+    "ascension": "Quinta-feira da Ascensão",
+    "pentecostMonday": "Segunda-feira de Pentecostes",
+    "corpusChristi": "Corpo de Deus"
+  }
+}

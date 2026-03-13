@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, watch } from 'vue'
 import { format } from 'date-fns'
 import { getEaster, getCarnaval, getGoodFriday, getEasterMonday, getAscension, getPentecostMonday, getCorpusChristi } from '../utils/holiday-utils'
+import i18n from '../i18n'
 
 const STORAGE_KEY = 'calendar-vacation-planner-v1'
 
@@ -16,6 +17,7 @@ interface SavedState {
   markedDays?: string[]
   maxVacationDays?: number
   theme?: 'light' | 'dark'
+  locale?: 'pt' | 'en'
 }
 
 function loadInitialState(): SavedState {
@@ -32,16 +34,16 @@ function buildFallbackHolidays(year: number): Map<string, HolidayEntry> {
   const map = new Map<string, HolidayEntry>()
 
   const fixed: Array<[string, number, number]> = [
-    ['Ano Novo', 1, 1],
-    ['Dia da Liberdade', 4, 25],
-    ['Dia do Trabalhador', 5, 1],
-    ['Dia de Portugal', 6, 10],
-    ['Assunção de Nossa Senhora', 8, 15],
-    ['Implantação da República', 10, 5],
-    ['Dia de Todos-os-Santos', 11, 1],
-    ['Restauração da Independência', 12, 1],
-    ['Imaculada Conceição', 12, 8],
-    ['Natal', 12, 25],
+    ['holidays.newYear', 1, 1],
+    ['holidays.freedomDay', 4, 25],
+    ['holidays.labourDay', 5, 1],
+    ['holidays.portugalDay', 6, 10],
+    ['holidays.assumption', 8, 15],
+    ['holidays.republicDay', 10, 5],
+    ['holidays.allSaints', 11, 1],
+    ['holidays.restoration', 12, 1],
+    ['holidays.immaculateConception', 12, 8],
+    ['holidays.christmas', 12, 25],
   ]
 
   for (const [name, month, day] of fixed) {
@@ -51,13 +53,13 @@ function buildFallbackHolidays(year: number): Map<string, HolidayEntry> {
 
   // Mobile holidays
   const mobile: Array<[string, Date]> = [
-    ['Carnaval', getCarnaval(year)],
-    ['Sexta-feira Santa', getGoodFriday(year)],
-    ['Páscoa', getEaster(year)],
-    ['Segunda-feira de Páscoa', getEasterMonday(year)],
-    ['Quinta-feira da Ascensão', getAscension(year)],
-    ['Segunda-feira de Pentecostes', getPentecostMonday(year)],
-    ['Corpo de Deus', getCorpusChristi(year)],
+    ['holidays.carnaval', getCarnaval(year)],
+    ['holidays.goodFriday', getGoodFriday(year)],
+    ['holidays.easter', getEaster(year)],
+    ['holidays.easterMonday', getEasterMonday(year)],
+    ['holidays.ascension', getAscension(year)],
+    ['holidays.pentecostMonday', getPentecostMonday(year)],
+    ['holidays.corpusChristi', getCorpusChristi(year)],
   ]
 
   for (const [name, date] of mobile) {
@@ -75,6 +77,12 @@ export const useConfigStore = defineStore('config', () => {
   const maxVacationDays = ref(initialState.maxVacationDays ?? 22)
   const markedDays = ref<Set<string>>(new Set(initialState.markedDays ?? []))
   const theme = ref<'light' | 'dark'>(initialState.theme ?? 'light')
+  const locale = ref<'pt' | 'en'>(initialState.locale ?? 'pt')
+
+  // Sync i18n locale with store locale
+  watch(locale, (newLocale) => {
+    (i18n.global.locale as any).value = newLocale
+  }, { immediate: true })
 
   // Holiday state
   const nationalHolidays = ref<Map<string, HolidayEntry>>(new Map())
@@ -98,7 +106,7 @@ export const useConfigStore = defineStore('config', () => {
       nationalHolidays.value = map
       return true
     } catch {
-      holidayError.value = 'API indisponível — a usar feriados locais'
+      holidayError.value = 'app.holidayError'
       nationalHolidays.value = buildFallbackHolidays(targetYear)
       return false
     } finally {
@@ -135,15 +143,20 @@ export const useConfigStore = defineStore('config', () => {
     theme.value = theme.value === 'light' ? 'dark' : 'light'
   }
 
+  function setLocale(newLocale: 'pt' | 'en') {
+    locale.value = newLocale
+  }
+
   // Persist state on changes
   watch(
-    [selectedMunicipalityId, markedDays, maxVacationDays, theme],
+    [selectedMunicipalityId, markedDays, maxVacationDays, theme, locale],
     () => {
       const stateToSave: SavedState = {
         selectedMunicipalityId: selectedMunicipalityId.value,
         markedDays: Array.from(markedDays.value),
         maxVacationDays: maxVacationDays.value,
-        theme: theme.value
+        theme: theme.value,
+        locale: locale.value
       }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave))
     },
@@ -161,12 +174,14 @@ export const useConfigStore = defineStore('config', () => {
     maxVacationDays,
     markedDays,
     theme,
+    locale,
     nationalHolidays,
     loadingHolidays,
     holidayError,
     toggleVacationDay,
     clearMarkedDays,
     toggleTheme,
+    setLocale,
     fetchHolidays,
     checkHolidaysExist
   }

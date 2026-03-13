@@ -190,7 +190,8 @@ describe('useVacationStats', () => {
       
       // Jan 3-4 2026 is Sat-Sun. Total duration 2, but 0 selected business days.
       expect(longestRestPeriod.value.days).toBe(0)
-      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 03')
+      expect(longestRestPeriod.value.startDate?.getMonth()).toBe(0) // Jan
+      expect(longestRestPeriod.value.startDate?.getDate()).toBe(3)
     })
 
     it('extends weekend with vacation', () => {
@@ -204,7 +205,8 @@ describe('useVacationStats', () => {
       // Fri (marked) + Sat + Sun = 3 days block. 
       // Marked business days: 1 (Fri)
       expect(longestRestPeriod.value.days).toBe(1)
-      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 02')
+      expect(longestRestPeriod.value.startDate?.getMonth()).toBe(0)
+      expect(longestRestPeriod.value.startDate?.getDate()).toBe(2)
     })
 
     it('resets at workday', () => {
@@ -218,7 +220,8 @@ describe('useVacationStats', () => {
       // Fri (marked) + Sat + Sun + Mon (marked) = 4 days block.
       // Marked business days: 2 (Fri, Mon)
       expect(longestRestPeriod.value.days).toBe(2)
-      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 02')
+      expect(longestRestPeriod.value.startDate?.getMonth()).toBe(0)
+      expect(longestRestPeriod.value.startDate?.getDate()).toBe(2)
     })
 
     it('handles holidays on Wednesday', () => {
@@ -234,7 +237,8 @@ describe('useVacationStats', () => {
       // Both have duration 2 and 1 respectively. Max is 2.
       // 0 marked business days.
       expect(longestRestPeriod.value.days).toBe(0)
-      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 03')
+      expect(longestRestPeriod.value.startDate?.getMonth()).toBe(0)
+      expect(longestRestPeriod.value.startDate?.getDate()).toBe(3)
     })
 
     it('complex chain with holiday and vacation', () => {
@@ -255,7 +259,8 @@ describe('useVacationStats', () => {
       
       // Both have duration 4. The first one is JAN 03.
       expect(longestRestPeriod.value.days).toBe(2)
-      expect(longestRestPeriod.value.startMonthDay).toBe('JAN 03')
+      expect(longestRestPeriod.value.startDate?.getMonth()).toBe(0)
+      expect(longestRestPeriod.value.startDate?.getDate()).toBe(3)
     })
   })
 })

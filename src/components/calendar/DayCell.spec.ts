@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import DayCell from './DayCell.vue'
 import { setActivePinia, createPinia } from 'pinia'
 import { useConfigStore } from '../../store/config'
+import i18n from '../../i18n'
 
 const baseDay = {
   date: new Date(2026, 5, 1), // Monday, 2026-06-01
@@ -27,10 +28,10 @@ describe('DayCell', () => {
           ...baseDay,
           isHoliday: true,
           holidayType: 'national',
-          holidayName: 'Ano Novo'
+          holidayName: 'holidays.newYear'
         }
       },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
     expect(wrapper.classes()).toContain('bg-red-100')
     expect(wrapper.classes()).toContain('text-red-700')
@@ -47,7 +48,7 @@ describe('DayCell', () => {
           holidayMunicipalityName: 'Lisboa'
         }
       },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
     expect(wrapper.classes()).toContain('bg-orange-100')
     expect(wrapper.classes()).toContain('text-orange-700')
@@ -60,10 +61,10 @@ describe('DayCell', () => {
           ...baseDay,
           isHoliday: true,
           holidayType: 'national',
-          holidayName: 'Ano Novo'
+          holidayName: 'holidays.newYear'
         }
       },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
     expect(wrapper.attributes('title')).toBe('Ano Novo · Feriado Nacional')
   })
@@ -79,7 +80,7 @@ describe('DayCell', () => {
           holidayMunicipalityName: 'Lisboa'
         }
       },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
     expect(wrapper.attributes('title')).toBe('Santo António · Feriado Municipal (Lisboa)')
   })
@@ -93,7 +94,7 @@ describe('DayCell', () => {
           isHoliday: false
         }
       },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
     expect(wrapper.classes()).toContain('bg-pink-50')
     expect(wrapper.classes()).toContain('text-pink-600')
@@ -107,10 +108,10 @@ describe('DayCell', () => {
           isWeekend: true,
           isHoliday: true,
           holidayType: 'national',
-          holidayName: 'Natal'
+          holidayName: 'holidays.christmas'
         }
       },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
     expect(wrapper.classes()).toContain('bg-red-100')
     expect(wrapper.classes()).not.toContain('bg-pink-50')
@@ -122,7 +123,7 @@ describe('DayCell', () => {
     
     const wrapper = mount(DayCell, {
       props: { day: baseDay },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
     
     expect(wrapper.classes()).toContain('bg-green-100')
@@ -133,7 +134,7 @@ describe('DayCell', () => {
     const store = useConfigStore()
     const wrapper = mount(DayCell, {
       props: { day: baseDay },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
 
     await wrapper.trigger('click')
@@ -150,7 +151,7 @@ describe('DayCell', () => {
           holidayType: 'national'
         }
       },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
 
     await wrapper.trigger('click')
@@ -166,7 +167,7 @@ describe('DayCell', () => {
           isWeekend: true
         }
       },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
 
     await wrapper.trigger('click')
@@ -185,7 +186,7 @@ describe('DayCell', () => {
           holidayType: 'national'
         }
       },
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
 
     expect(wrapper.classes()).toContain('bg-red-100')

@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { useConfigStore } from '../store/config'
 import MunicipalitySelector from './MunicipalitySelector.vue'
+import i18n from '../i18n'
 
 describe('MunicipalitySelector', () => {
   beforeEach(() => {
@@ -10,8 +11,9 @@ describe('MunicipalitySelector', () => {
   })
 
   it('filters municipalities by partial name match', async () => {
+    const pinia = createPinia()
     const wrapper = mount(MunicipalitySelector, {
-      global: { plugins: [createPinia()] }
+      global: { plugins: [pinia, i18n] }
     })
     const input = wrapper.find('input')
     await input.trigger('focus')
@@ -20,8 +22,9 @@ describe('MunicipalitySelector', () => {
   })
 
   it('no results when query < 2 chars', async () => {
+    const pinia = createPinia()
     const wrapper = mount(MunicipalitySelector, {
-      global: { plugins: [createPinia()] }
+      global: { plugins: [pinia, i18n] }
     })
     const input = wrapper.find('input')
     await input.trigger('focus')
@@ -33,7 +36,7 @@ describe('MunicipalitySelector', () => {
     const pinia = createPinia()
     setActivePinia(pinia)
     const wrapper = mount(MunicipalitySelector, {
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
     const input = wrapper.find('input')
     await input.trigger('focus')
@@ -49,7 +52,7 @@ describe('MunicipalitySelector', () => {
     const pinia = createPinia()
     setActivePinia(pinia)
     const wrapper = mount(MunicipalitySelector, {
-      global: { plugins: [pinia] }
+      global: { plugins: [pinia, i18n] }
     })
     const input = wrapper.find('input')
     await input.trigger('focus')
