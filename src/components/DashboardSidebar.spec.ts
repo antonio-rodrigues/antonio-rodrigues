@@ -5,6 +5,7 @@ import DashboardSidebar from './DashboardSidebar.vue'
 describe('DashboardSidebar', () => {
   const defaultProps = {
     usedWorkDays: 5,
+    totalSelectedDays: 7,
     remainingDays: 17,
     isOverBudget: false,
     longestRestPeriod: 9,
@@ -37,6 +38,14 @@ describe('DashboardSidebar', () => {
     })
     expect(wrapper.text()).toContain('Dias Usados')
     expect(wrapper.text()).toContain('5')
+  })
+
+  it('renders "Dias Consecutivos" label and shows the totalSelectedDays value', () => {
+    const wrapper = mount(DashboardSidebar, {
+      props: defaultProps
+    })
+    expect(wrapper.text()).toContain('Dias Consecutivos')
+    expect(wrapper.text()).toContain('7')
   })
 
   it('renders "Dias Restantes" label and shows the remainingDays value', () => {

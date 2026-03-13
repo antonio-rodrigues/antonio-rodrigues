@@ -109,6 +109,10 @@ export const useConfigStore = defineStore('config', () => {
     markedDays.value = next
   }
 
+  function clearMarkedDays() {
+    markedDays.value = new Set()
+  }
+
   // Persist state on changes
   watch(
     [selectedMunicipalityId, markedDays, maxVacationDays],

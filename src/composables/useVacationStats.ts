@@ -12,6 +12,7 @@ export function useVacationStats(
   remainingDays: ComputedRef<number>
   isOverBudget: ComputedRef<boolean>
   longestRestPeriod: ComputedRef<number>
+  totalSelectedDays: ComputedRef<number>
 } {
   const usedWorkDays = computed(() => {
     let count = 0
@@ -24,6 +25,8 @@ export function useVacationStats(
     }
     return count
   })
+
+  const totalSelectedDays = computed(() => markedDays.value.size)
 
   const remainingDays = computed(() => maxVacationDays.value - usedWorkDays.value)
   const isOverBudget = computed(() => usedWorkDays.value > maxVacationDays.value)
@@ -58,5 +61,5 @@ export function useVacationStats(
     return maxRun
   })
 
-  return { usedWorkDays, remainingDays, isOverBudget, longestRestPeriod }
+  return { usedWorkDays, remainingDays, isOverBudget, longestRestPeriod, totalSelectedDays }
 }

@@ -10,7 +10,7 @@ import { useConfigStore } from './store/config'
 const store = useConfigStore()
 const { year, markedDays, maxVacationDays } = storeToRefs(store)
 const { holidays } = useHolidays()
-const { usedWorkDays, remainingDays, isOverBudget, longestRestPeriod } = useVacationStats(
+const { usedWorkDays, remainingDays, isOverBudget, longestRestPeriod, totalSelectedDays } = useVacationStats(
   year,
   markedDays,
   holidays,
@@ -23,14 +23,23 @@ const { usedWorkDays, remainingDays, isOverBudget, longestRestPeriod } = useVaca
     <header class="max-w-7xl mx-auto px-4 mb-8">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 class="text-3xl font-bold text-gray-900 flex-shrink-0">Planeador de Férias</h1>
-        <div class="w-full sm:max-w-xs sm:ml-auto">
-          <MunicipalitySelector />
+        <div class="w-full sm:max-w-md sm:ml-auto flex items-center gap-3">
+          <button
+            @click="store.clearMarkedDays"
+            class="whitespace-nowrap px-3 py-2 text-sm font-medium text-gray-600 hover:text-red-600 border border-gray-300 rounded-md bg-white hover:bg-red-50 transition-colors"
+          >
+            Limpar tudo
+          </button>
+          <div class="flex-grow">
+            <MunicipalitySelector />
+          </div>
         </div>
       </div>
     </header>
 
     <DashboardSidebar
       :used-work-days="usedWorkDays"
+      :total-selected-days="totalSelectedDays"
       :remaining-days="remainingDays"
       :is-over-budget="isOverBudget"
       :longest-rest-period="longestRestPeriod"

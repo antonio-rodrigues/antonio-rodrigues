@@ -40,6 +40,7 @@ progress:
 | [QT-03] Optimize holiday fetching | Centralized Nager.Date API calls in Pinia store to prevent redundant simultaneous requests on startup. | 2026-03-13 |
 | [QT-04] Fix municipality persistence | Initialized search input on mount and added focus-based dropdown control to ensure selected municipality persists across refresh. | 2026-03-13 |
 | [QT-05] Desktop UI & Summary Panel | Aligned search to right, made vacation balance editable/persistent, and added month-grouped vacation summary panel. | 2026-03-13 |
+| [QT-06] Clear All & Total Selected Counter | Added "Limpar tudo" button to reset selections and "DIAS CONSECUTIVOS" counter to show total marked days regardless of type. | 2026-03-13 |
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)

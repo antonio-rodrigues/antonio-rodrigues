@@ -22,6 +22,21 @@ describe('useVacationStats', () => {
     expect(usedWorkDays.value).toBe(2)
   })
 
+  it('totalSelectedDays counts all marked days', () => {
+    const year = ref(2026)
+    const markedDays = ref(new Set([
+      '2026-01-01', // Holiday
+      '2026-01-02', // Workday
+      '2026-01-03', // Weekend
+    ]))
+    const holidays = ref(new Map([['2026-01-01', { name: 'New Year' }]]))
+    const maxVacationDays = ref(22)
+
+    const { totalSelectedDays } = useVacationStats(year, markedDays, holidays, maxVacationDays)
+    
+    expect(totalSelectedDays.value).toBe(3)
+  })
+
   it('remainingDays = max - used', () => {
     const year = ref(2026)
     const markedDays = ref(new Set(['2026-01-02', '2026-01-05'])) // 2 workdays

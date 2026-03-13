@@ -5,6 +5,7 @@ import { formatVacationSummary } from '../utils/holiday-utils'
 
 const props = defineProps<{
   usedWorkDays: number
+  totalSelectedDays: number
   remainingDays: number
   isOverBudget: boolean
   longestRestPeriod: number
@@ -65,6 +66,12 @@ function onUpdateMaxDays(event: Event) {
           <span class="text-xs text-gray-500 uppercase tracking-wide">Dias Usados</span>
           <span class="text-2xl font-bold text-gray-900 transition-all duration-300">{{ usedWorkDays }}</span>
           <span class="text-xs text-gray-400">dias úteis</span>
+        </div>
+        <!-- Stat: Dias Consecutivos -->
+        <div class="flex flex-col items-center">
+          <span class="text-xs text-gray-500 uppercase tracking-wide">Dias Consecutivos</span>
+          <span class="text-2xl font-bold text-gray-900 transition-all duration-300">{{ totalSelectedDays }}</span>
+          <span class="text-xs text-gray-400">dias totais</span>
         </div>
         <!-- Stat: Dias Restantes -->
         <div class="flex flex-col items-center">
