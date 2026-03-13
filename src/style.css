@@ -21,11 +21,15 @@ body {
 
 #app {
   width: 100%;
-  padding: 2rem;
+  padding: 0;
   background-color: #B7BDF7;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dark #app {
   background-color: #F2AEBB;
+}
+
+.dark #status-panel {
+  background-color: #061E29;
 }

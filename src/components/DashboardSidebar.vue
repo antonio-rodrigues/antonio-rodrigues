@@ -49,7 +49,7 @@ function onUpdateMaxDays(event: Event) {
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
       <!-- Stats Panel -->
-      <div class="lg:col-span-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 flex flex-wrap gap-4 sm:gap-6 justify-around items-center transition-colors">
+      <div id="status-panel" class="lg:col-span-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 flex flex-wrap gap-4 sm:gap-6 justify-around items-center transition-colors">
         <!-- Stat: Saldo de Férias -->
         <div class="flex flex-col items-center">
           <label class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide cursor-pointer" for="max-days-input">Saldo de Férias</label>
@@ -99,7 +99,7 @@ function onUpdateMaxDays(event: Event) {
       </div>
 
       <!-- Summary Panel -->
-      <div class="hidden lg:flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-4 flex-col justify-center min-h-[100px] transition-colors">
+      <div id="status-panel" class="hidden lg:flex bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-4 flex-col justify-center min-h-[100px] transition-colors">
         <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2 block text-center lg:text-left">Dias Selecionados</span>
         <p class="text-sm font-medium text-gray-700 dark:text-gray-300 leading-relaxed break-words" data-testid="vacation-summary">
           {{ summary }}
