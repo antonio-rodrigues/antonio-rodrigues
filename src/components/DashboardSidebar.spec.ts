@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { createPinia } from 'pinia'
 import DashboardSidebar from './DashboardSidebar.vue'
 import i18n from '../i18n'
 
@@ -17,7 +18,7 @@ describe('DashboardSidebar', () => {
   const mountOptions = {
     props: defaultProps,
     global: {
-      plugins: [i18n]
+      plugins: [i18n, createPinia()]
     }
   }
 
