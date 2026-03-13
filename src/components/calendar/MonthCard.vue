@@ -29,7 +29,6 @@ const dayInitials = computed(() => tm('calendar.dayInitials') as string[])
       >
         {{ initial }}
       </div>
-...
 
       <!-- Empty leading cells -->
       <div 
