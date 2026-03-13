@@ -1,0 +1,86 @@
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { setActivePinia, createPinia } from 'pinia'
+import { useConfigStore } from './config'
+
+const STORAGE_KEY = 'calendar-vacation-planner-v1'
+
+describe('Config Store', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+    localStorage.clear()
+    vi.clearAllMocks()
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('markedDays starts as an empty Set', () => {
+    const store = useConfigStore()
+    expect(store.markedDays).toBeInstanceOf(Set)
+    expect(store.markedDays.size).toBe(0)
+  })
+
+  it('toggleVacationDay adds a date to markedDays', () => {
+    const store = useConfigStore()
+    store.toggleVacationDay('2026-06-01')
+    expect(store.markedDays.has('2026-06-01')).toBe(true)
+    expect(store.markedDays.size).toBe(1)
+  })
+
+  it('calling toggleVacationDay twice removes the date', () => {
+    const store = useConfigStore()
+    store.toggleVacationDay('2026-06-01')
+    store.toggleVacationDay('2026-06-01')
+    expect(store.markedDays.has('2026-06-01')).toBe(false)
+    expect(store.markedDays.size).toBe(0)
+  })
+
+  it('toggling one date does not affect other dates in the Set', () => {
+    const store = useConfigStore()
+    store.toggleVacationDay('2026-06-01')
+    store.toggleVacationDay('2026-06-02')
+    expect(store.markedDays.has('2026-06-01')).toBe(true)
+    expect(store.markedDays.has('2026-06-02')).toBe(true)
+    expect(store.markedDays.size).toBe(2)
+    
+    store.toggleVacationDay('2026-06-01')
+    expect(store.markedDays.has('2026-06-01')).toBe(false)
+    expect(store.markedDays.has('2026-06-02')).toBe(true)
+    expect(store.markedDays.size).toBe(1)
+  })
+
+  describe('persistence', () => {
+    it('initializes with values from localStorage if available', () => {
+      const savedState = {
+        selectedMunicipalityId: 'lisboa',
+        markedDays: ['2026-01-01', '2026-01-02']
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(savedState))
+      
+      const store = useConfigStore()
+      
+      expect(store.selectedMunicipalityId).toBe('lisboa')
+      expect(store.markedDays).toBeInstanceOf(Set)
+      expect(store.markedDays.has('2026-01-01')).toBe(true)
+      expect(store.markedDays.has('2026-01-02')).toBe(true)
+      expect(store.markedDays.size).toBe(2)
+    })
+
+    it('saves changes to localStorage when state updates', async () => {
+      const store = useConfigStore()
+      
+      store.selectedMunicipalityId = 'porto'
+      store.toggleVacationDay('2026-08-15')
+      
+      // We need to wait for the watcher to fire if we use watch
+      // Since it's synchronous in Vue 3 for some cases, but Pinia uses watch internally.
+      // Let's wait a tick.
+      await new Promise(resolve => setTimeout(resolve, 0))
+      
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
+      expect(stored.selectedMunicipalityId).toBe('porto')
+      expect(stored.markedDays).toContain('2026-08-15')
+    })
+  })
+})

@@ -10,7 +10,8 @@
   "workflow": {
     "git_hooks": true,
     "linting": "ESLint + Prettier",
-    "testing": "Vitest"
+    "testing": "Vitest",
+    "_auto_chain_active": false
   },
   "preferences": {
     "language": "pt-PT",

@@ -45,19 +45,28 @@ function onBlur() {
       @focus="isOpen = query.length >= 2"
       @blur="onBlur"
     />
-    <ul
-      v-if="filtered.length > 0 && isOpen"
-      class="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto"
+    <Transition
+      enter-active-class="transition duration-100 ease-out"
+      enter-from-class="transform scale-95 opacity-0"
+      enter-to-class="transform scale-100 opacity-100"
+      leave-active-class="transition duration-75 ease-in"
+      leave-from-class="transform scale-100 opacity-100"
+      leave-to-class="transform scale-95 opacity-0"
     >
-      <li
-        v-for="mun in filtered"
-        :key="mun.id"
-        class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100"
-        @click="selectMunicipality(mun)"
+      <ul
+        v-if="filtered.length > 0 && isOpen"
+        class="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto"
       >
-        {{ mun.name }}
-        <span class="text-gray-400 text-xs ml-1">{{ mun.district }}</span>
-      </li>
-    </ul>
+        <li
+          v-for="mun in filtered"
+          :key="mun.id"
+          class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100"
+          @click="selectMunicipality(mun)"
+        >
+          {{ mun.name }}
+          <span class="text-gray-400 text-xs ml-1">{{ mun.district }}</span>
+        </li>
+      </ul>
+    </Transition>
   </div>
 </template>

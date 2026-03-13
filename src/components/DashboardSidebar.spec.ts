@@ -61,4 +61,24 @@ describe('DashboardSidebar', () => {
     const remainingValue = wrapper.find('[data-testid="remaining-days"]')
     expect(remainingValue.classes()).toContain('text-red-600')
   })
+
+  it('displays "Excedeu o seu saldo de férias!" when isOverBudget is true', () => {
+    const wrapper = mount(DashboardSidebar, {
+      props: {
+        ...defaultProps,
+        isOverBudget: true
+      }
+    })
+    expect(wrapper.text()).toContain('Excedeu o seu saldo de férias!')
+  })
+
+  it('does not display warning when isOverBudget is false', () => {
+    const wrapper = mount(DashboardSidebar, {
+      props: {
+        ...defaultProps,
+        isOverBudget: false
+      }
+    })
+    expect(wrapper.text()).not.toContain('Excedeu o seu saldo de férias!')
+  })
 })

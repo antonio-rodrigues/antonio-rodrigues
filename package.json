@@ -1,6 +1,6 @@
 {
-  "name": "calendar",
-  "version": "1.0.0",
+  "name": "mrk-holiday-planner",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

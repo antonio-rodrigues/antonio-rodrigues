@@ -1,6 +1,21 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import YearGrid from './components/calendar/YearGrid.vue'
 import MunicipalitySelector from './components/MunicipalitySelector.vue'
+import DashboardSidebar from './components/DashboardSidebar.vue'
+import { useVacationStats } from './composables/useVacationStats'
+import { useHolidays } from './composables/useHolidays'
+import { useConfigStore } from './store/config'
+
+const store = useConfigStore()
+const { year, markedDays, maxVacationDays } = storeToRefs(store)
+const { holidays } = useHolidays()
+const { usedWorkDays, remainingDays, isOverBudget, longestRestPeriod } = useVacationStats(
+  year,
+  markedDays,
+  holidays,
+  maxVacationDays
+)
 </script>
 
 <template>
@@ -13,6 +28,15 @@ import MunicipalitySelector from './components/MunicipalitySelector.vue'
         </div>
       </div>
     </header>
+
+    <DashboardSidebar
+      :used-work-days="usedWorkDays"
+      :remaining-days="remainingDays"
+      :is-over-budget="isOverBudget"
+      :longest-rest-period="longestRestPeriod"
+      :max-vacation-days="store.maxVacationDays"
+    />
+
     <main class="max-w-7xl mx-auto">
       <YearGrid />
     </main>

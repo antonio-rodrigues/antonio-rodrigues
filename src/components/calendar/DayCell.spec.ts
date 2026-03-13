@@ -17,6 +17,7 @@ describe('DayCell', () => {
   beforeEach(() => {
     pinia = createPinia()
     setActivePinia(pinia)
+    localStorage.clear()
   })
 
   it('applies bg-red-100 text-red-700 for national holiday', () => {

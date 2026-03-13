@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-12T17:07:21.625Z"
+last_updated: "2026-03-12T17:53:29.548Z"
 progress:
   total_phases: 4
-  completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  completed_phases: 3
+  total_plans: 7
+  completed_plans: 9
 ---
 
 # State: Calendar Webapp
@@ -25,28 +25,37 @@ progress:
 ## Current Focus
 - [x] Phase 1: Project Scaffolding & Initial Logic - COMPLETED.
 - [x] Phase 2: Holiday Data & API Integration - COMPLETED (2026-03-12).
-  - [x] Plan 02-01: Holiday Type Fix + Wave 0 Spec Scaffolding - COMPLETED (2026-03-12).
-  - [x] Plan 02-02: useHolidays Composable - COMPLETED (2026-03-12).
-  - [x] Plan 02-03: MunicipalitySelector Component - COMPLETED (2026-03-12).
-  - [x] Plan 02-04: Holiday Integration Wiring - COMPLETED (2026-03-12).
+- [x] Phase 3: Interactive Selection & Dashboard - COMPLETED (2026-03-12).
+- [x] Phase 4: Persistence & Polish - COMPLETED (2026-03-13).
+  - [x] Research: 04-RESEARCH.md - COMPLETED (2026-03-12).
+  - [x] Plan 04-01: localStorage Persistence - COMPLETED (2026-03-13).
+  - [x] Plan 04-02: Balance Alerts & Stat Transitions - COMPLETED (2026-03-13).
+  - [x] Plan 04-03: UI Polish & Final Build Verification - COMPLETED (2026-03-13).
 
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
 | [QT-01] Fix PostCSS ESM Error | Converted `postcss.config.js` to ESM syntax for compatibility with `"type": "module"`. | 2026-03-12 |
+| [QT-02] Fix store.year type error | Used `storeToRefs` in `App.vue` to correctly pass reactive refs to `useVacationStats`. | 2026-03-12 |
+| [QT-03] Optimize holiday fetching | Centralized Nager.Date API calls in Pinia store to prevent redundant simultaneous requests on startup. | 2026-03-13 |
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)
 - **Milestone 2:** Holiday Integration (100%)
-- **Milestone 3:** Core Interactivity (0%)
-- **Milestone 4:** Full Application (0%)
+- **Milestone 3:** Core Interactivity (100%)
+- **Milestone 4:** Full Application (100%)
 
 ## Key Decisions
 - **Framework:** Vue 3 (Composition API) was chosen over React as per user preference.
 - **Styling:** Tailwind CSS will be used for rapid mobile-first grid development.
 - **Data Source:** Nager.Date API for national holidays; static mapping for 308 municipal holidays.
 - **Target Year:** Default to 2026.
-- **[02-03] MunicipalitySelector watcher pattern:** Used `watch(query)` to clear `selectedMunicipalityId` on empty input — single reactive source of truth vs separate `@input` handler.
+- **[03-03] DashboardSidebar presentational pattern:** Used props-based design for DashboardSidebar, keeping it pure and making it trivial to test without mocking composables.
+- **[03-02] longestRestPeriod algorithm:** Implemented as a single pass through the year's days, incrementing a counter for each vacation/weekend/holiday and tracking the maximum; efficient and reactive.
+- **[03-01] DayCell toggle guard:** Restrict vacation marking to workdays only — holidays and weekends are naturally rest days and shouldn't count toward the vacation balance.
+- [03-01] Store markedDays as Set: Used a `Set<string>` in the Pinia store for marked vacation days to ensure O(1) lookups during calendar rendering.
+- **[QT-02] storeToRefs in App.vue:** Explicitly used `storeToRefs` to pass reactive dependencies to `useVacationStats` — this ensures the composable remains reactive when store state changes, avoiding common Pinia property unwrapping pitfalls.
+- [02-03] MunicipalitySelector watcher pattern: Used `watch(query)` to clear `selectedMunicipalityId` on empty input — single reactive source of truth vs separate `@input` handler.
 - **[02-03] isOpen state management:** Controlled via watcher to avoid race condition between blur/click events; 150ms blur delay allows click to register first.
 - **[02-02] MunicipalHolidayRule local type:** Used local interface in useHolidays.ts to handle offset/base fields without modifying holiday.ts — avoids architectural cascade change.
 - **[02-02] buildFallbackHolidays scope:** Includes all 13 national holidays (10 fixed + 7 mobile) for complete offline fallback coverage.
@@ -54,9 +63,12 @@ progress:
 - **[02-01] tsconfig.json required:** Project was missing tsconfig.json — added standard Vue 3 + Vite config to enable vue-tsc type checking.
 - **[02-04] Holiday enrichment in YearGrid, not useCalendar:** Keeps calendar composable pure; enrichment is a rendering concern that belongs in the view layer.
 - **[02-04] Native title tooltip:** Avoids external library dependency; meets accessibility baseline without added complexity.
+- **[04-01] localStorage Serialization:** Pinia store uses `watch` with a conversion to `Array` for the `markedDays` Set; initialization deserializes it back to a `Set`.
+- **[QT-03] Holiday Fetching Singleton:** Moved national holiday fetching and state into `useConfigStore` to ensure it only happens once per app lifecycle (or year change), preventing redundant simultaneous API calls from multiple components using `useHolidays`.
 
 ## Session Log
+- **2026-03-13:** Optimized holiday fetching to prevent simultaneous API calls by centralizing state in the Pinia store. Refactored `useHolidays` to consume shared state instead of managing its own. Verified with full test suite.
+- **2026-03-13:** Completed Phase 4 — Persistence & Polish.
+ Implemented `localStorage` sync for Pinia store, added budget alerts (AlertTriangle), smooth CSS transitions for stats and dropdowns, and UI polish (hover scale/shadow) for calendar cells. Verified with production build and full unit test suite (3 plans, 6 files modified, all tests green).
+- **2026-03-12:** Completed Phase 3 — Interactive Selection & Dashboard. Implemented vacation toggling in DayCell, created useVacationStats composable with TDD (used days, balance, longest rest period), and built the responsive DashboardSidebar (3 tasks, 5 files modified, 53 tests green).
 - **2026-03-12:** Completed 02-04-PLAN.md — Phase 2 holiday integration wired end-to-end; YearGrid enrichedMonths computed, DayCell holiday classes + tooltips, MunicipalitySelector in App.vue header; browser-verified by user (4 tasks, 5 files modified, 28 tests green).
-- **2026-03-12:** Completed 02-03-PLAN.md — MunicipalitySelector component built and tested (2 tasks, 2 files created, 4 tests green).
-- **2026-03-12:** Completed 02-02-PLAN.md — useHolidays composable implemented with TDD (2 tasks, 2 files, 5 tests green, full suite 21 tests).
-- **2026-03-12:** Completed 02-01-PLAN.md — Holiday type extended (offset/base), tsconfig.json created, DayCell.spec.ts Wave 0 stubs added (2 tasks, 3 files, suite 21 passing + 5 todo).

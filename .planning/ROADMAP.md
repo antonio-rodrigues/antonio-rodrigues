@@ -19,18 +19,21 @@ Plans:
 
 ## Phase 3: Interactive Selection & Dashboard (Week 2)
 **Goal:** Enable users to click days to mark vacation, see a real-time dashboard with balance stats, and calculate used work days and longest rest periods.
-**Plans:** 3 plans
+**Status: COMPLETED 2026-03-12 — 3/3 plans executed**
 
 Plans:
-- [ ] 03-01-PLAN.md — Store extension (markedDays + toggleVacationDay), DayCell vacation toggle + green styling, Wave 0 test stubs
-- [ ] 03-02-PLAN.md — TDD: useVacationStats composable (usedWorkDays, remainingDays, isOverBudget, longestRestPeriod)
-- [ ] 03-03-PLAN.md — DashboardSidebar component + App.vue wiring + browser verification checkpoint
+- [x] 03-01-PLAN.md — Store extension (markedDays + toggleVacationDay), DayCell vacation toggle + green styling, Wave 0 test stubs (COMPLETED 2026-03-12)
+- [x] 03-02-PLAN.md — TDD: useVacationStats composable (usedWorkDays, remainingDays, isOverBudget, longestRestPeriod) (COMPLETED 2026-03-12)
+- [x] 03-03-PLAN.md — DashboardSidebar component + App.vue wiring + browser verification checkpoint (COMPLETED 2026-03-12)
 
 ## Phase 4: Persistence & Polish (Week 2)
-- **Task 4.1:** Implement `localStorage` read/write state sync.
-- **Task 4.2:** Add visual alerts for exceeded vacation balances.
-- **Task 4.3:** UI/UX final polish (hover states, animations, transitions).
-- **Task 4.4:** Final deployment preparation and documentation.
+**Goal:** Persist state to localStorage, add balance alerts, and polish the UI/UX.
+**Status: IN PROGRESS — 0/3 plans executed**
+
+Plans:
+- [ ] 04-01-PLAN.md — localStorage Persistence (PENDING)
+- [ ] 04-02-PLAN.md — Balance Alerts & Stat Transitions (PENDING)
+- [ ] 04-03-PLAN.md — UI Polish & Final Build Verification (PENDING)
 
 ## Success Criteria
 - [ ] Render 12 months for 2026.
@@ -38,3 +41,4 @@ Plans:
 - [ ] Show 1 regional holiday correctly for Lisbon (June 13).
 - [ ] Correctly calculate "Used Work Days" (ignore weekends).
 - [ ] Persist marked dates after page refresh.
+- [ ] Visual alert when vacation budget exceeded.
