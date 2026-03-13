@@ -36,7 +36,7 @@ function onUpdateMaxDays(event: Event) {
 </script>
 
 <template>
-  <div class="max-w-7xl mx-auto px-4 space-y-4">
+  <div class="max-w-7xl mx-auto px-4">
     <!-- Alert Banner -->
     <Transition
       enter-active-class="transition duration-300 ease-out"
@@ -46,13 +46,13 @@ function onUpdateMaxDays(event: Event) {
       leave-from-class="transform translate-y-0 opacity-100"
       leave-to-class="transform -translate-y-2 opacity-0"
     >
-      <div v-if="isOverBudget" class="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg p-3 flex items-center gap-3">
+      <div v-if="isOverBudget" class="mb-4 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg p-3 flex items-center gap-3">
         <AlertTriangle class="w-5 h-5 flex-shrink-0" />
         <span class="font-medium text-sm">{{ t('dashboard.overBudget') }}</span>
       </div>
     </Transition>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-1">
       <!-- Stats Panel -->
       <div id="status-panel" class="lg:col-span-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 flex flex-wrap gap-4 sm:gap-6 justify-around items-center transition-colors">
         <!-- Stat: Saldo de Férias -->
