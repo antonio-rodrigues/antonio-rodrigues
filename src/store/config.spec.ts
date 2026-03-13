@@ -93,4 +93,35 @@ describe('Config Store', () => {
       expect(stored.markedDays).toContain('2026-08-15')
     })
   })
+
+  describe('checkHolidaysExist', () => {
+    it('returns true when API returns data', async () => {
+      const store = useConfigStore()
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        json: async () => [{ date: '2026-01-01' }]
+      })
+      
+      const result = await store.checkHolidaysExist(2026)
+      expect(result).toBe(true)
+    })
+
+    it('returns false when API returns error', async () => {
+      const store = useConfigStore()
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: false
+      })
+      
+      const result = await store.checkHolidaysExist(2026)
+      expect(result).toBe(false)
+    })
+
+    it('returns false when fetch throws', async () => {
+      const store = useConfigStore()
+      global.fetch = vi.fn().mockRejectedValue(new Error('Network error'))
+      
+      const result = await store.checkHolidaysExist(2026)
+      expect(result).toBe(false)
+    })
+  })
 })

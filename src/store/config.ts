@@ -79,23 +79,39 @@ export const useConfigStore = defineStore('config', () => {
   const loadingHolidays = ref(false)
   const holidayError = ref<string | null>(null)
 
-  async function fetchHolidays(targetYear: number) {
+  async function fetchHolidays(targetYear: number): Promise<boolean> {
     loadingHolidays.value = true
     holidayError.value = null
     try {
       const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${targetYear}/PT`)
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data: Array<{ date: string; localName: string; global: boolean }> = await res.json()
+      
+      if (!data || data.length === 0) throw new Error('No data')
+
       const map = new Map<string, HolidayEntry>()
       data
         .filter(h => h.global)
         .forEach(h => map.set(h.date, { name: h.localName, type: 'national' }))
       nationalHolidays.value = map
+      return true
     } catch {
       holidayError.value = 'API indisponível — a usar feriados locais'
       nationalHolidays.value = buildFallbackHolidays(targetYear)
+      return false
     } finally {
       loadingHolidays.value = false
+    }
+  }
+
+  async function checkHolidaysExist(targetYear: number): Promise<boolean> {
+    try {
+      const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${targetYear}/PT`)
+      if (!res.ok) return false
+      const data: Array<unknown> = await res.json()
+      return Array.isArray(data) && data.length > 0
+    } catch {
+      return false
     }
   }
 
@@ -142,6 +158,7 @@ export const useConfigStore = defineStore('config', () => {
     holidayError,
     toggleVacationDay,
     clearMarkedDays,
-    fetchHolidays
+    fetchHolidays,
+    checkHolidaysExist
   }
 })
