@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { ref, watch, computed } from 'vue'
-import { format, addDays } from 'date-fns'
+import { ref, watch } from 'vue'
+import { format } from 'date-fns'
 import { getEaster, getCarnaval, getGoodFriday, getEasterMonday, getAscension, getPentecostMonday, getCorpusChristi } from '../utils/holiday-utils'
 
 const STORAGE_KEY = 'calendar-vacation-planner-v1'
