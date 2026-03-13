@@ -1,26 +1,49 @@
-# Plan - Sticky Header and Mobile Visibility
+# Quick Task: SEO Optimization for Single Page Application
 
-Implement sticky header and dashboard panels, with mobile-specific visibility for the vacation summary.
-
-## User Requirements
-- Title + Municipality Selector + Stats Banner + Selected Days must be fixed/sticky at the top.
-- Mobile: Keep panels fixed but hide "Selected Days" section.
+## Objective
+Optimize the application for SEO, focusing on meta tags, structured data, sitemap generation, and semantic HTML for a single-page Vue 3/Vite app.
 
 ## Proposed Changes
 
-### 1. `src/App.vue`
-- Wrap `<header>` and `<DashboardSidebar>` in a sticky container.
-- Add `sticky top-0 z-10 bg-slate-50 shadow-sm` to the container.
-- Adjust padding/margins to ensure it looks good when stuck.
-- Add a wrapper for the `main` content to avoid jumping when sticky kicks in (though `sticky` doesn't usually cause jumping like `fixed` does, but we need to ensure background colors match).
+### 1. Static Optimization of `index.html`
+- Update `<html lang="pt-PT">`.
+- Add essential meta tags: `<title>`, `<meta name="description">`.
+- Add Open Graph tags: `og:title`, `og:description`, `og:image`, `og:url`.
+- Add Twitter Cards tags.
+- Add JSON-LD structured data (Schema.org).
 
-### 2. `src/components/DashboardSidebar.vue`
-- Add `hidden lg:flex` (or similar) to the "Summary Panel" to hide it on mobile.
-- Maybe optimize the "Stats Panel" for mobile to be more compact if it's going to be sticky.
+### 2. Vite Configuration for Sitemap
+- Install `vite-plugin-sitemap`.
+- Update `vite.config.ts` to generate `sitemap.xml`.
 
-## Verification Plan
-- [ ] Verify sticky behavior on desktop (scroll down, header stays).
-- [ ] Verify sticky behavior on mobile.
-- [ ] Verify "Selected Days" (Summary Panel) is hidden on mobile.
-- [ ] Verify "Selected Days" is visible on desktop.
-- [ ] Run existing tests to ensure no regressions.
+### 3. Robots.txt
+- Create `public/robots.txt`.
+
+### 4. Semantic HTML in `App.vue`
+- Use `<header>`, `<main>`, `<section>`, `<footer>`.
+
+## Execution Plan
+
+1. **Step 1: Install Dependencies**
+   - Install `vite-plugin-sitemap`.
+
+2. **Step 2: Update `index.html`**
+   - Add all SEO meta tags and JSON-LD.
+
+3. **Step 3: Update `vite.config.ts`**
+   - Import and configure the sitemap plugin.
+
+4. **Step 4: Create `public/robots.txt`**
+   - Create the directory and the file.
+
+5. **Step 5: Update `App.vue`**
+   - Refactor the main structure to use semantic HTML.
+
+6. **Step 6: Verification**
+   - Run `npm run build` to verify sitemap generation and build success.
+
+## Verification Strategy
+- Manual check of `index.html`.
+- Verify `dist/sitemap.xml` existence after build.
+- Verify `dist/robots.txt` existence after build.
+- Visual check of semantic structure in `App.vue`.
