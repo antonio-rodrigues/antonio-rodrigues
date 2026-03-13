@@ -47,6 +47,7 @@ progress:
 | [QT-09] Expand "Dias Consecutivos" | Refined "Dias Consecutivos" to include adjacent weekends when the rest block starts on Monday or ends on Friday (even if triggered by a holiday). | 2026-03-13 |
 | [QT-10] UI Refinements & Rest Period Logic | Added month numbering, updated "Maior Período de Descanso" to show start date and count only business days, and removed mobile padding. | 2026-03-13 |
 | [QT-11] Clear All Confirmation | Added a confirmation dialog to the 'Limpar tudo' button to prevent accidental clearing of all vacation data. | 2026-03-13 |
+| [QT-12] UI & Logic: Weekend Holidays | Added border/rounded corners to "Saldo de Férias" input and updated "Dias Consecutivos" to include weekends even if holiday-triggered. | 2026-03-13 |
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)
@@ -77,8 +78,10 @@ progress:
 - **[QT-04] Municipality Initialization & Focus Pattern:** Initialized `query` in `onMounted` from store state and added `isFocused` tracking to `MunicipalitySelector` — this ensures the search box is populated on refresh without accidentally triggering the dropdown via the `query` watcher.
 - [QT-05] Vacation Summary Formatting: Implemented `formatVacationSummary` utility to group ISO dates by month with Portuguese abbreviations (FEV, MAR, etc.) and leading-zero days, providing a concise overview of the vacation plan.
 - **[QT-11] Native confirm dialog for destructive action:** Used `window.confirm` for the "Limpar tudo" button to provide a simple, effective safety check before clearing all application state, prioritizing UX safety with minimal complexity.
+- **[QT-12] Expanded weekend logic for "Dias Consecutivos":** Refined the calculation in `useVacationStats` to handle cases where a holiday falls on a Saturday or Sunday, ensuring the entire weekend is included if it's adjacent to a holiday or selected day within a rest block.
 
 ## Session Log
+- **2026-03-13:** Completed quick task QT-12: updated "Saldo de Férias" UI and fixed "Dias Consecutivos" holiday-weekend logic.
 - **2026-03-13:** Completed quick task QT-11: added confirmation dialog to "Limpar tudo" button in `App.vue`.
 - **2026-03-13:** Planned confirmation dialog for "Limpar tudo" button (QT-11).
 - **2026-03-13:** Optimized holiday fetching to prevent simultaneous API calls by centralizing state in the Pinia store. Refactored `useHolidays` to consume shared state instead of managing its own. Verified with full test suite.
