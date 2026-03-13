@@ -31,6 +31,7 @@ progress:
   - [x] Plan 04-01: localStorage Persistence - COMPLETED (2026-03-13).
   - [x] Plan 04-02: Balance Alerts & Stat Transitions - COMPLETED (2026-03-13).
   - [x] Plan 04-03: UI Polish & Final Build Verification - COMPLETED (2026-03-13).
+- [x] Quick Task QT-11: Clear All Confirmation - COMPLETED (2026-03-13).
 
 ## Quick Tasks Completed
 | Task | Description | Date |
@@ -45,6 +46,7 @@ progress:
 | [QT-08] Refactor "Dias Consecutivos" | Updated "Dias Consecutivos" counter to include weekends and holidays within the selected vacation intervals, matching user requirements. | 2026-03-13 |
 | [QT-09] Expand "Dias Consecutivos" | Refined "Dias Consecutivos" to include adjacent weekends when the rest block starts on Monday or ends on Friday (even if triggered by a holiday). | 2026-03-13 |
 | [QT-10] UI Refinements & Rest Period Logic | Added month numbering, updated "Maior Período de Descanso" to show start date and count only business days, and removed mobile padding. | 2026-03-13 |
+| [QT-11] Clear All Confirmation | Added a confirmation dialog to the 'Limpar tudo' button to prevent accidental clearing of all vacation data. | 2026-03-13 |
 
 ## Milestones
 - **Milestone 1:** Calendar Scaffolding (100%)
@@ -73,9 +75,12 @@ progress:
 - **[04-01] localStorage Serialization:** Pinia store uses `watch` with a conversion to `Array` for the `markedDays` Set; initialization deserializes it back to a `Set`.
 - **[QT-03] Holiday Fetching Singleton:** Moved national holiday fetching and state into `useConfigStore` to ensure it only happens once per app lifecycle (or year change), preventing redundant simultaneous API calls from multiple components using `useHolidays`.
 - **[QT-04] Municipality Initialization & Focus Pattern:** Initialized `query` in `onMounted` from store state and added `isFocused` tracking to `MunicipalitySelector` — this ensures the search box is populated on refresh without accidentally triggering the dropdown via the `query` watcher.
-- **[QT-05] Vacation Summary Formatting:** Implemented `formatVacationSummary` utility to group ISO dates by month with Portuguese abbreviations (FEV, MAR, etc.) and leading-zero days, providing a concise overview of the vacation plan.
+- [QT-05] Vacation Summary Formatting: Implemented `formatVacationSummary` utility to group ISO dates by month with Portuguese abbreviations (FEV, MAR, etc.) and leading-zero days, providing a concise overview of the vacation plan.
+- **[QT-11] Native confirm dialog for destructive action:** Used `window.confirm` for the "Limpar tudo" button to provide a simple, effective safety check before clearing all application state, prioritizing UX safety with minimal complexity.
 
 ## Session Log
+- **2026-03-13:** Completed quick task QT-11: added confirmation dialog to "Limpar tudo" button in `App.vue`.
+- **2026-03-13:** Planned confirmation dialog for "Limpar tudo" button (QT-11).
 - **2026-03-13:** Optimized holiday fetching to prevent simultaneous API calls by centralizing state in the Pinia store. Refactored `useHolidays` to consume shared state instead of managing its own. Verified with full test suite.
 - **2026-03-13:** Completed Phase 4 — Persistence & Polish.
  Implemented `localStorage` sync for Pinia store, added budget alerts (AlertTriangle), smooth CSS transitions for stats and dropdowns, and UI polish (hover scale/shadow) for calendar cells. Verified with production build and full unit test suite (3 plans, 6 files modified, all tests green).
