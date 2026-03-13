@@ -31,11 +31,13 @@ progress:
   - [x] Plan 04-01: localStorage Persistence - COMPLETED (2026-03-13).
   - [x] Plan 04-02: Balance Alerts & Stat Transitions - COMPLETED (2026-03-13).
   - [x] Plan 04-03: UI Polish & Final Build Verification - COMPLETED (2026-03-13).
+- [x] Quick Task QT-16: Background color to #app - COMPLETED (2026-03-13).
 - [x] Quick Task QT-14: Sticky Header & Mobile Visibility - COMPLETED (2026-03-13).
 
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
+| [QT-16] Background color to #app | Added `background-color: darkmagenta;` to the main `#app` selector in `src/style.css`. | 2026-03-13 |
 | [QT-15] Validated Year Selector | Added a validated (4-digit, >=1900) year input next to the title with confirmation on change and robust API data verification. | 2026-03-13 |
 | [QT-14] Sticky Header & Mobile | Implemented sticky header and stats banner with backdrop-blur. Hidden "Selected Days" on mobile and compacted stats for better UX. | 2026-03-13 |
 | [QT-13] Fix unused imports | Removed unused Vue `computed` and `date-fns` `addDays` from `src/store/config.ts` to resolve TS6133 warnings. | 2026-03-13 |
