@@ -58,7 +58,7 @@ function onUpdateMaxDays(event: Event) {
             type="number"
             :value="maxVacationDays"
             min="0"
-            class="text-2xl font-bold text-gray-900 w-16 text-center focus:outline-none focus:ring-2 focus:ring-blue-500 rounded transition-all duration-300"
+            class="text-2xl font-bold text-gray-900 w-16 text-center border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
             @input="onUpdateMaxDays"
           />
           <span class="text-xs text-gray-400">dias totais</span>
