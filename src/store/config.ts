@@ -14,6 +14,7 @@ export interface HolidayEntry {
 interface SavedState {
   selectedMunicipalityId?: string | null
   markedDays?: string[]
+  maxVacationDays?: number
 }
 
 function loadInitialState(): SavedState {
@@ -70,7 +71,7 @@ export const useConfigStore = defineStore('config', () => {
 
   const year = ref(2026)
   const selectedMunicipalityId = ref<string | null>(initialState.selectedMunicipalityId ?? null)
-  const maxVacationDays = ref(22)
+  const maxVacationDays = ref(initialState.maxVacationDays ?? 22)
   const markedDays = ref<Set<string>>(new Set(initialState.markedDays ?? []))
 
   // Holiday state
@@ -110,11 +111,12 @@ export const useConfigStore = defineStore('config', () => {
 
   // Persist state on changes
   watch(
-    [selectedMunicipalityId, markedDays],
+    [selectedMunicipalityId, markedDays, maxVacationDays],
     () => {
       const stateToSave: SavedState = {
         selectedMunicipalityId: selectedMunicipalityId.value,
-        markedDays: Array.from(markedDays.value)
+        markedDays: Array.from(markedDays.value),
+        maxVacationDays: maxVacationDays.value
       }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave))
     },

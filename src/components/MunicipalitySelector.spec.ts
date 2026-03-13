@@ -13,7 +13,9 @@ describe('MunicipalitySelector', () => {
     const wrapper = mount(MunicipalitySelector, {
       global: { plugins: [createPinia()] }
     })
-    await wrapper.find('input').setValue('Lis')
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await input.setValue('Lis')
     expect(wrapper.text()).toContain('Lisboa')
   })
 
@@ -21,7 +23,9 @@ describe('MunicipalitySelector', () => {
     const wrapper = mount(MunicipalitySelector, {
       global: { plugins: [createPinia()] }
     })
-    await wrapper.find('input').setValue('L')
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await input.setValue('L')
     expect(wrapper.findAll('li')).toHaveLength(0)
   })
 
@@ -31,7 +35,9 @@ describe('MunicipalitySelector', () => {
     const wrapper = mount(MunicipalitySelector, {
       global: { plugins: [pinia] }
     })
-    await wrapper.find('input').setValue('Lis')
+    const input = wrapper.find('input')
+    await input.trigger('focus')
+    await input.setValue('Lis')
     const items = wrapper.findAll('li')
     expect(items.length).toBeGreaterThan(0)
     await items[0].trigger('click')
@@ -45,14 +51,16 @@ describe('MunicipalitySelector', () => {
     const wrapper = mount(MunicipalitySelector, {
       global: { plugins: [pinia] }
     })
+    const input = wrapper.find('input')
+    await input.trigger('focus')
     // First select a municipality
-    await wrapper.find('input').setValue('Lis')
+    await input.setValue('Lis')
     const items = wrapper.findAll('li')
     await items[0].trigger('click')
     const store = useConfigStore()
     expect(store.selectedMunicipalityId).not.toBeNull()
     // Now clear the input
-    await wrapper.find('input').setValue('')
+    await input.setValue('')
     expect(store.selectedMunicipalityId).toBeNull()
   })
 })

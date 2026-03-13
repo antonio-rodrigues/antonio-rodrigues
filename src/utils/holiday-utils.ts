@@ -66,3 +66,36 @@ export function getEasterMonday(year: number): Date {
 export function getCarnaval(year: number): Date {
   return subDays(getEaster(year), 47);
 }
+
+/**
+ * Formats a list of ISO date strings into a summary grouped by month.
+ * Example: "FEV: 16, 18, 19, 20; MAR: 20, 31"
+ */
+export function formatVacationSummary(markedDays: string[]): string {
+  if (markedDays.length === 0) return 'Nenhum dia selecionado';
+
+  const monthsPT = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+  const grouped: Record<number, number[]> = {};
+
+  markedDays.forEach(dateStr => {
+    const date = new Date(dateStr);
+    const month = date.getMonth();
+    const day = date.getDate();
+    if (!grouped[month]) grouped[month] = [];
+    grouped[month].push(day);
+  });
+
+  const sortedMonths = Object.keys(grouped)
+    .map(Number)
+    .sort((a, b) => a - b);
+
+  return sortedMonths
+    .map(m => {
+      const days = grouped[m]
+        .sort((a, b) => a - b)
+        .map(d => d.toString().padStart(2, '0'))
+        .join(', ');
+      return `${monthsPT[m]}: ${days}`;
+    })
+    .join('; ');
+}

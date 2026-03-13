@@ -8,15 +8,27 @@ describe('DashboardSidebar', () => {
     remainingDays: 17,
     isOverBudget: false,
     longestRestPeriod: 9,
-    maxVacationDays: 22
+    maxVacationDays: 22,
+    markedDays: []
   }
 
-  it('renders "Saldo de Férias" and shows the maxVacationDays value', () => {
+  it('renders "Saldo de Férias" and shows the maxVacationDays value in input', () => {
     const wrapper = mount(DashboardSidebar, {
       props: defaultProps
     })
     expect(wrapper.text()).toContain('Saldo de Férias')
-    expect(wrapper.text()).toContain('22')
+    const input = wrapper.find('input[type="number"]')
+    expect((input.element as HTMLInputElement).value).toBe('22')
+  })
+
+  it('emits update:max-vacation-days when input changes', async () => {
+    const wrapper = mount(DashboardSidebar, {
+      props: defaultProps
+    })
+    const input = wrapper.find('input[type="number"]')
+    await input.setValue(25)
+    expect(wrapper.emitted('update:max-vacation-days')).toBeTruthy()
+    expect(wrapper.emitted('update:max-vacation-days')![0]).toEqual([25])
   })
 
   it('renders "Dias Usados" label and shows the usedWorkDays value', () => {
@@ -80,5 +92,17 @@ describe('DashboardSidebar', () => {
       }
     })
     expect(wrapper.text()).not.toContain('Excedeu o seu saldo de férias!')
+  })
+
+  it('displays the vacation summary correctly', () => {
+    const wrapper = mount(DashboardSidebar, {
+      props: {
+        ...defaultProps,
+        markedDays: ['2026-02-16', '2026-02-18', '2026-03-20']
+      }
+    })
+    const summary = wrapper.find('[data-testid="vacation-summary"]')
+    expect(summary.text()).toContain('FEV: 16, 18')
+    expect(summary.text()).toContain('MAR: 20')
   })
 })
