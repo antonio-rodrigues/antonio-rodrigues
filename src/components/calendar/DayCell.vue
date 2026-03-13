@@ -23,16 +23,16 @@ function handleClick() {
   <div
     class="flex items-center justify-center h-8 w-full rounded-sm text-sm transition-all duration-200"
     :class="[
-      !day.isWeekend && !day.isHoliday ? 'cursor-pointer hover:bg-green-50 hover:scale-105 hover:shadow-sm z-10' : 'cursor-not-allowed',
+      !day.isWeekend && !day.isHoliday ? 'cursor-pointer hover:bg-green-50 dark:hover:bg-green-900/30 hover:scale-105 hover:shadow-sm z-10' : 'cursor-not-allowed',
       day.isHoliday && day.holidayType === 'national'
-        ? 'bg-red-100 text-red-700'
+        ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300'
         : day.isHoliday && day.holidayType === 'municipal'
-          ? 'bg-orange-100 text-orange-700'
+          ? 'bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300'
           : day.isWeekend
-            ? 'bg-pink-50 text-pink-600'
+            ? 'bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400'
             : isVacation
-              ? 'bg-green-100 text-green-700'
-              : 'bg-gray-50 text-gray-700'
+              ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300'
+              : 'bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-400'
     ]"
     :title="day.isHoliday
       ? day.holidayType === 'national'

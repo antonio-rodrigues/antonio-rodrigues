@@ -15,6 +15,7 @@ interface SavedState {
   selectedMunicipalityId?: string | null
   markedDays?: string[]
   maxVacationDays?: number
+  theme?: 'light' | 'dark'
 }
 
 function loadInitialState(): SavedState {
@@ -73,6 +74,7 @@ export const useConfigStore = defineStore('config', () => {
   const selectedMunicipalityId = ref<string | null>(initialState.selectedMunicipalityId ?? null)
   const maxVacationDays = ref(initialState.maxVacationDays ?? 22)
   const markedDays = ref<Set<string>>(new Set(initialState.markedDays ?? []))
+  const theme = ref<'light' | 'dark'>(initialState.theme ?? 'light')
 
   // Holiday state
   const nationalHolidays = ref<Map<string, HolidayEntry>>(new Map())
@@ -129,14 +131,19 @@ export const useConfigStore = defineStore('config', () => {
     markedDays.value = new Set()
   }
 
+  function toggleTheme() {
+    theme.value = theme.value === 'light' ? 'dark' : 'light'
+  }
+
   // Persist state on changes
   watch(
-    [selectedMunicipalityId, markedDays, maxVacationDays],
+    [selectedMunicipalityId, markedDays, maxVacationDays, theme],
     () => {
       const stateToSave: SavedState = {
         selectedMunicipalityId: selectedMunicipalityId.value,
         markedDays: Array.from(markedDays.value),
-        maxVacationDays: maxVacationDays.value
+        maxVacationDays: maxVacationDays.value,
+        theme: theme.value
       }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(stateToSave))
     },
@@ -153,11 +160,13 @@ export const useConfigStore = defineStore('config', () => {
     selectedMunicipalityId,
     maxVacationDays,
     markedDays,
+    theme,
     nationalHolidays,
     loadingHolidays,
     holidayError,
     toggleVacationDay,
     clearMarkedDays,
+    toggleTheme,
     fetchHolidays,
     checkHolidaysExist
   }

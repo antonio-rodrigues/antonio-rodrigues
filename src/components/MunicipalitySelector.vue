@@ -59,7 +59,7 @@ function onBlur() {
       v-model="query"
       type="text"
       placeholder="Pesquisar município..."
-      class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="w-full border border-gray-300 dark:border-gray-700 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
       @focus="onFocus"
       @blur="onBlur"
     />
@@ -73,16 +73,16 @@ function onBlur() {
     >
       <ul
         v-if="filtered.length > 0 && isOpen"
-        class="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto"
+        class="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg max-h-60 overflow-auto transition-colors"
       >
         <li
           v-for="mun in filtered"
           :key="mun.id"
-          class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100"
+          class="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100"
           @click="selectMunicipality(mun)"
         >
           {{ mun.name }}
-          <span class="text-gray-400 text-xs ml-1">{{ mun.district }}</span>
+          <span class="text-gray-400 dark:text-gray-500 text-xs ml-1">{{ mun.district }}</span>
         </li>
       </ul>
     </Transition>

@@ -10,9 +10,9 @@ const dayInitials = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D']
 </script>
 
 <template>
-  <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-    <h3 class="text-lg font-bold text-gray-800 uppercase mb-4 text-center">
-      <span class="text-gray-300 mr-2">{{ String((month.index ?? 0) + 1).padStart(2, '0') }}</span>
+  <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 transition-colors">
+    <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 uppercase mb-4 text-center">
+      <span class="text-gray-300 dark:text-gray-600 mr-2">{{ String((month.index ?? 0) + 1).padStart(2, '0') }}</span>
       {{ month.name }}
     </h3>
     
@@ -21,7 +21,7 @@ const dayInitials = ['S', 'T', 'Q', 'Q', 'S', 'S', 'D']
       <div 
         v-for="(initial, index) in dayInitials" 
         :key="index"
-        class="text-xs font-semibold text-gray-400 text-center pb-2"
+        class="text-xs font-semibold text-gray-400 dark:text-gray-500 text-center pb-2"
       >
         {{ initial }}
       </div>
