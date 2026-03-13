@@ -1,12 +1,6 @@
 import { 
-  eachMonthOfInterval, 
-  eachDayOfInterval, 
-  startOfMonth, 
-  endOfMonth, 
-  getDay, 
   isWeekend
 } from 'date-fns'
-import { useConfigStore } from '../store/config'
 
 export interface Day {
   date: Date
@@ -25,51 +19,47 @@ export interface Month {
 }
 
 export function useCalendar() {
-  const configStore = useConfigStore()
+  const getYearData = (year: number, locale: 'pt' | 'en' = 'pt'): Month[] => {
+    const months: Month[] = []
 
-  const getYearData = (year: number): Month[] => {
-    const startOfYear = new Date(year, 0, 1)
-    const endOfYear = new Date(year, 11, 31)
-
-    const months = eachMonthOfInterval({
-      start: startOfYear,
-      end: endOfYear
-    })
-
-    return months.map((monthDate, index) => {
-      const monthStart = startOfMonth(monthDate)
-      const monthEnd = endOfMonth(monthDate)
-
-      const daysInMonth = eachDayOfInterval({
-        start: monthStart,
-        end: monthEnd
-      })
-
-      // getDay returns 0 for Sunday, 1 for Monday, ..., 6 for Saturday
-      const firstDay = getDay(monthStart)
+    for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
+      // Create date for the 1st of the month at 00:00:00 (local)
+      const monthStart = new Date(year, monthIndex, 1)
       
-      // Locale 'en': Sunday = 0, ..., Saturday = 6
-      // Locale 'pt': Monday = 0, ..., Saturday = 5, Sunday = 6
-      const firstDayOffset = configStore.locale === 'en' 
+      // Calculate days in month (next month index with day 0)
+      const monthEnd = new Date(year, monthIndex + 1, 0)
+      const numDays = monthEnd.getDate()
+
+      const days: Day[] = []
+      for (let dayNum = 1; dayNum <= numDays; dayNum++) {
+        const date = new Date(year, monthIndex, dayNum)
+        days.push({
+          date,
+          dayOfMonth: dayNum,
+          isWeekend: isWeekend(date)
+        })
+      }
+
+      // getDay() returns 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+      const firstDay = monthStart.getDay()
+      
+      // Sunday-start (en): Sun=0, Mon=1, ..., Sat=6
+      // Monday-start (pt): Mon=0, Tue=1, ..., Sun=6
+      const firstDayOffset = locale === 'en' 
         ? firstDay 
         : (firstDay + 6) % 7
 
-      const days: Day[] = daysInMonth.map(date => ({
-        date,
-        dayOfMonth: date.getDate(),
-        isWeekend: isWeekend(date)
-      }))
-
-      return {
+      months.push({
         days,
         firstDayOffset,
-        index
-      }
-    })
+        index: monthIndex
+      })
+    }
+
+    return months
   }
 
   return {
     getYearData
   }
 }
-
