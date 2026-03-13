@@ -1,33 +1,72 @@
-# Quick Task: UI Refinements and Rest Period Logic Update
+---
+phase: quick
+plan: 04
+type: execute
+wave: 1
+depends_on: []
+files_modified: ["src/App.vue"]
+autonomous: true
+requirements: ["QT-11"]
+must_haves:
+  truths:
+    - "Clicking 'Limpar tudo' triggers a confirmation dialog"
+    - "Clicking OK in the dialog clears all marked days"
+    - "Clicking Cancel in the dialog does nothing"
+  artifacts:
+    - path: "src/App.vue"
+      provides: "Confirmation logic for clearing days"
+  key_links:
+    - from: "src/App.vue"
+      to: "store.clearMarkedDays"
+      via: "confirmClear function"
+---
 
-## Goal
-Improve month labels, refine "Maior Período de Descanso" stat (logic and display), and fix mobile padding.
+<objective>
+Add a confirmation dialog to the 'Limpar tudo' button to prevent accidental clearing of all vacation data.
 
-## Tasks
+Purpose: Prevent accidental loss of selected vacation days.
+Output: User is prompted before data is cleared.
+</objective>
 
-### 1. Month Card Labels
-- **File:** `src/components/calendar/MonthCard.vue`
-- **File:** `src/components/calendar/YearGrid.vue`
-- **Change:** Pass index to `MonthCard` and display padded month number (e.g., "01 JANEIRO") in light gray.
+<execution_context>
+@/Users/arodri06/.gemini/get-shit-done/workflows/execute-plan.md
+</execution_context>
 
-### 2. "Maior Período de Descanso" Stat
-- **File:** `src/composables/useVacationStats.ts`
-- **Change:**
-    - Update `longestRestPeriod` to return `{ days: number, startMonthDay: string }`.
-    - `days` should reflect only *selected business days* (excluding holidays and weekends) within the longest continuous rest period.
-    - `startMonthDay` should be the start of that period (formatted as "MMM dd").
-- **File:** `src/components/DashboardSidebar.vue`
-- **Change:**
-    - Display the month/day next to the counter.
-    - Change secondary label to "dias úteis consecutivos".
-    - Ensure styling follows requirements (light gray for month/day).
+<context>
+@.planning/PROJECT.md
+@.planning/STATE.md
+@src/App.vue
+</context>
 
-### 3. Mobile Padding
-- **File:** `src/style.css`
-- **Change:** Remove padding for `#app` in mobile viewports (e.g., `< 640px`).
+<tasks>
 
-## Verification Plan
-- **Manual:** Check month labels in the UI.
-- **Manual:** Select a vacation period (e.g., Mon-Fri) and verify "Maior Período de Descanso" shows "5" and the start date.
-- **Manual:** Check mobile view to ensure padding is removed.
-- **Automated:** Update existing tests in `useVacationStats.spec.ts` and `DashboardSidebar.spec.ts`.
+<task type="auto">
+  <name>Task 1: Add confirmation logic to 'Limpar tudo' button</name>
+  <files>src/App.vue</files>
+  <action>
+    - Define a `confirmClear` function in `<script setup>` in `src/App.vue` that uses `window.confirm('Confirma?')` to ask the user for confirmation.
+    - Update the `@click` event handler for the 'Limpar tudo' button in the `<template>` to call `confirmClear()` instead of `store.clearMarkedDays()`.
+    - If the user clicks OK, call `store.clearMarkedDays()`.
+    - If the user clicks Cancel, the operation should be cancelled (nothing happens).
+  </action>
+  <verify>
+    - Clicking the 'Limpar tudo' button should trigger a native browser confirmation dialog with 'Confirma?'.
+    - If 'OK' is clicked, verify that `store.clearMarkedDays()` is executed and days are cleared.
+    - If 'Cancel' is clicked, verify that no changes occur and days remain marked.
+  </verify>
+  <done>
+    The 'Limpar tudo' button has a functional confirmation dialog as requested.
+  </done>
+</task>
+
+</tasks>
+
+<success_criteria>
+- Confirmation dialog "Confirma?" is displayed on button click.
+- "OK" action successfully clears all marked vacation days.
+- "Cancel" action prevents data clearing.
+</success_criteria>
+
+<output>
+After completion, create `.planning/phases/quick/quick-04-SUMMARY.md`
+</output>
