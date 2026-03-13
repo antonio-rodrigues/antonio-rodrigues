@@ -31,12 +31,13 @@ progress:
   - [x] Plan 04-01: localStorage Persistence - COMPLETED (2026-03-13).
   - [x] Plan 04-02: Balance Alerts & Stat Transitions - COMPLETED (2026-03-13).
   - [x] Plan 04-03: UI Polish & Final Build Verification - COMPLETED (2026-03-13).
+- [x] Quick Task QT-18: Fix Dark Theme and update #app background - COMPLETED (2026-03-13).
 - [x] Quick Task QT-17: Light/Dark Mode Toggle - COMPLETED (2026-03-13).
-- [x] Quick Task QT-16: Background color to #app - COMPLETED (2026-03-13).
 
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
+| [QT-18] Fix Dark Theme & #app BG | Fixed dark mode application by applying `dark` class to `html` and `#app`. Updated `#app` background-color to `#F2AEBB` in dark mode. | 2026-03-13 |
 | [QT-17] Light/Dark Mode Toggle | Implemented persistent theme toggle with Google Fonts Icons and `dark:` Tailwind classes across all components. | 2026-03-13 |
 | [QT-16] Background color to #app | Added `background-color: darkmagenta;` to the main `#app` selector in `src/style.css`. | 2026-03-13 |
 | [QT-15] Validated Year Selector | Added a validated (4-digit, >=1900) year input next to the title with confirmation on change and robust API data verification. | 2026-03-13 |

@@ -13,10 +13,15 @@ const { year, markedDays, maxVacationDays, theme } = storeToRefs(store)
 
 // Apply theme class to html element
 watch(theme, (newTheme) => {
+  const root = document.documentElement
+  const appElement = document.getElementById('app')
+  
   if (newTheme === 'dark') {
-    document.documentElement.classList.add('dark')
+    root.classList.add('dark')
+    appElement?.classList.add('dark')
   } else {
-    document.documentElement.classList.remove('dark')
+    root.classList.remove('dark')
+    appElement?.classList.remove('dark')
   }
 }, { immediate: true })
 
@@ -63,7 +68,7 @@ const handleYearChange = async (event: Event) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+  <div class="min-h-screen bg-slate-50/50 dark:bg-slate-900/50 transition-colors duration-300">
     <div class="sticky top-0 z-50 bg-slate-50/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm pt-8 pb-4 mb-8">
       <header class="max-w-7xl mx-auto px-4 mb-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
