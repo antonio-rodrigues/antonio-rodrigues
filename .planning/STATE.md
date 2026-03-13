@@ -34,12 +34,15 @@ progress:
 - [x] Quick Task QT-20: Revert QT-19 - COMPLETED (2026-03-13).
 - [x] Quick Task QT-19: Add Black Theme & Fix Styles - REVERTED (2026-03-13).
 - [x] Quick Task QT-18: Fix Dark Theme and update #app background - COMPLETED (2026-03-13).
-- [x] Quick Task QT-17: Light/Dark Mode Toggle - COMPLETED (2026-03-13).
-
+- [x] Quick Task QT-21: Add GitHub Actions workflow for Vite deployment - COMPLETED (2026-03-13).
+- [x] Quick Task QT-20: Revert QT-19 - COMPLETED (2026-03-13).
+...
 ## Quick Tasks Completed
 | Task | Description | Date |
 |------|-------------|------|
+| [QT-21] Add GitHub Actions workflow | Created `.github/workflows/deploy.yml` for Vite deployment and set `base: './'` in `vite.config.ts` to fix GitHub Pages artifact errors and asset loading. | 2026-03-13 |
 | [QT-20] Revert QT-19 | Reverted all changes from task QT-19 (Black Theme) as requested. | 2026-03-13 |
+
 | [QT-19] Add Black Theme & Fix Styles | (REVERTED) Added a 3rd theme ('black') and fixed backgrounds. | 2026-03-13 |
 | [QT-18] Fix Dark Theme & #app BG | Fixed dark mode application by applying `dark` class to `html` and `#app`. Updated `#app` background-color to `#F2AEBB` in dark mode. | 2026-03-13 |
 | [QT-16] Background color to #app | Added `background-color: darkmagenta;` to the main `#app` selector in `src/style.css`. | 2026-03-13 |
