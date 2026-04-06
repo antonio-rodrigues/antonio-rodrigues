@@ -13,6 +13,23 @@ const props = defineProps<{
 const store = useConfigStore()
 const dateStr = computed(() => format(props.day.date, 'yyyy-MM-dd'))
 const isVacation = computed(() => store.markedDays.has(dateStr.value))
+const isCarryOverVacation = computed(() => {
+  if (!isVacation.value) return false
+  if (store.carryOverDays <= 0) return false
+  if (props.day.isWeekend || props.day.isHoliday) return false
+
+  const maxCarryOverDate = `${store.year}-03-31`
+  if (dateStr.value > maxCarryOverDate) return false
+
+  const eligibleMarkedWorkdays = Array.from(store.markedDays)
+    .filter((markedDate) => {
+      const date = new Date(markedDate + 'T00:00:00')
+      return !isNaN(date.getTime()) && !store.nationalHolidays.has(markedDate) && date.getDay() !== 0 && date.getDay() !== 6 && markedDate <= maxCarryOverDate
+    })
+    .sort((a, b) => a.localeCompare(b))
+
+  return eligibleMarkedWorkdays.slice(0, Math.max(0, store.carryOverDays)).includes(dateStr.value)
+})
 
 let touchTimeout: ReturnType<typeof setTimeout> | null = null
 
@@ -75,7 +92,9 @@ const title = computed(() => {
           ? 'bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300'
           : day.isWeekend
             ? 'bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400'
-            : isVacation
+            : isCarryOverVacation
+              ? 'bg-green-300 dark:bg-green-800/70 text-green-900 dark:text-green-100'
+              : isVacation
               ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300'
               : 'bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-400'
     ]"

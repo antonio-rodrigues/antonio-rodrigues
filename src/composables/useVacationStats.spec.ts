@@ -157,6 +157,19 @@ describe('useVacationStats', () => {
     expect(remainingDays.value).toBe(-1)
   })
 
+  it('remainingDays uses vacation balance plus carry over days', () => {
+    const year = ref(2026)
+    const markedDays = ref(new Set(['2026-01-02', '2026-01-05'])) // 2 workdays
+    const holidays = ref(new Map())
+    const maxVacationDays = ref(1)
+    const carryOverDays = ref(2)
+
+    const { remainingDays } = useVacationStats(year, markedDays, holidays, maxVacationDays, carryOverDays)
+
+    // (1 + 2) - 2 = 1
+    expect(remainingDays.value).toBe(1)
+  })
+
   it('isOverBudget is true when used > max', () => {
     const year = ref(2026)
     const markedDays = ref(new Set(['2026-01-02', '2026-01-05'])) // 2 workdays

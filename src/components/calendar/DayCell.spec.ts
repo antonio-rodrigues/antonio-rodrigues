@@ -130,6 +130,51 @@ describe('DayCell', () => {
     expect(wrapper.classes()).toContain('text-green-700')
   })
 
+  it('carry over vacation day has darker pastel green class', () => {
+    const store = useConfigStore()
+    store.carryOverDays = 2
+    store.toggleVacationDay('2026-01-02')
+    store.toggleVacationDay('2026-01-05')
+
+    const wrapper = mount(DayCell, {
+      props: {
+        day: {
+          date: new Date(2026, 0, 2),
+          dayOfMonth: 2,
+          isWeekend: false,
+          isHoliday: false
+        }
+      },
+      global: { plugins: [pinia, i18n] }
+    })
+
+    expect(wrapper.classes()).toContain('bg-green-300')
+    expect(wrapper.classes()).toContain('text-green-900')
+    expect(wrapper.classes()).not.toContain('bg-green-100')
+  })
+
+  it('marked day after March keeps regular vacation green', () => {
+    const store = useConfigStore()
+    store.carryOverDays = 3
+    store.toggleVacationDay('2026-04-01')
+
+    const wrapper = mount(DayCell, {
+      props: {
+        day: {
+          date: new Date(2026, 3, 1),
+          dayOfMonth: 1,
+          isWeekend: false,
+          isHoliday: false
+        }
+      },
+      global: { plugins: [pinia, i18n] }
+    })
+
+    expect(wrapper.classes()).toContain('bg-green-100')
+    expect(wrapper.classes()).toContain('text-green-700')
+    expect(wrapper.classes()).not.toContain('bg-green-300')
+  })
+
   it('clicking a workday calls store.toggleVacationDay', async () => {
     const store = useConfigStore()
     const wrapper = mount(DayCell, {

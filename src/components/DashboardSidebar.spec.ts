@@ -13,8 +13,6 @@ describe('DashboardSidebar', () => {
     longestRestPeriod: { days: 9, startDate: new Date('2026-06-01T00:00:00') },
     maxVacationDays: 22,
     carryOverDays: 3,
-    usedCarryOverDays: 2,
-    remainingCarryOverDays: 1,
     markedDays: []
   }
 
@@ -69,10 +67,7 @@ describe('DashboardSidebar', () => {
   it('renders carry over indicators', () => {
     const wrapper = mount(DashboardSidebar, mountOptions)
     expect(wrapper.text()).toContain('Dias Transitados')
-    expect(wrapper.text()).toContain('Transitados Usados')
-    expect(wrapper.text()).toContain('Transitados Restantes')
-    expect(wrapper.text()).toContain('2')
-    expect(wrapper.text()).toContain('1')
+    expect(wrapper.text()).not.toContain('Transitados Usados')
   })
 
   it('renders "Maior Período de Descanso" label and shows longestRestPeriod value', () => {

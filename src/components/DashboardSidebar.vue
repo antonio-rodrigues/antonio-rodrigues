@@ -18,8 +18,6 @@ const props = defineProps<{
   longestRestPeriod: RestPeriod
   maxVacationDays: number
   carryOverDays: number
-  usedCarryOverDays: number
-  remainingCarryOverDays: number
   markedDays: string[]
 }>()
 
@@ -115,18 +113,6 @@ function onUpdateCarryOverDays(event: Event) {
           >
             {{ remainingDays }}
           </span>
-          <span class="text-[10px] sm:text-xs text-gray-400 dark:text-gray-500">{{ t('dashboard.workingDays') }}</span>
-        </div>
-        <!-- Stat: Transitados Usados -->
-        <div class="flex flex-col items-center">
-          <span class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">{{ t('dashboard.carryOverUsed') }}</span>
-          <span class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 transition-all duration-300">{{ usedCarryOverDays }}</span>
-          <span class="text-[10px] sm:text-xs text-gray-400 dark:text-gray-500">{{ t('dashboard.workingDays') }}</span>
-        </div>
-        <!-- Stat: Transitados Restantes -->
-        <div class="flex flex-col items-center">
-          <span class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">{{ t('dashboard.carryOverRemaining') }}</span>
-          <span class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 transition-all duration-300">{{ remainingCarryOverDays }}</span>
           <span class="text-[10px] sm:text-xs text-gray-400 dark:text-gray-500">{{ t('dashboard.workingDays') }}</span>
         </div>
         <!-- Stat: Maior Período de Descanso -->

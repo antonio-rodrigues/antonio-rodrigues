@@ -29,9 +29,7 @@ watch(theme, (newTheme) => {
 
 const { holidays, error: holidayError } = useHolidays()
 const {
-  usedWorkDaysCurrentYear,
-  usedCarryOverDays,
-  remainingCarryOverDays,
+  usedWorkDays,
   remainingDays,
   isOverBudget,
   longestRestPeriod,
@@ -152,15 +150,13 @@ const handleLocaleChange = (event: Event) => {
 
       <section aria-label="Estatísticas e Dashboard">
         <DashboardSidebar
-          :used-work-days="usedWorkDaysCurrentYear"
+          :used-work-days="usedWorkDays"
           :total-selected-days="totalSelectedDays"
           :remaining-days="remainingDays"
           :is-over-budget="isOverBudget"
           :longest-rest-period="longestRestPeriod"
           :max-vacation-days="store.maxVacationDays"
           :carry-over-days="store.carryOverDays"
-          :used-carry-over-days="usedCarryOverDays"
-          :remaining-carry-over-days="remainingCarryOverDays"
           :marked-days="Array.from(markedDays)"
           @update:max-vacation-days="store.maxVacationDays = $event"
           @update:carry-over-days="store.carryOverDays = $event"

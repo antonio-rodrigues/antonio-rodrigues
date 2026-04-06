@@ -154,8 +154,8 @@ export function useVacationStats(
     return total
   })
 
-  const remainingDays = computed(() => maxVacationDays.value - usedWorkDaysCurrentYear.value)
-  const isOverBudget = computed(() => usedWorkDaysCurrentYear.value > maxVacationDays.value)
+  const remainingDays = computed(() => (maxVacationDays.value + (carryOverDays?.value ?? 0)) - usedWorkDays.value)
+  const isOverBudget = computed(() => usedWorkDays.value > (maxVacationDays.value + (carryOverDays?.value ?? 0)))
 
   const longestRestPeriod = computed(() => {
     // Spec: Year boundary is within the displayed year only
