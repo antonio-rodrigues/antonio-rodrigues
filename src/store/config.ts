@@ -17,6 +17,7 @@ interface SavedState {
   selectedMunicipalityId?: string | null
   markedDays?: string[]
   maxVacationDays?: number
+  carryOverDays?: number
   theme?: 'light' | 'dark'
   locale?: 'pt' | 'en'
 }
@@ -77,6 +78,7 @@ export const useConfigStore = defineStore('config', () => {
   const year = ref(2026)
   const selectedMunicipalityId = ref<string | null>(initialState.selectedMunicipalityId ?? null)
   const maxVacationDays = ref(initialState.maxVacationDays ?? 22)
+  const carryOverDays = ref(initialState.carryOverDays ?? 0)
   const markedDays = ref<Set<string>>(new Set(initialState.markedDays ?? []))
   const theme = ref<'light' | 'dark'>(initialState.theme ?? 'light')
   const locale = ref<'pt' | 'en'>(initialState.locale ?? 'pt')
@@ -152,12 +154,13 @@ export const useConfigStore = defineStore('config', () => {
 
   // Persist state on changes
   watch(
-    [selectedMunicipalityId, markedDays, maxVacationDays, theme, locale],
+    [selectedMunicipalityId, markedDays, maxVacationDays, carryOverDays, theme, locale],
     () => {
       const stateToSave: SavedState = {
         selectedMunicipalityId: selectedMunicipalityId.value,
         markedDays: Array.from(markedDays.value),
         maxVacationDays: maxVacationDays.value,
+        carryOverDays: carryOverDays.value,
         theme: theme.value,
         locale: locale.value
       }
@@ -175,6 +178,7 @@ export const useConfigStore = defineStore('config', () => {
     year,
     selectedMunicipalityId,
     maxVacationDays,
+    carryOverDays,
     markedDays,
     theme,
     locale,

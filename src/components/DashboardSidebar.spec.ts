@@ -12,6 +12,9 @@ describe('DashboardSidebar', () => {
     isOverBudget: false,
     longestRestPeriod: { days: 9, startDate: new Date('2026-06-01T00:00:00') },
     maxVacationDays: 22,
+    carryOverDays: 3,
+    usedCarryOverDays: 2,
+    remainingCarryOverDays: 1,
     markedDays: []
   }
 
@@ -31,10 +34,18 @@ describe('DashboardSidebar', () => {
 
   it('emits update:max-vacation-days when input changes', async () => {
     const wrapper = mount(DashboardSidebar, mountOptions)
-    const input = wrapper.find('input[type="number"]')
+    const input = wrapper.find('#max-days-input')
     await input.setValue(25)
     expect(wrapper.emitted('update:max-vacation-days')).toBeTruthy()
     expect(wrapper.emitted('update:max-vacation-days')![0]).toEqual([25])
+  })
+
+  it('emits update:carry-over-days when carry over input changes', async () => {
+    const wrapper = mount(DashboardSidebar, mountOptions)
+    const input = wrapper.find('#carry-over-days-input')
+    await input.setValue(4)
+    expect(wrapper.emitted('update:carry-over-days')).toBeTruthy()
+    expect(wrapper.emitted('update:carry-over-days')![0]).toEqual([4])
   })
 
   it('renders "Dias Usados" label and shows the usedWorkDays value', () => {
@@ -53,6 +64,15 @@ describe('DashboardSidebar', () => {
     const wrapper = mount(DashboardSidebar, mountOptions)
     expect(wrapper.text()).toContain('Dias Restantes')
     expect(wrapper.text()).toContain('17')
+  })
+
+  it('renders carry over indicators', () => {
+    const wrapper = mount(DashboardSidebar, mountOptions)
+    expect(wrapper.text()).toContain('Dias Transitados')
+    expect(wrapper.text()).toContain('Transitados Usados')
+    expect(wrapper.text()).toContain('Transitados Restantes')
+    expect(wrapper.text()).toContain('2')
+    expect(wrapper.text()).toContain('1')
   })
 
   it('renders "Maior Período de Descanso" label and shows longestRestPeriod value', () => {

@@ -263,4 +263,51 @@ describe('useVacationStats', () => {
       expect(longestRestPeriod.value.startDate?.getDate()).toBe(3)
     })
   })
+
+  describe('carry over days', () => {
+    it('allocates carry over by chronological order up to configured limit', () => {
+      const year = ref(2026)
+      const markedDays = ref(new Set([
+        '2026-01-05',
+        '2026-02-10',
+        '2026-03-20',
+        '2026-04-01'
+      ]))
+      const holidays = ref(new Map())
+      const maxVacationDays = ref(22)
+      const carryOverDays = ref(2)
+
+      const {
+        usedWorkDays,
+        usedWorkDaysCurrentYear,
+        usedCarryOverDays,
+        remainingDays,
+        remainingCarryOverDays
+      } = useVacationStats(year, markedDays, holidays, maxVacationDays, carryOverDays)
+
+      expect(usedWorkDays.value).toBe(4)
+      expect(usedCarryOverDays.value).toBe(2)
+      expect(usedWorkDaysCurrentYear.value).toBe(2)
+      expect(remainingCarryOverDays.value).toBe(0)
+      expect(remainingDays.value).toBe(20)
+    })
+
+    it('counts only dates up to March 31 as carry over', () => {
+      const year = ref(2026)
+      const markedDays = ref(new Set(['2026-03-31', '2026-04-01']))
+      const holidays = ref(new Map())
+      const maxVacationDays = ref(22)
+      const carryOverDays = ref(3)
+
+      const {
+        usedCarryOverDays,
+        usedWorkDaysCurrentYear,
+        remainingCarryOverDays
+      } = useVacationStats(year, markedDays, holidays, maxVacationDays, carryOverDays)
+
+      expect(usedCarryOverDays.value).toBe(1)
+      expect(usedWorkDaysCurrentYear.value).toBe(1)
+      expect(remainingCarryOverDays.value).toBe(2)
+    })
+  })
 })

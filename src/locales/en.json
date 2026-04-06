@@ -12,6 +12,9 @@
   "dashboard": {
     "overBudget": "You exceeded your vacation balance!",
     "vacationBalance": "Vacation Balance",
+    "carryOverDays": "Carry-over Days",
+    "carryOverUsed": "Carry-over Used",
+    "carryOverRemaining": "Carry-over Remaining",
     "totalDays": "total days",
     "daysUsed": "Days Used",
     "workingDays": "working days",
