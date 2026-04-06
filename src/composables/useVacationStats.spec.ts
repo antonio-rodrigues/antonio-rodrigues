@@ -192,6 +192,19 @@ describe('useVacationStats', () => {
     expect(isOverBudget.value).toBe(false)
   })
 
+  it('isOverBudget is false when carry over increases total available days', () => {
+    const year = ref(2026)
+    const markedDays = ref(new Set(['2026-01-02', '2026-01-05'])) // 2 workdays
+    const holidays = ref(new Map())
+    const maxVacationDays = ref(1)
+    const carryOverDays = ref(2)
+
+    const { isOverBudget } = useVacationStats(year, markedDays, holidays, maxVacationDays, carryOverDays)
+
+    // total available = 3, used = 2
+    expect(isOverBudget.value).toBe(false)
+  })
+
   describe('longestRestPeriod', () => {
     it('counts business days in weekend alone (0)', () => {
       const year = ref(2026)

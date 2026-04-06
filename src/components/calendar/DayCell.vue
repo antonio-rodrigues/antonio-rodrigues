@@ -93,9 +93,9 @@ const title = computed(() => {
           : day.isWeekend
             ? 'bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400'
             : isCarryOverVacation
-              ? 'bg-green-300 dark:bg-green-800/70 text-green-900 dark:text-green-100'
+              ? 'bg-amber-200 dark:bg-amber-800/60 text-amber-900 dark:text-amber-100 border border-gray-500'
               : isVacation
-              ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300'
+              ? 'bg-green-200 dark:bg-green-900/50 text-green-700 dark:text-green-300 border border-gray-500'
               : 'bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-400'
     ]"
     :title="title"

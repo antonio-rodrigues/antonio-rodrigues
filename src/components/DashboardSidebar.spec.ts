@@ -26,7 +26,7 @@ describe('DashboardSidebar', () => {
   it('renders "Saldo de Férias" and shows the maxVacationDays value in input', () => {
     const wrapper = mount(DashboardSidebar, mountOptions)
     expect(wrapper.text()).toContain('Saldo de Férias')
-    const input = wrapper.find('input[type="number"]')
+    const input = wrapper.find('#max-days-input')
     expect((input.element as HTMLInputElement).value).toBe('22')
   })
 

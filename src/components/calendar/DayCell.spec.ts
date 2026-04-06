@@ -117,7 +117,7 @@ describe('DayCell', () => {
     expect(wrapper.classes()).not.toContain('bg-pink-50')
   })
 
-  it('workday with isVacation=true has class bg-green-100 text-green-700', async () => {
+  it('workday with isVacation=true has class bg-green-200 text-green-700', async () => {
     const store = useConfigStore()
     store.toggleVacationDay('2026-06-01')
     
@@ -126,11 +126,11 @@ describe('DayCell', () => {
       global: { plugins: [pinia, i18n] }
     })
     
-    expect(wrapper.classes()).toContain('bg-green-100')
+    expect(wrapper.classes()).toContain('bg-green-200')
     expect(wrapper.classes()).toContain('text-green-700')
   })
 
-  it('carry over vacation day has darker pastel green class', () => {
+  it('carry over vacation day has light yellow class', () => {
     const store = useConfigStore()
     store.carryOverDays = 2
     store.toggleVacationDay('2026-01-02')
@@ -148,9 +148,9 @@ describe('DayCell', () => {
       global: { plugins: [pinia, i18n] }
     })
 
-    expect(wrapper.classes()).toContain('bg-green-300')
-    expect(wrapper.classes()).toContain('text-green-900')
-    expect(wrapper.classes()).not.toContain('bg-green-100')
+    expect(wrapper.classes()).toContain('bg-amber-200')
+    expect(wrapper.classes()).toContain('text-amber-900')
+    expect(wrapper.classes()).not.toContain('bg-green-200')
   })
 
   it('marked day after March keeps regular vacation green', () => {
@@ -170,9 +170,9 @@ describe('DayCell', () => {
       global: { plugins: [pinia, i18n] }
     })
 
-    expect(wrapper.classes()).toContain('bg-green-100')
+    expect(wrapper.classes()).toContain('bg-green-200')
     expect(wrapper.classes()).toContain('text-green-700')
-    expect(wrapper.classes()).not.toContain('bg-green-300')
+    expect(wrapper.classes()).not.toContain('bg-amber-200')
   })
 
   it('clicking a workday calls store.toggleVacationDay', async () => {
@@ -235,6 +235,6 @@ describe('DayCell', () => {
     })
 
     expect(wrapper.classes()).toContain('bg-red-100')
-    expect(wrapper.classes()).not.toContain('bg-green-100')
+    expect(wrapper.classes()).not.toContain('bg-green-200')
   })
 })

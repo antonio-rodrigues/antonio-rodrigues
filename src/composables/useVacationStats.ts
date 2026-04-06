@@ -59,6 +59,7 @@ export function useVacationStats(
 
   const usedWorkDaysCurrentYear = computed(() => usedWorkDays.value - usedCarryOverDays.value)
   const remainingCarryOverDays = computed(() => Math.max(0, (carryOverDays?.value ?? 0) - usedCarryOverDays.value))
+  const totalAvailableWorkDays = computed(() => maxVacationDays.value + (carryOverDays?.value ?? 0))
 
   const totalSelectedDays = computed(() => {
     // Year boundary is within the displayed year only
@@ -154,8 +155,8 @@ export function useVacationStats(
     return total
   })
 
-  const remainingDays = computed(() => (maxVacationDays.value + (carryOverDays?.value ?? 0)) - usedWorkDays.value)
-  const isOverBudget = computed(() => usedWorkDays.value > (maxVacationDays.value + (carryOverDays?.value ?? 0)))
+  const remainingDays = computed(() => totalAvailableWorkDays.value - usedWorkDays.value)
+  const isOverBudget = computed(() => usedWorkDays.value > totalAvailableWorkDays.value)
 
   const longestRestPeriod = computed(() => {
     // Spec: Year boundary is within the displayed year only

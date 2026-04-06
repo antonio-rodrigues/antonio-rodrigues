@@ -13,6 +13,7 @@
     "overBudget": "You exceeded your vacation balance!",
     "vacationBalance": "Vacation Balance",
     "carryOverDays": "Carry-over Days",
+    "carryOverSubtitle": "from last year",
     "carryOverUsed": "Carry-over Used",
     "carryOverRemaining": "Carry-over Remaining",
     "totalDays": "total days",
