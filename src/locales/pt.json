@@ -12,6 +12,10 @@
   "dashboard": {
     "overBudget": "Excedeu o seu saldo de férias!",
     "vacationBalance": "Saldo de Férias",
+    "carryOverDays": "Dias Transitados",
+    "carryOverSubtitle": "do ano anterior",
+    "carryOverUsed": "Transitados Usados",
+    "carryOverRemaining": "Transitados Restantes",
     "totalDays": "dias totais",
     "daysUsed": "Dias Usados",
     "workingDays": "dias úteis",

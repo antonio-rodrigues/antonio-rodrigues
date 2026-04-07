@@ -11,9 +11,13 @@ export function useVacationStats(
   year: Ref<number>,
   markedDays: Ref<Set<string>>,
   holidays: Ref<Map<string, unknown>>,
-  maxVacationDays: Ref<number>
+  maxVacationDays: Ref<number>,
+  carryOverDays?: Ref<number>
 ): {
   usedWorkDays: ComputedRef<number>
+  usedWorkDaysCurrentYear: ComputedRef<number>
+  usedCarryOverDays: ComputedRef<number>
+  remainingCarryOverDays: ComputedRef<number>
   remainingDays: ComputedRef<number>
   isOverBudget: ComputedRef<boolean>
   longestRestPeriod: ComputedRef<RestPeriod>
@@ -30,6 +34,32 @@ export function useVacationStats(
     }
     return count
   })
+
+  const usedCarryOverDays = computed(() => {
+    const carryOverLimit = Math.max(0, carryOverDays?.value ?? 0)
+    if (carryOverLimit === 0) return 0
+
+    const maxCarryOverDate = `${year.value}-03-31`
+    let eligibleCount = 0
+
+    const markedWorkdays = Array.from(markedDays.value)
+      .filter((dateStr) => {
+        const date = new Date(dateStr + 'T00:00:00')
+        return !isWeekend(date) && !holidays.value.has(dateStr) && dateStr <= maxCarryOverDate
+      })
+      .sort((a, b) => a.localeCompare(b))
+
+    for (const _dateStr of markedWorkdays) {
+      if (eligibleCount >= carryOverLimit) break
+      eligibleCount++
+    }
+
+    return eligibleCount
+  })
+
+  const usedWorkDaysCurrentYear = computed(() => usedWorkDays.value - usedCarryOverDays.value)
+  const remainingCarryOverDays = computed(() => Math.max(0, (carryOverDays?.value ?? 0) - usedCarryOverDays.value))
+  const totalAvailableWorkDays = computed(() => maxVacationDays.value + (carryOverDays?.value ?? 0))
 
   const totalSelectedDays = computed(() => {
     // Year boundary is within the displayed year only
@@ -125,8 +155,8 @@ export function useVacationStats(
     return total
   })
 
-  const remainingDays = computed(() => maxVacationDays.value - usedWorkDays.value)
-  const isOverBudget = computed(() => usedWorkDays.value > maxVacationDays.value)
+  const remainingDays = computed(() => totalAvailableWorkDays.value - usedWorkDays.value)
+  const isOverBudget = computed(() => usedWorkDays.value > totalAvailableWorkDays.value)
 
   const longestRestPeriod = computed(() => {
     // Spec: Year boundary is within the displayed year only
@@ -181,6 +211,15 @@ export function useVacationStats(
     }
   })
 
-  return { usedWorkDays, remainingDays, isOverBudget, longestRestPeriod, totalSelectedDays }
+  return {
+    usedWorkDays,
+    usedWorkDaysCurrentYear,
+    usedCarryOverDays,
+    remainingCarryOverDays,
+    remainingDays,
+    isOverBudget,
+    longestRestPeriod,
+    totalSelectedDays
+  }
 }
 

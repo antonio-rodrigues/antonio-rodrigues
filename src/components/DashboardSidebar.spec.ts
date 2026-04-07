@@ -12,6 +12,7 @@ describe('DashboardSidebar', () => {
     isOverBudget: false,
     longestRestPeriod: { days: 9, startDate: new Date('2026-06-01T00:00:00') },
     maxVacationDays: 22,
+    carryOverDays: 3,
     markedDays: []
   }
 
@@ -25,16 +26,24 @@ describe('DashboardSidebar', () => {
   it('renders "Saldo de Férias" and shows the maxVacationDays value in input', () => {
     const wrapper = mount(DashboardSidebar, mountOptions)
     expect(wrapper.text()).toContain('Saldo de Férias')
-    const input = wrapper.find('input[type="number"]')
+    const input = wrapper.find('#max-days-input')
     expect((input.element as HTMLInputElement).value).toBe('22')
   })
 
   it('emits update:max-vacation-days when input changes', async () => {
     const wrapper = mount(DashboardSidebar, mountOptions)
-    const input = wrapper.find('input[type="number"]')
+    const input = wrapper.find('#max-days-input')
     await input.setValue(25)
     expect(wrapper.emitted('update:max-vacation-days')).toBeTruthy()
     expect(wrapper.emitted('update:max-vacation-days')![0]).toEqual([25])
+  })
+
+  it('emits update:carry-over-days when carry over input changes', async () => {
+    const wrapper = mount(DashboardSidebar, mountOptions)
+    const input = wrapper.find('#carry-over-days-input')
+    await input.setValue(4)
+    expect(wrapper.emitted('update:carry-over-days')).toBeTruthy()
+    expect(wrapper.emitted('update:carry-over-days')![0]).toEqual([4])
   })
 
   it('renders "Dias Usados" label and shows the usedWorkDays value', () => {
@@ -53,6 +62,12 @@ describe('DashboardSidebar', () => {
     const wrapper = mount(DashboardSidebar, mountOptions)
     expect(wrapper.text()).toContain('Dias Restantes')
     expect(wrapper.text()).toContain('17')
+  })
+
+  it('renders carry over indicators', () => {
+    const wrapper = mount(DashboardSidebar, mountOptions)
+    expect(wrapper.text()).toContain('Dias Transitados')
+    expect(wrapper.text()).not.toContain('Transitados Usados')
   })
 
   it('renders "Maior Período de Descanso" label and shows longestRestPeriod value', () => {

@@ -11,7 +11,7 @@ import { useConfigStore } from './store/config'
 
 const { t } = useI18n()
 const store = useConfigStore()
-const { year, markedDays, maxVacationDays, theme, locale } = storeToRefs(store)
+const { year, markedDays, maxVacationDays, carryOverDays, theme, locale } = storeToRefs(store)
 
 // Apply theme class to html element
 watch(theme, (newTheme) => {
@@ -28,11 +28,18 @@ watch(theme, (newTheme) => {
 }, { immediate: true })
 
 const { holidays, error: holidayError } = useHolidays()
-const { usedWorkDays, remainingDays, isOverBudget, longestRestPeriod, totalSelectedDays } = useVacationStats(
+const {
+  usedWorkDays,
+  remainingDays,
+  isOverBudget,
+  longestRestPeriod,
+  totalSelectedDays
+} = useVacationStats(
   year,
   markedDays,
   holidays,
-  maxVacationDays
+  maxVacationDays,
+  carryOverDays
 )
 
 const confirmClear = () => {
@@ -149,8 +156,10 @@ const handleLocaleChange = (event: Event) => {
           :is-over-budget="isOverBudget"
           :longest-rest-period="longestRestPeriod"
           :max-vacation-days="store.maxVacationDays"
+          :carry-over-days="store.carryOverDays"
           :marked-days="Array.from(markedDays)"
           @update:max-vacation-days="store.maxVacationDays = $event"
+          @update:carry-over-days="store.carryOverDays = $event"
         />
       </section>
     </header>

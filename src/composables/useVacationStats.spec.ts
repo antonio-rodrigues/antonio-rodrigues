@@ -157,6 +157,19 @@ describe('useVacationStats', () => {
     expect(remainingDays.value).toBe(-1)
   })
 
+  it('remainingDays uses vacation balance plus carry over days', () => {
+    const year = ref(2026)
+    const markedDays = ref(new Set(['2026-01-02', '2026-01-05'])) // 2 workdays
+    const holidays = ref(new Map())
+    const maxVacationDays = ref(1)
+    const carryOverDays = ref(2)
+
+    const { remainingDays } = useVacationStats(year, markedDays, holidays, maxVacationDays, carryOverDays)
+
+    // (1 + 2) - 2 = 1
+    expect(remainingDays.value).toBe(1)
+  })
+
   it('isOverBudget is true when used > max', () => {
     const year = ref(2026)
     const markedDays = ref(new Set(['2026-01-02', '2026-01-05'])) // 2 workdays
@@ -176,6 +189,19 @@ describe('useVacationStats', () => {
 
     const { isOverBudget } = useVacationStats(year, markedDays, holidays, maxVacationDays)
     
+    expect(isOverBudget.value).toBe(false)
+  })
+
+  it('isOverBudget is false when carry over increases total available days', () => {
+    const year = ref(2026)
+    const markedDays = ref(new Set(['2026-01-02', '2026-01-05'])) // 2 workdays
+    const holidays = ref(new Map())
+    const maxVacationDays = ref(1)
+    const carryOverDays = ref(2)
+
+    const { isOverBudget } = useVacationStats(year, markedDays, holidays, maxVacationDays, carryOverDays)
+
+    // total available = 3, used = 2
     expect(isOverBudget.value).toBe(false)
   })
 
@@ -261,6 +287,53 @@ describe('useVacationStats', () => {
       expect(longestRestPeriod.value.days).toBe(2)
       expect(longestRestPeriod.value.startDate?.getMonth()).toBe(0)
       expect(longestRestPeriod.value.startDate?.getDate()).toBe(3)
+    })
+  })
+
+  describe('carry over days', () => {
+    it('allocates carry over by chronological order up to configured limit', () => {
+      const year = ref(2026)
+      const markedDays = ref(new Set([
+        '2026-01-05',
+        '2026-02-10',
+        '2026-03-20',
+        '2026-04-01'
+      ]))
+      const holidays = ref(new Map())
+      const maxVacationDays = ref(22)
+      const carryOverDays = ref(2)
+
+      const {
+        usedWorkDays,
+        usedWorkDaysCurrentYear,
+        usedCarryOverDays,
+        remainingDays,
+        remainingCarryOverDays
+      } = useVacationStats(year, markedDays, holidays, maxVacationDays, carryOverDays)
+
+      expect(usedWorkDays.value).toBe(4)
+      expect(usedCarryOverDays.value).toBe(2)
+      expect(usedWorkDaysCurrentYear.value).toBe(2)
+      expect(remainingCarryOverDays.value).toBe(0)
+      expect(remainingDays.value).toBe(20)
+    })
+
+    it('counts only dates up to March 31 as carry over', () => {
+      const year = ref(2026)
+      const markedDays = ref(new Set(['2026-03-31', '2026-04-01']))
+      const holidays = ref(new Map())
+      const maxVacationDays = ref(22)
+      const carryOverDays = ref(3)
+
+      const {
+        usedCarryOverDays,
+        usedWorkDaysCurrentYear,
+        remainingCarryOverDays
+      } = useVacationStats(year, markedDays, holidays, maxVacationDays, carryOverDays)
+
+      expect(usedCarryOverDays.value).toBe(1)
+      expect(usedWorkDaysCurrentYear.value).toBe(1)
+      expect(remainingCarryOverDays.value).toBe(2)
     })
   })
 })

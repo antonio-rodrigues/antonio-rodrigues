@@ -64,7 +64,8 @@ describe('Config Store', () => {
     it('initializes with values from localStorage if available', () => {
       const savedState = {
         selectedMunicipalityId: 'lisboa',
-        markedDays: ['2026-01-01', '2026-01-02']
+        markedDays: ['2026-01-01', '2026-01-02'],
+        carryOverDays: 3
       }
       localStorage.setItem(STORAGE_KEY, JSON.stringify(savedState))
       
@@ -75,6 +76,7 @@ describe('Config Store', () => {
       expect(store.markedDays.has('2026-01-01')).toBe(true)
       expect(store.markedDays.has('2026-01-02')).toBe(true)
       expect(store.markedDays.size).toBe(2)
+      expect(store.carryOverDays).toBe(3)
     })
 
     it('saves changes to localStorage when state updates', async () => {
@@ -82,6 +84,7 @@ describe('Config Store', () => {
       
       store.selectedMunicipalityId = 'porto'
       store.toggleVacationDay('2026-08-15')
+      store.carryOverDays = 4
       
       // We need to wait for the watcher to fire if we use watch
       // Since it's synchronous in Vue 3 for some cases, but Pinia uses watch internally.
@@ -91,6 +94,7 @@ describe('Config Store', () => {
       const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}')
       expect(stored.selectedMunicipalityId).toBe('porto')
       expect(stored.markedDays).toContain('2026-08-15')
+      expect(stored.carryOverDays).toBe(4)
     })
   })
 

@@ -17,11 +17,13 @@ const props = defineProps<{
   isOverBudget: boolean
   longestRestPeriod: RestPeriod
   maxVacationDays: number
+  carryOverDays: number
   markedDays: string[]
 }>()
 
 const emit = defineEmits<{
   (e: 'update:max-vacation-days', value: number): void
+  (e: 'update:carry-over-days', value: number): void
 }>()
 
 const summary = computed(() => formatVacationSummary(props.markedDays, t))
@@ -31,6 +33,14 @@ function onUpdateMaxDays(event: Event) {
   const val = parseInt(target.value, 10)
   if (!isNaN(val)) {
     emit('update:max-vacation-days', val)
+  }
+}
+
+function onUpdateCarryOverDays(event: Event) {
+  const target = event.target as HTMLInputElement
+  const val = parseInt(target.value, 10)
+  if (!isNaN(val)) {
+    emit('update:carry-over-days', val)
   }
 }
 </script>
@@ -55,6 +65,19 @@ function onUpdateMaxDays(event: Event) {
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-1">
       <!-- Stats Panel -->
       <div id="status-panel" class="lg:col-span-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 p-3 sm:p-4 flex flex-wrap gap-4 sm:gap-6 justify-around items-center transition-colors">
+        <!-- Stat: Dias Transitados -->
+        <div class="flex flex-col items-center">
+          <label class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide cursor-pointer" for="carry-over-days-input">{{ t('dashboard.carryOverDays') }}</label>
+          <input
+            id="carry-over-days-input"
+            type="number"
+            :value="carryOverDays"
+            min="0"
+            class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 bg-amber-200 dark:bg-amber-800/60 w-12 sm:w-16 text-center border border-gray-200 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+            @input="onUpdateCarryOverDays"
+          />
+          <span class="text-[10px] sm:text-xs text-gray-400 dark:text-gray-500">{{ t('dashboard.carryOverSubtitle') }}</span>
+        </div>
         <!-- Stat: Saldo de Férias -->
         <div class="flex flex-col items-center">
           <label class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide cursor-pointer" for="max-days-input">{{ t('dashboard.vacationBalance') }}</label>
@@ -63,7 +86,7 @@ function onUpdateMaxDays(event: Event) {
             type="number"
             :value="maxVacationDays"
             min="0"
-            class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 w-12 sm:w-16 text-center border border-gray-200 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+            class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100 bg-green-200 dark:bg-green-900/50 w-12 sm:w-16 text-center border border-gray-200 dark:border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
             @input="onUpdateMaxDays"
           />
           <span class="text-[10px] sm:text-xs text-gray-400 dark:text-gray-500">{{ t('dashboard.totalDays') }}</span>
