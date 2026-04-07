@@ -139,7 +139,7 @@ const handleLocaleChange = (event: Event) => {
 
             <button
               @click="store.toggleTheme"
-              class="p-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 transition-colors flex items-center justify-center"
+              class="py-[6px] px-2 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 transition-colors flex items-center justify-center"
               :title="theme === 'light' ? t('app.darkMode') : t('app.lightMode')"
               :aria-label="theme === 'light' ? t('app.darkMode') : t('app.lightMode')"
             >

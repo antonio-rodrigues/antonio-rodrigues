@@ -88,7 +88,7 @@ const notifySuccess = (message: string) => {
   <div class="relative inline-block">
     <button
       @click="isOpen = !isOpen"
-      class="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+      class="py-[10px] px-3 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 transition-colors flex items-center justify-center"
       :title="t('export.title')"
       :aria-label="t('export.title')"
     >
