@@ -7,6 +7,10 @@ An interactive vacation planning web application focused on the Portuguese conte
 - **Vacation Balance:** Interactive selection of vacation days with real-time balance tracking (22 days standard).
 - **Smart Stats:** Automatic calculation of the longest consecutive rest period (including holidays and weekends).
 - **Budget Alerts:** Visual warning when the 22-day vacation budget is exceeded.
+- **Export Options:**
+  - **iCalendar (.ics):** Sync your vacations with Google Calendar, Outlook, or Apple Calendar.
+  - **Visual Export (PNG):** Save the 12-month grid as an image for sharing or printing.
+  - **JSON Backup:** Export/Import your data to move between devices or browsers.
 - **Persistence:** All selections (municipality and marked days) are saved to `localStorage`.
 - **Responsive UI:** Modern, mobile-first design with smooth transitions and hover effects.
 

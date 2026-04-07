@@ -85,5 +85,16 @@
     "ascension": "Quinta-feira da Ascensão",
     "pentecostMonday": "Segunda-feira de Pentecostes",
     "corpusChristi": "Corpo de Deus"
+  },
+  "export": {
+    "title": "Opções de Exportação",
+    "calendar": "Exportar para Calendário (.ics)",
+    "image": "Guardar como Imagem (PNG)",
+    "json": "Cópia de Segurança (JSON)",
+    "import": "Importar Dados (JSON)",
+    "importConfirm": "Importar irá substituir os dados atuais. Continuar?",
+    "importError": "Falha ao importar o ficheiro.",
+    "success": "Exportação concluída!",
+    "exporting": "A gerar..."
   }
 }

@@ -29,3 +29,5 @@ dist-ssr
 
 # GSD
 .planning
+# CocoIndex Code (ccc)
+/.cocoindex_code/

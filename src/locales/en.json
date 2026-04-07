@@ -85,5 +85,16 @@
     "ascension": "Ascension Day",
     "pentecostMonday": "Pentecost Monday",
     "corpusChristi": "Corpus Christi"
+  },
+  "export": {
+    "title": "Export Options",
+    "calendar": "Export to Calendar (.ics)",
+    "image": "Save as Image (PNG)",
+    "json": "Backup Data (JSON)",
+    "import": "Import Data (JSON)",
+    "importConfirm": "Importing will overwrite current data. Proceed?",
+    "importError": "Failed to import file.",
+    "success": "Export successful!",
+    "exporting": "Generating..."
   }
 }

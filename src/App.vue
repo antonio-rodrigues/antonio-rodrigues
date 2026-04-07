@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import YearGrid from './components/calendar/YearGrid.vue'
 import MunicipalitySelector from './components/MunicipalitySelector.vue'
 import DashboardSidebar from './components/DashboardSidebar.vue'
+import ExportControls from './components/ExportControls.vue'
 import { useVacationStats } from './composables/useVacationStats'
 import { useHolidays } from './composables/useHolidays'
 import { useConfigStore } from './store/config'
@@ -123,6 +124,8 @@ const handleLocaleChange = (event: Event) => {
               <MunicipalitySelector />
             </div>
             
+            <ExportControls />
+
             <!-- Language Selector -->
             <select
               :value="locale"
@@ -165,7 +168,7 @@ const handleLocaleChange = (event: Event) => {
     </header>
 
     <main class="max-w-7xl mx-auto pb-12">
-      <section aria-label="Calendário Anual">
+      <section aria-label="Calendário Anual" id="year-grid-container">
         <YearGrid />
       </section>
     </main>
