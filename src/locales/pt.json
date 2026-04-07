@@ -94,7 +94,8 @@
     "import": "Importar Dados (JSON)",
     "importConfirm": "Importar irá substituir os dados atuais. Continuar?",
     "importError": "Falha ao importar o ficheiro.",
-    "success": "Exportação concluída!",
+    "successExport": "Exportação concluída!",
+    "successImport": "Importação concluída!",
     "exporting": "A gerar..."
   }
 }

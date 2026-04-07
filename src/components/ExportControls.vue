@@ -10,11 +10,12 @@ const store = useConfigStore()
 const isOpen = ref(false)
 const isExportingImage = ref(false)
 const showSuccess = ref(false)
+const successMessage = ref('')
 const fileInput = ref<HTMLInputElement | null>(null)
 
 const handleExportICS = () => {
   exportToICS(Array.from(store.markedDays), store.year, t)
-  notifySuccess()
+  notifySuccess(t('export.successExport'))
 }
 
 const handleExportImage = async () => {
@@ -24,7 +25,7 @@ const handleExportImage = async () => {
   // We should give it an ID for better targeting
   await exportToImage('year-grid-container', `vacations_${store.year}.png`)
   isExportingImage.value = false
-  notifySuccess()
+  notifySuccess(t('export.successExport'))
 }
 
 const handleExportJSON = () => {
@@ -38,7 +39,7 @@ const handleExportJSON = () => {
     locale: store.locale
   }
   exportToJSON(data, `vacations_backup_${store.year}.json`)
-  notifySuccess()
+  notifySuccess(t('export.successExport'))
 }
 
 const triggerImport = () => {
@@ -62,7 +63,7 @@ const handleImportJSON = async (event: Event) => {
       if (data.theme) store.theme = data.theme
       if (data.locale) store.locale = data.locale
       
-      notifySuccess()
+      notifySuccess(t('export.successImport'))
     } catch (error) {
       alert(t('export.importError'))
     }
@@ -72,10 +73,12 @@ const handleImportJSON = async (event: Event) => {
   target.value = ''
 }
 
-const notifySuccess = () => {
+const notifySuccess = (message: string) => {
+  successMessage.value = message
   showSuccess.value = true
   setTimeout(() => {
     showSuccess.value = false
+    successMessage.value = ''
     isOpen.value = false
   }, 2000)
 }
@@ -146,7 +149,7 @@ const notifySuccess = () => {
       <div v-if="showSuccess" class="absolute inset-0 bg-white/90 dark:bg-gray-800/90 flex items-center justify-center rounded-lg">
         <div class="flex items-center gap-2 text-green-600 font-medium animate-bounce">
           <Check class="w-5 h-5" />
-          {{ t('export.success') }}
+          {{ successMessage }}
         </div>
       </div>
     </div>

@@ -94,7 +94,8 @@
     "import": "Import Data (JSON)",
     "importConfirm": "Importing will overwrite current data. Proceed?",
     "importError": "Failed to import file.",
-    "success": "Export successful!",
+    "successExport": "Export successful!",
+    "successImport": "Import completed!",
     "exporting": "Generating..."
   }
 }
