@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import YearGrid from './components/calendar/YearGrid.vue'
 import MunicipalitySelector from './components/MunicipalitySelector.vue'
@@ -27,6 +27,7 @@ const toastOpen = ref(false)
 const toastMessage = ref('')
 const toastType = ref<'success' | 'error' | 'info'>('info')
 let toastTimer: ReturnType<typeof setTimeout> | null = null
+const isSummaryFixed = computed(() => isMobileStatsOpen.value)
 
 // Apply theme class to html element
 watch(theme, (newTheme) => {
@@ -238,7 +239,15 @@ const handleLocaleChange = (event: Event) => {
       </div>
     </header>
 
-    <section aria-label="Estatísticas e Dashboard" class="max-w-7xl mx-auto px-4 mb-4">
+    <section
+      aria-label="Estatísticas e Dashboard"
+      :class="[
+        isSummaryFixed
+          ? 'fixed left-0 right-0 top-[92px] z-40 px-4'
+          : 'max-w-7xl mx-auto px-4 mb-4',
+        'lg:max-w-7xl lg:mx-auto lg:px-4 lg:mb-4'
+      ]"
+    >
       <div :class="[isMobileStatsOpen ? 'block' : 'hidden', 'lg:block']">
         <DashboardSidebar
           :used-work-days="usedWorkDays"
@@ -255,7 +264,7 @@ const handleLocaleChange = (event: Event) => {
       </div>
     </section>
 
-    <main class="max-w-7xl mx-auto pb-12">
+    <main :class="['max-w-7xl mx-auto pb-12', isSummaryFixed ? 'pt-[124px]' : '']">
       <section aria-label="Calendário Anual" id="year-grid-container">
         <div class="px-4 md:px-8 mb-2">
           <h2 class="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wide mb-2">{{ t('calendar.legend.title') }}</h2>
