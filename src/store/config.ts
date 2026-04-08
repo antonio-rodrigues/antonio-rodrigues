@@ -83,6 +83,7 @@ export const useConfigStore = defineStore('config', () => {
   const theme = ref<'light' | 'dark'>(initialState.theme ?? 'light')
   const locale = ref<'pt' | 'en'>(initialState.locale ?? 'pt')
   const hoveredHoliday = ref<HolidayEntry | null>(null)
+  const selectedHoliday = ref<HolidayEntry | null>(null)
 
   // Sync i18n locale with store locale
   watch(locale, (newLocale) => {
@@ -142,6 +143,8 @@ export const useConfigStore = defineStore('config', () => {
 
   function clearMarkedDays() {
     markedDays.value = new Set()
+    selectedHoliday.value = null
+    hoveredHoliday.value = null
   }
 
   function toggleTheme() {
@@ -171,8 +174,15 @@ export const useConfigStore = defineStore('config', () => {
 
   // Fetch holidays on year change
   watch(() => year.value, (newYear) => {
+    hoveredHoliday.value = null
+    selectedHoliday.value = null
     fetchHolidays(newYear)
   }, { immediate: true })
+
+  watch(selectedMunicipalityId, () => {
+    hoveredHoliday.value = null
+    selectedHoliday.value = null
+  })
 
   return {
     year,
@@ -183,6 +193,7 @@ export const useConfigStore = defineStore('config', () => {
     theme,
     locale,
     hoveredHoliday,
+    selectedHoliday,
     nationalHolidays,
     loadingHolidays,
     holidayError,

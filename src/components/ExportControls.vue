@@ -1,31 +1,53 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { Download, Calendar, Image as ImageIcon, Database, Upload, Check, Loader2 } from 'lucide-vue-next'
+import { Download, Calendar, Image as ImageIcon, Database, Upload, Loader2 } from 'lucide-vue-next'
 import { exportToICS, exportToImage, exportToJSON, importFromJSON } from '../utils/export-utils'
 import { useConfigStore } from '../store/config'
+import ConfirmDialog from './ui/ConfirmDialog.vue'
+import ToastMessage from './ui/ToastMessage.vue'
 
 const { t } = useI18n()
 const store = useConfigStore()
 const isOpen = ref(false)
 const isExportingImage = ref(false)
-const showSuccess = ref(false)
-const successMessage = ref('')
 const fileInput = ref<HTMLInputElement | null>(null)
+const pendingImportFile = ref<File | null>(null)
+const confirmImportOpen = ref(false)
+const toastOpen = ref(false)
+const toastMessage = ref('')
+const toastType = ref<'success' | 'error' | 'info'>('info')
+let toastTimer: ReturnType<typeof setTimeout> | null = null
+
+const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+  toastMessage.value = message
+  toastType.value = type
+  toastOpen.value = true
+
+  if (toastTimer) clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => {
+    toastOpen.value = false
+    toastMessage.value = ''
+  }, 2200)
+}
 
 const handleExportICS = () => {
   exportToICS(Array.from(store.markedDays), store.year, t)
-  notifySuccess(t('export.successExport'))
+  showToast(t('export.successExport'), 'success')
+  isOpen.value = false
 }
 
 const handleExportImage = async () => {
-  isExportingImage.value = true
-  // We want to capture the whole YearGrid
-  // The YearGrid is wrapped in a section with aria-label="Calendário Anual" in App.vue
-  // We should give it an ID for better targeting
-  await exportToImage('year-grid-container', `vacations_${store.year}.png`)
-  isExportingImage.value = false
-  notifySuccess(t('export.successExport'))
+  try {
+    isExportingImage.value = true
+    await exportToImage('year-grid-container', `vacations_${store.year}.png`)
+    showToast(t('export.successExport'), 'success')
+    isOpen.value = false
+  } catch {
+    showToast(t('export.exportError'), 'error')
+  } finally {
+    isExportingImage.value = false
+  }
 }
 
 const handleExportJSON = () => {
@@ -39,7 +61,8 @@ const handleExportJSON = () => {
     locale: store.locale
   }
   exportToJSON(data, `vacations_backup_${store.year}.json`)
-  notifySuccess(t('export.successExport'))
+  showToast(t('export.successExport'), 'success')
+  isOpen.value = false
 }
 
 const triggerImport = () => {
@@ -51,41 +74,49 @@ const handleImportJSON = async (event: Event) => {
   const file = target.files?.[0]
   if (!file) return
 
-  if (window.confirm(t('export.importConfirm'))) {
-    try {
-      const data = await importFromJSON(file)
-      
-      if (data.markedDays) store.markedDays = new Set(data.markedDays)
-      if (data.selectedMunicipalityId !== undefined) store.selectedMunicipalityId = data.selectedMunicipalityId
-      if (data.maxVacationDays) store.maxVacationDays = data.maxVacationDays
-      if (data.carryOverDays) store.carryOverDays = data.carryOverDays
-      if (data.year) store.year = data.year
-      if (data.theme) store.theme = data.theme
-      if (data.locale) store.locale = data.locale
-      
-      notifySuccess(t('export.successImport'))
-    } catch (error) {
-      alert(t('export.importError'))
-    }
-  }
-  
-  // Reset input
+  pendingImportFile.value = file
+  confirmImportOpen.value = true
   target.value = ''
 }
 
-const notifySuccess = (message: string) => {
-  successMessage.value = message
-  showSuccess.value = true
-  setTimeout(() => {
-    showSuccess.value = false
-    successMessage.value = ''
+const cancelImport = () => {
+  confirmImportOpen.value = false
+  pendingImportFile.value = null
+}
+
+const confirmImport = async () => {
+  const file = pendingImportFile.value
+  if (!file) {
+    confirmImportOpen.value = false
+    return
+  }
+
+  try {
+    const data = await importFromJSON(file)
+
+    if (data.markedDays) store.markedDays = new Set(data.markedDays)
+    if (data.selectedMunicipalityId !== undefined) store.selectedMunicipalityId = data.selectedMunicipalityId
+    if (data.maxVacationDays) store.maxVacationDays = data.maxVacationDays
+    if (data.carryOverDays) store.carryOverDays = data.carryOverDays
+    if (data.year) store.year = data.year
+    if (data.theme) store.theme = data.theme
+    if (data.locale) store.locale = data.locale
+
+    showToast(t('export.successImport'), 'success')
     isOpen.value = false
-  }, 2000)
+  } catch {
+    showToast(t('export.importError'), 'error')
+  } finally {
+    pendingImportFile.value = null
+    confirmImportOpen.value = false
+  }
 }
 </script>
 
 <template>
   <div class="relative inline-block">
+    <ToastMessage :open="toastOpen" :message="toastMessage" :type="toastType" />
+
     <button
       @click="isOpen = !isOpen"
       class="py-[10px] px-3 text-gray-600 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 transition-colors flex items-center justify-center"
@@ -93,6 +124,7 @@ const notifySuccess = (message: string) => {
       :aria-label="t('export.title')"
     >
       <Download class="w-4 h-4" role="img" :aria-label="t('export.title')" />
+      <span class="hidden md:inline text-sm font-medium ml-2">{{ t('export.action') }}</span>
     </button>
 
     <!-- Dropdown Menu -->
@@ -145,13 +177,6 @@ const notifySuccess = (message: string) => {
         @change="handleImportJSON"
       />
 
-      <!-- Success Indicator -->
-      <div v-if="showSuccess" class="absolute inset-0 bg-white/90 dark:bg-gray-800/90 flex items-center justify-center rounded-lg">
-        <div class="flex items-center gap-2 text-green-600 font-medium animate-bounce">
-          <Check class="w-5 h-5" />
-          {{ successMessage }}
-        </div>
-      </div>
     </div>
 
     <!-- Backdrop to close -->
@@ -160,5 +185,15 @@ const notifySuccess = (message: string) => {
       @click="isOpen = false"
       class="fixed inset-0 z-[-1]"
     ></div>
+
+    <ConfirmDialog
+      :open="confirmImportOpen"
+      :title="t('export.importConfirmTitle')"
+      :message="t('export.importConfirm')"
+      :confirm-label="t('common.confirm')"
+      :cancel-label="t('common.cancel')"
+      @confirm="confirmImport"
+      @cancel="cancelImport"
+    />
   </div>
 </template>

@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { createPinia } from 'pinia'
+import { createPinia, setActivePinia } from 'pinia'
 import DashboardSidebar from './DashboardSidebar.vue'
 import i18n from '../i18n'
+import { useConfigStore } from '../store/config'
 
 describe('DashboardSidebar', () => {
   const defaultProps = {
@@ -129,5 +130,32 @@ describe('DashboardSidebar', () => {
     const summary = wrapper.find('[data-testid="vacation-summary"]')
     expect(summary.text()).toContain('FEV: 16, 18')
     expect(summary.text()).toContain('MAR: 20')
+  })
+
+  it('renders and clears persistent selected holiday details', async () => {
+    const pinia = createPinia()
+    setActivePinia(pinia)
+    const store = useConfigStore()
+    store.selectedHoliday = {
+      date: '2026-12-25',
+      name: 'holidays.christmas',
+      type: 'national'
+    }
+
+    const wrapper = mount(DashboardSidebar, {
+      props: defaultProps,
+      global: {
+        plugins: [i18n, pinia]
+      }
+    })
+
+    const panel = wrapper.find('[data-testid="selected-holiday-panel"]')
+    expect(panel.exists()).toBe(true)
+    expect(panel.text()).toContain('Feriado selecionado')
+    expect(panel.text()).toContain('2026-12-25')
+    expect(panel.text()).toContain('Natal')
+
+    await panel.find('button').trigger('click')
+    expect(store.selectedHoliday).toBeNull()
   })
 })

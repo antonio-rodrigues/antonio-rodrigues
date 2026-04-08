@@ -1,10 +1,25 @@
 {
+  "common": {
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
   "app": {
     "title": "Vacation Planner",
+    "pageTitle": "Portugal Holiday and Vacation Planner {year}",
+    "pageDescription": "Plan your {year} vacations with ease. Browse national and municipal holidays in Portugal and manage your vacation-day balance.",
     "clearAll": "Clear all",
+    "showStats": "Show summary",
+    "hideStats": "Hide summary",
+    "confirmClearTitle": "Clear selections",
+    "confirmYearChangeTitle": "Change year",
     "confirmClear": "Confirm?",
     "confirmYearChange": "All current selections will be discarded. Confirm? (YES / NO)",
     "noHolidayData": "No holiday data found for year {year}.",
+    "clearedToast": "Selections cleared successfully.",
+    "yearUpdatedToast": "Year changed to {year}.",
+    "footerBrand": "Portugal Holiday Planner",
+    "footerRights": "All rights reserved",
+    "footerTagline": "An interactive tool for planning holidays and vacation days in Portugal.",
     "darkMode": "Enable dark mode",
     "lightMode": "Enable light mode",
     "holidayError": "API unavailable — using local holidays"
@@ -23,9 +38,13 @@
     "daysRemaining": "Days Remaining",
     "longestRestPeriod": "Longest Rest Period",
     "consecutiveWorkingDays": "consecutive working days",
-    "selectedDays": "Selected Days"
+    "selectedDays": "Selected Days",
+    "selectedHolidayTitle": "Selected holiday",
+    "clearSelection": "Clear",
+    "selectHolidayHint": "Select a holiday to view details"
   },
   "municipality": {
+    "label": "Municipality",
     "select": "Select municipality...",
     "search": "Search municipality...",
     "noneSelected": "Municipal holiday not selected"
@@ -63,6 +82,22 @@
     "summary": {
       "none": "No days selected"
     },
+    "legend": {
+      "title": "Legend",
+      "vacation": "Selected vacation",
+      "carryOverVacation": "Carry-over vacation",
+      "nationalHoliday": "National holiday",
+      "municipalHoliday": "Municipal holiday",
+      "weekend": "Weekend"
+    },
+    "dayStates": {
+      "available": "Available workday",
+      "vacation": "Selected vacation",
+      "carryOverVacation": "Carry-over vacation",
+      "weekend": "Weekend",
+      "nationalHoliday": "National holiday",
+      "municipalHoliday": "Municipal holiday"
+    },
     "nationalHoliday": "National Holiday",
     "municipalHoliday": "Municipal Holiday",
     "holiday": "Holiday"
@@ -87,13 +122,16 @@
     "corpusChristi": "Corpus Christi"
   },
   "export": {
+    "action": "Export",
     "title": "Export Options",
     "calendar": "Export to Calendar (.ics)",
     "image": "Save as Image (PNG)",
     "json": "Backup Data (JSON)",
     "import": "Import Data (JSON)",
+    "importConfirmTitle": "Confirm import",
     "importConfirm": "Importing will overwrite current data. Proceed?",
     "importError": "Failed to import file.",
+    "exportError": "Failed to export file.",
     "successExport": "Export successful!",
     "successImport": "Import completed!",
     "exporting": "Generating..."

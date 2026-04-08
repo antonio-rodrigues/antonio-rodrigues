@@ -57,7 +57,11 @@ function onBlur() {
 
 <template>
   <div class="relative">
+    <label for="municipality-search" class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+      {{ t('municipality.label') }}
+    </label>
     <input
+      id="municipality-search"
       v-model="query"
       type="text"
       :placeholder="t('municipality.search')"

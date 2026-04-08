@@ -27,7 +27,12 @@ dist-ssr
 .DS_Store
 /.DS_Store
 
-# GSD
-.planning
-# CocoIndex Code (ccc)
+# GSD / GitHub tooling — ignorar tudo em .github/ exceto copilot-instructions.md
+.github/*
+!.github/workflows/
+!.github/copilot-instructions.md
+
+# AI Toolset
+.claude/
+.gemini/
 /.cocoindex_code/

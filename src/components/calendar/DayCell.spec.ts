@@ -130,6 +130,30 @@ describe('DayCell', () => {
     expect(wrapper.classes()).toContain('text-green-700')
   })
 
+  it('renders an accessible button with pressed state for workdays', () => {
+    const wrapper = mount(DayCell, {
+      props: { day: baseDay },
+      global: { plugins: [pinia, i18n] }
+    })
+
+    expect(wrapper.element.tagName).toBe('BUTTON')
+    expect(wrapper.attributes('aria-disabled')).toBe('false')
+    expect(wrapper.attributes('aria-pressed')).toBe('false')
+    expect(wrapper.attributes('aria-label')).toContain('Dia')
+  })
+
+  it('marks workday as pressed when selected', () => {
+    const store = useConfigStore()
+    store.toggleVacationDay('2026-06-01')
+
+    const wrapper = mount(DayCell, {
+      props: { day: baseDay },
+      global: { plugins: [pinia, i18n] }
+    })
+
+    expect(wrapper.attributes('aria-pressed')).toBe('true')
+  })
+
   it('carry over vacation day has light yellow class', () => {
     const store = useConfigStore()
     store.carryOverDays = 2
@@ -201,6 +225,8 @@ describe('DayCell', () => {
 
     await wrapper.trigger('click')
     expect(store.markedDays.has('2026-06-01')).toBe(false)
+    expect(store.selectedHoliday?.date).toBe('2026-06-01')
+    expect(store.selectedHoliday?.type).toBe('national')
   })
 
   it('clicking a weekend does NOT call store.toggleVacationDay', async () => {
@@ -217,6 +243,7 @@ describe('DayCell', () => {
 
     await wrapper.trigger('click')
     expect(store.markedDays.has('2026-06-01')).toBe(false)
+    expect(wrapper.attributes('aria-disabled')).toBe('true')
   })
 
   it('vacation class takes lower priority than holiday', async () => {

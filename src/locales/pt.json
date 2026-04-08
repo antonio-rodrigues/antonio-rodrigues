@@ -1,10 +1,25 @@
 {
+  "common": {
+    "confirm": "Confirmar",
+    "cancel": "Cancelar"
+  },
   "app": {
     "title": "Planeador de Férias",
+    "pageTitle": "Planeador de Férias e Feriados Portugal {year}",
+    "pageDescription": "Planeia as tuas férias de {year} com facilidade. Consulta feriados nacionais e municipais em Portugal e gere o teu saldo de dias de descanso.",
     "clearAll": "Limpar tudo",
+    "showStats": "Mostrar resumo",
+    "hideStats": "Ocultar resumo",
+    "confirmClearTitle": "Limpar seleções",
+    "confirmYearChangeTitle": "Alterar ano",
     "confirmClear": "Confirma?",
     "confirmYearChange": "Todas as seleções actuais serão descartadas. Confirma? (SIM / NÃO)",
     "noHolidayData": "Não foram encontrados dados de feriados para o ano {year}.",
+    "clearedToast": "Seleções limpas com sucesso.",
+    "yearUpdatedToast": "Ano alterado para {year}.",
+    "footerBrand": "Portugal Holiday Planner",
+    "footerRights": "Todos os direitos reservados",
+    "footerTagline": "Uma ferramenta interactiva para gestão de feriados e férias em Portugal.",
     "darkMode": "Ativar modo escuro",
     "lightMode": "Ativar modo claro",
     "holidayError": "API indisponível — a usar feriados locais"
@@ -23,9 +38,13 @@
     "daysRemaining": "Dias Restantes",
     "longestRestPeriod": "Maior Período de Descanso",
     "consecutiveWorkingDays": "dias úteis consecutivos",
-    "selectedDays": "Dias Selecionados"
+    "selectedDays": "Dias Selecionados",
+    "selectedHolidayTitle": "Feriado selecionado",
+    "clearSelection": "Limpar",
+    "selectHolidayHint": "Selecione um feriado para ver detalhes"
   },
   "municipality": {
+    "label": "Município",
     "select": "Selecionar município...",
     "search": "Procurar município...",
     "noneSelected": "Feriado municipal não selecionado"
@@ -63,6 +82,22 @@
     "summary": {
       "none": "Nenhum dia selecionado"
     },
+    "legend": {
+      "title": "Legenda",
+      "vacation": "Férias selecionadas",
+      "carryOverVacation": "Férias transitadas",
+      "nationalHoliday": "Feriado nacional",
+      "municipalHoliday": "Feriado municipal",
+      "weekend": "Fim de semana"
+    },
+    "dayStates": {
+      "available": "Dia útil disponível",
+      "vacation": "Férias selecionadas",
+      "carryOverVacation": "Férias transitadas",
+      "weekend": "Fim de semana",
+      "nationalHoliday": "Feriado nacional",
+      "municipalHoliday": "Feriado municipal"
+    },
     "nationalHoliday": "Feriado Nacional",
     "municipalHoliday": "Feriado Municipal",
     "holiday": "Feriado"
@@ -87,13 +122,16 @@
     "corpusChristi": "Corpo de Deus"
   },
   "export": {
+    "action": "Exportar",
     "title": "Opções de Exportação",
     "calendar": "Exportar para Calendário (.ics)",
     "image": "Guardar como Imagem (PNG)",
     "json": "Cópia de Segurança (JSON)",
     "import": "Importar Dados (JSON)",
+    "importConfirmTitle": "Confirmar importação",
     "importConfirm": "Importar irá substituir os dados atuais. Continuar?",
     "importError": "Falha ao importar o ficheiro.",
+    "exportError": "Falha ao exportar o ficheiro.",
     "successExport": "Exportação concluída!",
     "successImport": "Importação concluída!",
     "exporting": "A gerar..."

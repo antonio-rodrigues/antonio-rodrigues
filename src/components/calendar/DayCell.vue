@@ -3,9 +3,10 @@ import { computed } from 'vue'
 import { format } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 import type { Day } from '../../composables/useCalendar'
+import type { HolidayEntry } from '../../store/config'
 import { useConfigStore } from '../../store/config'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const props = defineProps<{
   day: Day
 }>()
@@ -13,6 +14,36 @@ const props = defineProps<{
 const store = useConfigStore()
 const dateStr = computed(() => format(props.day.date, 'yyyy-MM-dd'))
 const isVacation = computed(() => store.markedDays.has(dateStr.value))
+const isToggleable = computed(() => !props.day.isWeekend && !props.day.isHoliday)
+
+const localizedDateLabel = computed(() => {
+  const localeCode = locale.value === 'en' ? 'en-GB' : 'pt-PT'
+  return props.day.date.toLocaleDateString(localeCode, {
+    weekday: 'short',
+    day: '2-digit',
+    month: 'short'
+  })
+})
+
+const dayStateLabel = computed(() => {
+  if (props.day.isHoliday) {
+    return props.day.holidayType === 'municipal'
+      ? t('calendar.dayStates.municipalHoliday')
+      : t('calendar.dayStates.nationalHoliday')
+  }
+  if (props.day.isWeekend) return t('calendar.dayStates.weekend')
+  if (isCarryOverVacation.value) return t('calendar.dayStates.carryOverVacation')
+  if (isVacation.value) return t('calendar.dayStates.vacation')
+  return t('calendar.dayStates.available')
+})
+
+const ariaLabel = computed(() => `${localizedDateLabel.value}: ${dayStateLabel.value}`)
+
+function resolveHolidayName(name?: string): string {
+  if (!name) return ''
+  return name.includes('.') ? t(name) : name
+}
+
 const isCarryOverVacation = computed(() => {
   if (!isVacation.value) return false
   if (store.carryOverDays <= 0) return false
@@ -31,48 +62,44 @@ const isCarryOverVacation = computed(() => {
   return eligibleMarkedWorkdays.slice(0, Math.max(0, store.carryOverDays)).includes(dateStr.value)
 })
 
-let touchTimeout: ReturnType<typeof setTimeout> | null = null
-
-function handleClick() {
-  if (!props.day.isWeekend && !props.day.isHoliday) {
-    store.toggleVacationDay(dateStr.value)
+function getHolidayEntry(): HolidayEntry | null {
+  if (!props.day.isHoliday) return null
+  return {
+    date: dateStr.value,
+    name: props.day.holidayName || '',
+    type: props.day.holidayType || 'national',
+    municipalityName: props.day.holidayMunicipalityName
   }
+}
+
+function handleActivate() {
+  if (props.day.isHoliday) {
+    store.selectedHoliday = getHolidayEntry()
+    return
+  }
+  if (props.day.isWeekend) {
+    store.selectedHoliday = null
+    return
+  }
+
+  store.toggleVacationDay(dateStr.value)
+  store.selectedHoliday = null
 }
 
 function handleMouseEnter() {
-  if (props.day.isHoliday) {
-    store.hoveredHoliday = {
-      date: dateStr.value,
-      name: props.day.holidayName || '',
-      type: props.day.holidayType || 'national',
-      municipalityName: props.day.holidayMunicipalityName
-    }
-  }
+  store.hoveredHoliday = getHolidayEntry()
 }
 
 function handleMouseLeave() {
-  if (props.day.isHoliday) {
+  if (props.day.isHoliday && store.hoveredHoliday?.date === dateStr.value) {
     store.hoveredHoliday = null
-  }
-}
-
-function handleTouchStart() {
-  if (props.day.isHoliday) {
-    handleMouseEnter()
-    if (touchTimeout) clearTimeout(touchTimeout)
-    touchTimeout = setTimeout(() => {
-      if (store.hoveredHoliday?.date === dateStr.value) {
-        store.hoveredHoliday = null
-      }
-      touchTimeout = null
-    }, 3000)
   }
 }
 
 const title = computed(() => {
   if (!props.day.isHoliday) return undefined
   
-  const holidayName = t(props.day.holidayName || '')
+  const holidayName = resolveHolidayName(props.day.holidayName)
   if (props.day.holidayType === 'national') {
     return `${holidayName} · ${t('calendar.nationalHoliday')}`
   } else {
@@ -82,10 +109,15 @@ const title = computed(() => {
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-center h-8 w-full rounded-sm text-sm transition-all duration-200"
+  <button
+    type="button"
+    class="flex items-center justify-center h-8 w-full rounded-sm text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500 focus-visible:ring-offset-1 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-800"
     :class="[
-      !day.isWeekend && !day.isHoliday ? 'cursor-pointer hover:bg-green-50 dark:hover:bg-green-900/30 hover:scale-105 hover:shadow-sm z-10' : 'cursor-not-allowed',
+      !day.isWeekend && !day.isHoliday
+        ? 'cursor-pointer hover:bg-green-50 dark:hover:bg-green-900/30 hover:scale-105 hover:shadow-sm z-10'
+        : day.isHoliday
+          ? 'cursor-help'
+          : 'cursor-default',
       day.isHoliday && day.holidayType === 'national'
         ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300'
         : day.isHoliday && day.holidayType === 'municipal'
@@ -98,12 +130,14 @@ const title = computed(() => {
               ? 'bg-green-200 dark:bg-green-900/50 text-green-700 dark:text-green-300 border border-gray-500'
               : 'bg-gray-50 dark:bg-gray-700/50 text-gray-700 dark:text-gray-400'
     ]"
+    :aria-label="ariaLabel"
+    :aria-disabled="(!isToggleable).toString()"
+    :aria-pressed="isToggleable ? isVacation.toString() : undefined"
     :title="title"
-    @click="handleClick"
+    @click="handleActivate"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
-    @touchstart="handleTouchStart"
   >
     {{ day.dayOfMonth }}
-  </div>
+  </button>
 </template>

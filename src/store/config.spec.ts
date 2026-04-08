@@ -60,6 +60,25 @@ describe('Config Store', () => {
     expect(store.markedDays.size).toBe(0)
   })
 
+  it('clearMarkedDays also clears selected and hovered holidays', () => {
+    const store = useConfigStore()
+    store.selectedHoliday = {
+      date: '2026-01-01',
+      name: 'holidays.newYear',
+      type: 'national'
+    }
+    store.hoveredHoliday = {
+      date: '2026-01-01',
+      name: 'holidays.newYear',
+      type: 'national'
+    }
+
+    store.clearMarkedDays()
+
+    expect(store.selectedHoliday).toBeNull()
+    expect(store.hoveredHoliday).toBeNull()
+  })
+
   describe('persistence', () => {
     it('initializes with values from localStorage if available', () => {
       const savedState = {

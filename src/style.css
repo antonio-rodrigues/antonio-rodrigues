@@ -6,6 +6,8 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  --color-page-bg: #f8fafc;
+  --color-page-fg: #0f172a;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,23 +15,23 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root.dark {
+  --color-page-bg: #0f172a;
+  --color-page-fg: #e2e8f0;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--color-page-bg);
+  color: var(--color-page-fg);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #app {
   width: 100%;
+  min-height: 100vh;
   padding: 0;
-  background-color: #B7BDF7;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.dark #app {
-  background-color: #F2AEBB;
-}
-
-.dark #status-panel {
-  background-color: #061E29;
+  background-color: transparent;
 }
